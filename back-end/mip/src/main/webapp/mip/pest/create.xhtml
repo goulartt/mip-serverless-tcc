@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/templates/template.xhtml">
+
+    <ui:define name="title">
+        Criar Novo Inseto Praga
+    </ui:define>
+
+    <ui:define name="description">
+        <!--Cadastrar nova macrorregião no sistema--> 
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form id="form" prependId="false">
+            <p:focus context="@form"/>
+            <p:panel styleClass="box-primary card">
+                <div id="main-buttons" class="hidden-sm hidden-xs">
+                    <p:commandButton ajax="false" value="Salvar" action="#{pestController.create()}" 
+                                     icon="fa fa-check" styleClass="btn-primary"/>
+
+                    <p:spacer width="5" />
+
+                    <p:commandButton ajax="false" value="Cancelar" immediate="true"
+                                     action="index?faces-redirect=true"
+                                     process="@this"
+                                     icon="fa fa-reply"/>
+                </div>
+                <p:splitButton ajax="false" value="Salvar" action="#{pestController.create()}" 
+                               icon="fa fa-check"
+                               styleClass="hidden-md hidden-lg btn-primary">
+
+                    <p:separator/>
+
+                    <p:menuitem ajax="false" value="Voltar" action="index?faces-redirect=true"
+                                process="@this" immediate="true"
+                                icon="fa fa-reply"/>
+                </p:splitButton>
+
+                <hr/>
+
+                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                    <p:outputLabel for="@next" value="Nome"></p:outputLabel>
+                    <p:inputText value="#{pestController.usualName}" ></p:inputText>
+                    <p:message for="@previous" ></p:message>
+
+                    <p:outputLabel for="@next" value="Nome Científico"></p:outputLabel>
+                    <p:inputText value="#{pestController.scientificName}" ></p:inputText>
+                    <p:message for="@previous" ></p:message>
+
+                    <p:outputLabel for="@next" value="Tamanho" />
+                    <p:selectOneListbox required="true" requiredMessage="Deve ser selecionado um tamanho" value="#{pestController.pestSize}" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{pestController.readAllPestSizes()}" var="aPestSize" itemLabel="#{aPestSize.name}" itemValue="#{aPestSize}"/>
+                    </p:selectOneListbox>
+                    <p:message for="@previous" ></p:message>
+
+                </p:panelGrid>
+
+            </p:panel>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+

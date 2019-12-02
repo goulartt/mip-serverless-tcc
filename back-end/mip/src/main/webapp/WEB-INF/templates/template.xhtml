@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:sec="http://www.springframework.org/security/tags"
+                template="/admin.xhtml"> 
+
+    <ui:define name="head">
+        <title>Sistema MIP/MID</title>
+    </ui:define>
+
+    <ui:define name="logo-lg">
+        MIP/MID
+    </ui:define>
+
+    <ui:define name="logo-mini">
+
+    </ui:define>
+
+    <ui:define name="menu">
+        <ul class="sidebar-menu" data-widget="tree">
+            <li>
+                <p:link outcome="/index.xhtml" onclick="clearBreadCrumbs()">
+                    <i class="fa fw fa-pie-chart"></i>
+                    <span>Painel de Controle</span>
+                </p:link>
+            </li>
+            <li class="header">
+                Opções
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fw fa-group"></i>
+                    <span>Unidade de Referência</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <p:link outcome="/base/field/index.xhtml" title="Gerenciamento das Unidades de Referência">
+                            <i class="fa fw fa-group"></i>
+                            <span>Gerenciamento das URs</span>
+                        </p:link>
+                    </li>
+
+                    <sec:authorize access="hasAuthority('ADMIN')">
+                        <li>
+                            <p:link outcome="/base/supervisor/index.xhtml" title="Gerenciamento dos Técnicos">
+                                <i class="fa fa-circle-o"></i>
+                                <span>Responsável Técnico</span>
+                            </p:link>
+                        </li>                        
+                    </sec:authorize>
+
+                    <li>
+                        <p:link outcome="/base/farmer/index.xhtml" title="Gerenciamento dos Produtores">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Produtor</span>
+                        </p:link>
+                    </li>
+
+                    <sec:authorize access="hasAuthority('ADMIN')">
+                        <li>
+                            <p:link outcome="/base/region/index.xhtml" title="Gerenciamento das Regiões">
+                                <i class="fa fa-circle-o"></i>
+                                <span>Região</span>
+                            </p:link>
+                        </li>
+                    </sec:authorize>
+
+                    <sec:authorize access="hasAuthority('ADMIN')">
+                        <li>
+                            <p:link outcome="/base/macro-region/index.xhtml" title="Gerenciamento das Macrorregiões">
+                                <i class="fa fa-circle-o"></i>
+                                <span>Macrorregião</span>
+                            </p:link>
+                        </li>
+                    </sec:authorize>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fw fa-book"></i>
+                    <span>Pesquisa</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <p:link outcome="/survey/survey/index.xhtml">
+                            <i class="fa fw fa-book"></i>
+                            <span>Gerenciamento da Pesquisa</span>
+                        </p:link>
+                    </li>
+
+                    <sec:authorize access="hasAuthority('ADMIN')">
+                        <li>
+                            <p:link outcome="/survey/harvest/index.xhtml" title="Gerenciamento das Safras">
+                                <i class="fa fa-circle-o"></i>
+                                <span>Safra</span>
+                            </p:link>
+                        </li>                        
+                    </sec:authorize>
+
+                    <sec:authorize access="hasAuthority('ADMIN')">
+                        <li>
+                            <p:link outcome="/survey/cultivar/index.xhtml" title="Gerenciamento das Cultivares">
+                                <i class="fa fa-circle-o"></i>
+                                <span>Cultivar</span>
+                            </p:link>
+                        </li>
+                    </sec:authorize>
+
+                </ul>
+            </li>            
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fw fa-bug"></i>
+                    <span>MIP</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <p:link outcome="/mip/mip-sample/index.xhtml" title="Flutuação de Pragas">
+                            <i class="fa fw fa-bug"></i>
+                            <span>Flutuação das Pragas</span>
+                        </p:link>
+                    </li>  
+
+                    <sec:authorize access="hasAuthority('ADMIN')">
+                        <li>
+                            <p:link outcome="/mip/pest/index.xhtml" title="Gerenciamento de Pragas">
+                                <i class="fa fa-circle-o"></i>
+                                <span>Pragas</span>
+                            </p:link>
+                        </li>
+
+                    </sec:authorize>
+
+                    <sec:authorize access="hasAuthority('ADMIN')">
+                        <li>
+                            <p:link outcome="/mip/pest-disease/index.xhtml" title="Gerenciamento de Doenças das Pragas">
+                                <i class="fa fa-circle-o"></i>
+                                <span>Doenças das Pragas</span>
+                            </p:link>
+                        </li>
+                    </sec:authorize>
+
+                    <sec:authorize access="hasAuthority('ADMIN')">
+                        <li>
+                            <p:link outcome="/mip/pest-natural-predator/index.xhtml" title="Gerenciamento de Inimigos Naturais de Pragas">
+                                <i class="fa fa-circle-o"></i>
+                                <span>Inimigos Naturais</span>
+                            </p:link>
+                        </li>
+                    </sec:authorize>
+
+                </ul>
+            </li>            
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fw fa-leaf"></i>
+                    <span>MID</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <p:link outcome="/mid/rust-sample/index.xhtml" title="Monitoramento da Ferrugem">
+                            <i class="fa fw fa-leaf"></i>
+                            <span>Monitoramento da Ferrugem</span>
+                        </p:link>
+                    </li>  
+
+                    <li>
+                        <p:link outcome="/mid/blade-reading-entity/index.xhtml" title="Gerenciamento de Entidades">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Entidades</span>
+                        </p:link>
+                    </li>  
+
+
+                    <li>
+                        <p:link outcome="/mid/blade-reading-person/index.xhtml" title="Gerenciamento de Profissionais para Leitura">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Profissionais</span>
+                        </p:link>
+                    </li>  
+
+                </ul>
+            </li>            
+
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fw fa-yelp"></i>
+                    <span>Pulverização</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <p:link outcome="/pulverisation/pulverisation-operation/index.xhtml" title="Gerenciamento de Pulverizações">
+                            <i class="fa fw fa-yelp"></i>
+                            <span>Operação de Pulverização</span>
+                        </p:link>
+                    </li>  
+
+                    <sec:authorize access="hasAuthority('ADMIN')">
+                        <li>
+                            <p:link outcome="/pulverisation/target/index.xhtml" title="Gerenciamento de Alvo Principal ou Função">
+                                <i class="fa fa-circle-o"></i>
+                                <span>Alvos/Funções</span>
+                            </p:link>
+                        </li>
+                    </sec:authorize>
+
+                    <sec:authorize access="hasAuthority('ADMIN')">
+                        <li>
+                            <p:link outcome="/pulverisation/product/index.xhtml" title="Gerenciamento de Produtos">
+                                <i class="fa fa-circle-o"></i>
+                                <span>Produtos</span>
+                            </p:link>
+                        </li>
+                    </sec:authorize>
+
+                </ul>
+            </li>      
+
+            <sec:authorize access="hasAuthority('SYSTEM')">
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fw fa-user-secret"></i>
+                        <span>Usuários</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <p:link outcome="/security/mip-user/index.xhtml" title="Gerenciamento de Usuários do Sistema">
+                                <i class="fa fw fa-user-secret"></i>
+                                <span>Gerenciamento de Usuários</span>
+                            </p:link>
+                        </li>  
+                    </ul>
+                </li>                    
+            </sec:authorize>
+
+        </ul>
+    </ui:define>
+
+    <ui:define name="top-menu">
+        <ui:include src="./top-bar.xhtml"/>
+    </ui:define>
+
+    <ui:define name="description">
+        A page description
+    </ui:define>
+
+    <ui:define name="body">
+        <h2>Page body</h2>
+    </ui:define>
+
+
+    <ui:define name="footer">
+        <a target="_blank"
+           href="https://github.com/gabrielcostasilva/emater-mip-datacollection-app.git/">
+            Copyright (C) 2019 - Universidade Tecnológica Federal do Paraná - Cornélio Procópio
+        </a>
+
+        <div class="pull-right hidden-xs" style="color: gray">
+            <i>1.0.3</i>
+        </div>
+    </ui:define>
+
+
+</ui:composition>
