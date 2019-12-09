@@ -26,9 +26,6 @@ public class MIPSampleNaturalPredatorOccurrence implements Serializable {
     protected PestNaturalPredator pestNaturalPredator;
     
     public String getPestNaturalPredatorUsualName() {
-        if (this.getPestNaturalPredator() != null)
-            return this.getPestNaturalPredator().getUsualName();
-        
-        return null;
+        return this.getPestNaturalPredator().getUsualName();
     } 
 }

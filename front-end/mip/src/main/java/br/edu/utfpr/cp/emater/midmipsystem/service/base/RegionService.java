@@ -14,17 +14,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-@RequiredArgsConstructor
+@Component
 public class RegionService implements ICRUDService<Region> {
 
     private final RegionRepository regionRepository;
     private final MacroRegionService macroRegionService;
     private final CityService cityService;
+
+    @Autowired
+    public RegionService(RegionRepository aRegionRepository, MacroRegionService aMacroRegionService, CityService aCityService) {
+        this.regionRepository = aRegionRepository;
+        this.macroRegionService = aMacroRegionService;
+        this.cityService = aCityService;
+    }
 
     @Override
     public List<Region> readAll() {

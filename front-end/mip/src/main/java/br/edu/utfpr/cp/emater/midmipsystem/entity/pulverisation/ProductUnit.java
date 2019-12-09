@@ -2,7 +2,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation;
 
 public enum ProductUnit {
 
-    Unid("Unid"),
+    
     L("L"),
     ML("ML"),
     KG("KG"),

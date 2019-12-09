@@ -15,7 +15,6 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,7 +23,6 @@ import org.springframework.web.context.annotation.RequestScope;
 // Note that there are issues to resolve when updating a Region
 @Component
 @RequestScope
-@RequiredArgsConstructor
 public class RegionController extends Region implements ICRUDController<Region> {
 
     private final RegionService regionService;
@@ -37,11 +35,17 @@ public class RegionController extends Region implements ICRUDController<Region> 
     @Setter
     private Long selectedMacroRegion;
 
+    @Autowired
+    public RegionController(RegionService aRegionService) {
+        this.regionService = aRegionService;
+        this.selectedCities = new ArrayList<>();
+    }
+
     @Override
     public List<Region> readAll() {
         return regionService.readAll();
     }
-    
+
     public List<MacroRegion> readAllMacroRegions() {
         return regionService.readAllMacroRegions();
     }
@@ -159,7 +163,7 @@ public class RegionController extends Region implements ICRUDController<Region> 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Região não pode ser excluída porque não foi encontrada na base de dados!"));
 
         } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Região não pode ser excluída porque está sendo usada no sistema!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Região não pode ser excluída porque está sendo usada por uma propriedade!"));
 
         } catch (AnyPersistenceException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));

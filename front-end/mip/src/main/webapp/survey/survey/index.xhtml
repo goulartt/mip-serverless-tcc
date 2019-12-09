@@ -55,23 +55,19 @@
                             <h:outputText value="#{aSurvey.harvestName}" />
                         </p:column>
 
-                        <p:column headerText="Município" filterBy="#{aSurvey.fieldCityName}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.fieldCityName}" />
-                        </p:column>
-
                         <p:column headerText="UR" filterBy="#{aSurvey.fieldName}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.fieldName}" />
                         </p:column>
 
-                        <p:column headerText="Cultivar" filterBy="#{aSurvey.cultivarName}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.cultivarName}" />
+                        <p:column headerText="Cultivar" filterBy="#{aSurvey.seedName}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.seedName}" />
                         </p:column>
 
                         <p:column visible="false" headerText="Resist. Ferrugem" filterBy="#{aSurvey.rustResistant}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.rustResistant ? 'Sim' : 'Não' }" />
                         </p:column>
 
-                        <p:column visible="false" headerText="BT" filterBy="#{aSurvey.bt}" filterMatchMode="contains" >
+                        <p:column headerText="BT" filterBy="#{aSurvey.bt}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.bt ? 'Sim' : 'Não'}" />
                         </p:column>
 
@@ -79,15 +75,9 @@
                             <h:outputText value="#{aSurvey.sporeCollectorPresent ? 'Sim' : 'Não' }" />
                         </p:column>
 
-                        <p:column visible="false" headerText="Data Inst. Coletor" filterBy="#{aSurvey.collectorInstallationDate}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.collectorInstallationDate}" >
-                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-                            </h:outputText>
-                        </p:column>
-
                         <p:column headerText="Data da Semeadura" filterBy="#{aSurvey.sowedDate}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.sowedDate}" >
-                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"  />
+                                <f:convertDateTime type="date" pattern="dd-MM-yyyy" />
                             </h:outputText>
                         </p:column>
 
@@ -146,18 +136,6 @@
                             <h:outputText value="#{aSurvey.longitude}" ></h:outputText>
                         </p:column>
 
-                        <p:column visible="false" headerText="Preço da Soja" filterBy="#{aSurvey.soyaPrice}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.soyaPrice}" >
-                                <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
-                            </h:outputText>
-                        </p:column>
-
-                        <p:column visible="false" headerText="Custo Operação Pulverização" filterBy="#{aSurvey.applicationCostCurrency}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.applicationCostCurrency}" >
-                                <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
-                            </h:outputText>
-                        </p:column>
-
                         <p:column headerText="Ações" width="200">
                             <p:commandButton ajax="false" styleClass="bg-gray" icon="fa fa-fw fa-bug" action="#{mipSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Adicionar anotação de campo para esta UR" position="top" />
@@ -167,9 +145,6 @@
 
                             <p:commandButton ajax="false" styleClass="bg-black" icon="fa fw fa-yelp" action="#{pulverisationOperationController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Adicionar operação de pulverização para esta UR" position="top" />                             
-
-                            <p:commandButton ajax="false" styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{surveyUpdateController.prepareUpdate(aSurvey.id)}" ></p:commandButton>
-                            <p:tooltip for="@previous" value="Alterar" position="top" />                            
 
                             <p:commandButton update="@form" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{surveyController.delete(aSurvey.id)}" >
                                 <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja remover a UR '#{aSurvey.fieldName}' da pesquisa '#{aSurvey.harvestName}'? Essa ação NÃO pode ser desfeita." />

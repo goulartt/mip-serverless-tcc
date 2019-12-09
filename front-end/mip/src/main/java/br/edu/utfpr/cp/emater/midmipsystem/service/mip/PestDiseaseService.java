@@ -9,15 +9,19 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestDiseaseRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-@RequiredArgsConstructor
+@Component
 public class PestDiseaseService implements ICRUDService<PestDisease> {
 
     private final PestDiseaseRepository pestDiseaseRepository;
+
+    @Autowired
+    public PestDiseaseService(PestDiseaseRepository aPestDiseaseRepository) {
+        this.pestDiseaseRepository = aPestDiseaseRepository;
+    }
 
     @Override
     public List<PestDisease> readAll() {

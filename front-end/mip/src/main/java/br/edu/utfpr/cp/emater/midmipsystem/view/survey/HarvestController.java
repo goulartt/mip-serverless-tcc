@@ -10,16 +10,20 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.survey.HarvestService;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
-@RequiredArgsConstructor
 public class HarvestController extends Harvest implements ICRUDController<Harvest> {
 
-    private final HarvestService harvestService;
+    private HarvestService harvestService;
+
+    @Autowired
+    public HarvestController(HarvestService aHarvestService) {
+        this.harvestService = aHarvestService;
+    }
 
     @Override
     public List<Harvest> readAll() {

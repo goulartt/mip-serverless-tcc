@@ -26,23 +26,14 @@ public class MIPSamplePestOccurrence implements Serializable {
     protected Pest pest;
     
     public String getPestUsualName() {
-        if (this.getPest() != null)
-            return this.getPest().getUsualName();
-        
-        return null;
+        return this.getPest().getUsualName();
     }
     
     public String getPestScientificName() {
-        if (this.getPest() != null)
-            return this.getPest().getScientificName();
-        
-        return null;
+        return this.getPest().getScientificName();
     }
     
     public String getPestSizeName() {
-        if (this.getPest() != null)
-            return this.getPest().getPestSizeName();
-        
-        return null;
+        return this.getPest().getPestSizeName();
     }
 }

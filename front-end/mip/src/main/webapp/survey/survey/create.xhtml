@@ -44,131 +44,141 @@
                 <hr/>
 
                 <p:wizard widgetVar="wizard" nextLabel="Próximo" backLabel="Anterior" >     
+                    
+                        <p:tab title="Safra">
+                            <p:panel header="Passo 1/5: Selecionar Safra">
 
-                    <p:tab title="Safra">
-                        <p:panel header="Passo 1/6: Selecionar Safra">
+                                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
 
-                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
-
-                                <p:outputLabel for="@next" value="Selecione a safra na qual a UR será adicionada" />
-                                <p:selectOneListbox required="true" requiredMessage="Deve ser selecionada uma safra" value="#{surveyController.selectedHarvestId}" filter="true" filterMatchMode="contains">
-                                    <f:selectItems value="#{surveyController.readAllHarvests()}" var="aHarvest" itemLabel="#{aHarvest.name}" itemValue="#{aHarvest.id}"/>
-                                </p:selectOneListbox>
-                                <p:message for="@previous" ></p:message>
-
-                            </p:panelGrid>
-
-                        </p:panel>
-                    </p:tab>
-
-                    <p:tab title="Selecionar UR">
-                        <p:panel header="Passo 2/6: Selecionar Unidade de Referência">
-                            <p:messages />
-                            <p:dataTable paginatorPosition="bottom" value="#{surveyController.readAllFieldsOutOfCurrentSurvey()}" var="aField" selection="#{surveyController.field}" rowKey="#{aField.id}" id="urTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true"  >
-                                <p:column selectionMode="single" style="width:32px;text-align:center" />
-
-                                <p:column headerText="Identificação UR" filterBy="#{aField.name}" filterMatchMode="contains">
-                                    <h:outputText value="#{aField.name}" />
-                                </p:column>
-
-                                <p:column headerText="Município" filterBy="#{aField.cityName}" filterMatchMode="contains">
-                                    <h:outputText value="#{aField.cityName}" />
-                                </p:column>
-
-                                <p:column headerText="Produtor" filterBy="#{aField.farmerName}" filterMatchMode="contains">
-                                    <h:outputText value="#{aField.farmerName}" />
-                                </p:column>
-
-                                <p:column headerText="Responsável Técnico" filterBy="#{aField.supervisorNames}" filterMatchMode="contains">
-                                    <h:outputText value="#{aField.supervisorNames}" />
-                                </p:column>                 
-                            </p:dataTable>  
-                        </p:panel>
-                    </p:tab>
-
-                    <p:tab title="Cultivar">
-                        <p:panel header="Passo 3/6: Dados da Cultivar">
-
-                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
-                                <p:outputLabel for="@next" value="Nome"></p:outputLabel>
-                                <p:autoComplete dropdown="true" value="#{surveyController.cultivarName}" completeMethod="#{surveyController.searchCultivar}" />
-                                <p:message for="@previous" ></p:message>
-
-                                <p:selectBooleanCheckbox value="#{surveyController.bt}" itemLabel="É BT?"/>
-
-                                <p:selectBooleanCheckbox value="#{surveyController.rustResistant}" itemLabel="Resitente à Ferrugem?"/>
-                            </p:panelGrid>                            
-
-                        </p:panel>
-                    </p:tab>
-
-                    <p:tab id="area" title="Área"> 
-                        <p:panel header="Passo 4/6: Dados da Área">
-                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
-
-                                <p:outputLabel for="@next" value="Área da Unidade (ha)"></p:outputLabel>
-                                <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.totalArea}" ></p:inputNumber>
-                                <p:message for="@previous" ></p:message>
-
-                                <p:outputLabel for="@next" value="Área Total Cultivada (ha)"></p:outputLabel>
-                                <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.totalPlantedArea}" ></p:inputNumber>
-                                <p:message for="@previous" ></p:message>
-
-                                <p:outputLabel for="@next" value="No. Plantas/Metro"></p:outputLabel>
-                                <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.plantPerMeter}" ></p:inputNumber>
-                                <p:message for="@previous" ></p:message>
-
-                                <p:outputLabel for="@next" value="Latitude (usar formato UTM)"></p:outputLabel>
-                                <p:inputText value="#{surveyController.latitude}" ></p:inputText>
-                                <p:message for="@previous" ></p:message>
-
-                                <p:outputLabel for="@next" value="Longitude (usar formato UTM)"></p:outputLabel>
-                                <p:inputText value="#{surveyController.longitude}" ></p:inputText>
-                                <p:message for="@previous" ></p:message>
-
-                            </p:panelGrid>                                                                                
-                        </p:panel>
-                    </p:tab>
-
-                    <p:tab title="Coletor">
-                        <p:panel header="Passo 5/6: Dados do Coletor de Esporos">
-
-                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
-                                <p:selectBooleanCheckbox value="#{surveyController.sporeCollectorPresent}" itemLabel="Tem coletor de esporos instalado?">
-                                    <p:ajax update="installationDatePanel" listener="#{surveyController.showInstallationDatePanel()}" />
-                                </p:selectBooleanCheckbox>
-                            </p:panelGrid>                            
-                            
-                            <p:panelGrid id="installationDatePanel" columns="1" styleClass="#{surveyController.statusInstallationDatePanel}">
-                                <p:outputLabel for="@next" value="Data da instalação do coletor"></p:outputLabel>
-                                <p:datePicker inline="true" value="#{surveyController.collectorInstallationDate}" ></p:datePicker>
-                                <p:message for="@previous" ></p:message>
-                            </p:panelGrid>
-                        </p:panel>
-                    </p:tab>
-
-                    <p:tab title="Datas">
-                        <p:panel header="Passo 6/6: Datas">
-                            <p:panelGrid columns="3" layout="grid" columnClasses="ui-lg-4 ui-g-4 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
-
-                                <p:panelGrid columns="1">
-                                    <p:outputLabel for="@next" value="Data da Semeadura"></p:outputLabel>
-                                    <p:datePicker inline="true" value="#{surveyController.sowedDate}" ></p:datePicker>
+                                    <p:outputLabel for="@next" value="Selecione a safra na qual a UR será adicionada" />
+                                    <p:selectOneListbox required="true" requiredMessage="Deve ser selecionada uma safra" value="#{surveyController.selectedHarvestId}" filter="true" filterMatchMode="contains">
+                                        <f:selectItems value="#{surveyController.readAllHarvests()}" var="aHarvest" itemLabel="#{aHarvest.name}" itemValue="#{aHarvest.id}"/>
+                                    </p:selectOneListbox>
                                     <p:message for="@previous" ></p:message>
+
                                 </p:panelGrid>
 
-                                <p:panelGrid columns="1">
-                                    <p:outputLabel for="@next" value="Data da Emergência"></p:outputLabel>
-                                    <p:datePicker inline="true"  value="#{surveyController.emergenceDate}" ></p:datePicker>
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab title="Selecionar UR">
+                            <p:panel header="Passo 2/5: Selecionar Unidade de Referência">
+                                <p:messages />
+                                <p:dataTable paginatorPosition="bottom" value="#{surveyController.readAllFieldsOutOfCurrentSurvey()}" var="aField" selection="#{surveyController.field}" rowKey="#{aField.id}" id="urTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true"  >
+                                    <p:column selectionMode="single" style="width:32px;text-align:center" />
+
+                                    <p:column headerText="Identificação UR" filterBy="#{aField.name}" filterMatchMode="contains">
+                                        <h:outputText value="#{aField.name}" />
+                                    </p:column>
+
+                                    <p:column headerText="Município" filterBy="#{aField.cityName}" filterMatchMode="contains">
+                                        <h:outputText value="#{aField.cityName}" />
+                                    </p:column>
+
+                                    <p:column headerText="Produtor" filterBy="#{aField.farmerName}" filterMatchMode="contains">
+                                        <h:outputText value="#{aField.farmerName}" />
+                                    </p:column>
+
+                                    <p:column headerText="Responsável Técnico" filterBy="#{aField.supervisorNames}" filterMatchMode="contains">
+                                        <h:outputText value="#{aField.supervisorNames}" />
+                                    </p:column>                 
+                                </p:dataTable>  
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab title="Cultivar">
+                            <p:panel header="Passo 3/5: Dados da Cultivar">
+
+                                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                                    <p:outputLabel for="@next" value="Nome"></p:outputLabel>
+                                    <p:inputText value="#{surveyController.seedName}" ></p:inputText>
                                     <p:message for="@previous" ></p:message>
-                                </p:panelGrid>
 
-                            </p:panelGrid>   
+                                    <p:selectBooleanCheckbox value="#{surveyController.sporeCollectorPresent}" itemLabel="Tem coletor de esporos instalado?"/>
 
-                        </p:panel>
-                    </p:tab>
+                                    <p:selectBooleanCheckbox value="#{surveyController.bt}" itemLabel="É BT?"/>
 
-                </p:wizard>
+                                    <p:selectBooleanCheckbox value="#{surveyController.rustResistant}" itemLabel="Resitente à Ferrugem?"/>
+                                </p:panelGrid>                            
+
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="area" title="Área"> 
+                            <p:panel header="Passo 4/5: Dados da Área">
+                                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+
+                                    <p:outputLabel for="@next" value="Área da Unidade (UO/UR)"></p:outputLabel>
+                                    <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.totalArea}" ></p:inputNumber>
+                                    <p:message for="@previous" ></p:message>
+
+                                    <p:outputLabel for="@next" value="Área Total Cultivada"></p:outputLabel>
+                                    <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.totalPlantedArea}" ></p:inputNumber>
+                                    <p:message for="@previous" ></p:message>
+
+                                    <p:outputLabel for="@next" value="No. Plantas/Metro"></p:outputLabel>
+                                    <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.plantPerMeter}" ></p:inputNumber>
+                                    <p:message for="@previous" ></p:message>
+
+                                    <p:outputLabel for="@next" value="Latitude"></p:outputLabel>
+                                    <p:inputText value="#{surveyController.latitude}" ></p:inputText>
+                                    <p:message for="@previous" ></p:message>
+
+                                    <p:outputLabel for="@next" value="Longitude"></p:outputLabel>
+                                    <p:inputText value="#{surveyController.longitude}" ></p:inputText>
+                                    <p:message for="@previous" ></p:message>
+
+                                </p:panelGrid>                                                                                
+                            </p:panel>
+                        </p:tab>
+
+<!--                        <p:tab id="productivity" title="Produtividade">
+                            <p:panel header="Passo 5/6: Dados da Produtividade">
+
+                                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+
+                                    <p:outputLabel for="@next" value="Produtividade da Unidade (UO/UR)"></p:outputLabel>
+                                    <p:inputText value="#{surveyController.productivityField}" ></p:inputText>
+                                    <p:message for="@previous" ></p:message>
+
+                                    <p:outputLabel for="@next" value="Produtividade da Área total do Produtor"></p:outputLabel>
+                                    <p:inputText value="#{surveyController.productivityFarmer}" ></p:inputText>
+                                    <p:message for="@previous" ></p:message>
+
+                                    <p:selectBooleanCheckbox value="#{surveyController.separatedWeight}" itemLabel="Pesou em Separado?"/>
+                                </p:panelGrid>   
+
+                            </p:panel>
+                        </p:tab>-->
+
+                        <p:tab title="Datas">
+                            <p:panel header="Passo 5/5: Datas">
+                                <p:panelGrid columns="3" layout="grid" columnClasses="ui-lg-4 ui-g-4 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
+
+                                    <p:panelGrid columns="1">
+                                        <p:outputLabel for="@next" value="Data da Semeadura"></p:outputLabel>
+                                        <p:datePicker inline="true" value="#{surveyController.sowedDate}" ></p:datePicker>
+                                        <p:message for="@previous" ></p:message>
+                                    </p:panelGrid>
+
+                                    <p:panelGrid columns="1">
+                                        <p:outputLabel for="@next" value="Data da Emergência"></p:outputLabel>
+                                        <p:datePicker inline="true"  value="#{surveyController.emergenceDate}" ></p:datePicker>
+                                        <p:message for="@previous" ></p:message>
+                                    </p:panelGrid>
+
+                                    <p:panelGrid columns="1">
+                                        <p:outputLabel for="@next" value="Data da Colheita"></p:outputLabel>
+                                        <p:datePicker inline="true" value="#{surveyController.harvestDate}" ></p:datePicker>
+                                        <p:message for="@previous" ></p:message>
+                                    </p:panelGrid>
+
+                                </p:panelGrid>   
+
+                            </p:panel>
+                        </p:tab>
+
+                    </p:wizard>
             </p:panel>
 
         </h:form>

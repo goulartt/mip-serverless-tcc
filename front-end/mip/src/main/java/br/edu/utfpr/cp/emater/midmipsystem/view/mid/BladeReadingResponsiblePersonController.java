@@ -12,28 +12,32 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
-@RequiredArgsConstructor
 public class BladeReadingResponsiblePersonController extends BladeReadingResponsibleEntity implements ICRUDController<BladeReadingResponsiblePerson> {
 
     private final BladeReadingResponsiblePersonService bladeReadingPersonService;
 
     @Getter
-    @Setter
+    @Setter  
     private Long selectedEntityId;
+
+    @Autowired
+    public BladeReadingResponsiblePersonController(BladeReadingResponsiblePersonService aBladeReadingPersonService) {
+
+        this.bladeReadingPersonService = aBladeReadingPersonService;
+    }
 
     @Override
     public List<BladeReadingResponsiblePerson> readAll() {
         return bladeReadingPersonService.readAll();
     }
-
+    
     public List<BladeReadingResponsibleEntity> readAllEntities() {
         return bladeReadingPersonService.readAllEntities();
     }
@@ -120,10 +124,6 @@ public class BladeReadingResponsiblePersonController extends BladeReadingRespons
             bladeReadingPersonService.delete(anId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Profissional excluído!"));
 
-        } catch (AccessDeniedException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Profissional não pode ser excluído porque o usuário não está autorizado!"));
-            return "index.xhtml";
-            
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Profissional não pode ser excluído porque não foi encontrado na base de dados!"));
 

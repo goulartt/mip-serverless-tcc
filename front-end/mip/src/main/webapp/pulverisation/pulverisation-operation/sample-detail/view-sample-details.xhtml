@@ -38,14 +38,14 @@
                     <p:column style="width:16px">
                         <p:rowToggler />
                     </p:column>
-                    <p:column headerText="Data da Operação">
+                    <p:column headerText="Data da Amostra">
                         <h:outputText value="#{aPulverisation.sampleDate}" >
                             <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
                         </h:outputText>
                     </p:column>
 
                     <p:column headerText="Dias Após Emergência">
-                        <h:outputText value="#{pulverisationDetailController.calculateDaysAfterEmergence(aPulverisation.sampleDate)}" />
+                        <h:outputText value="#{aPulverisation.daysAfterEmergence}" />
                     </p:column>
 
                     <p:column headerText="Estádio da Cultura">
@@ -62,8 +62,8 @@
                         </h:outputText>    
                     </p:column>
 
-                    <p:column headerText="Custo da Aplicação (R$/ha)">
-                        <h:outputText value="#{aPulverisation.applicationCostCurrency}" >
+                    <p:column headerText="Custo da Operação de Pulverização (R$/ha)">
+                        <h:outputText value="#{aPulverisation.operationCostCurrency}" >
                             <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
                         </h:outputText>
                     </p:column>
@@ -75,13 +75,13 @@
                     </p:column>
 
                     <p:column headerText="Custo da Aplicação (sc/ha)">
-                        <h:outputText value="#{aPulverisation.applicationCostQty}" >
+                        <h:outputText value="#{aPulverisation.operationCostQty}" >
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </h:outputText>
                     </p:column>
 
                     <p:column headerText="Custo Total da Operação (sc/ha)">
-                        <h:outputText value="#{aPulverisation.totalOperationCostCurrency / aPulverisation.soyaPrice}" >
+                        <h:outputText value="#{aPulverisation.totalOperationCostQty}" >
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </h:outputText>
                     </p:column>
@@ -127,7 +127,7 @@
                             </p:column>
 
                             <p:column headerText="Custo Produto (sc/ha)">
-                                <h:outputText value="#{anOccurrence.productCostCurrency / aPulverisation.soyaPrice}" >
+                                <h:outputText value="#{anOccurrence.productCostQty}" >
                                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                                 </h:outputText>
                             </p:column>

@@ -3,7 +3,6 @@ package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.persistence.Entity;
@@ -89,66 +88,26 @@ public class Field extends AuditingPersistenceEntity implements Serializable {
     }
 
     public String getCityName() {
-        if (this.getCity() != null)
-            return this.getCity().getName();
-        
-        return null;
+        return this.getCity().getName();
     }
     
     public Long getCityId(){
-        if (this.getCity() != null)
-            return this.getCity().getId();
-        
-        return 0L;
+        return this.getCity().getId();
     }
     
     public String getStateName() {
-        if (this.getCity() != null)
-            return this.getCity().getState().getName();
-        
-        return null;
+        return this.getCity().getState().getName();
     }
     
     public String getFarmerName() {
-        if (this.getFarmer()!= null)
-            return this.getFarmer().getName();
-        
-        return null;
+        return this.getFarmer().getName();
     }
     
     public Long getFarmerId() {
-        if (this.getFarmer()!= null)
-            return this.getFarmer().getId();
-        
-        return 0L;
+        return this.getFarmer().getId();
     }
     
     public List<String> getSupervisorNames() {
-        if (this.getSupervisors() != null)
-            return this.getSupervisors().stream().map(Supervisor::getName).collect(Collectors.toList());
-        
-        return null;
-    }
-    
-    public Optional<MacroRegion> getMacroRegion() {
-        
-        var supervisorOptional = this.getSupervisors().stream().findAny();
-        
-        if (supervisorOptional.isPresent())
-            return supervisorOptional.get().getMacroRegion();
-        
-        else
-            return Optional.empty();
-    }
-
-    public Optional<Region> getRegion() {
-        
-        var supervisorOptional = this.getSupervisors().stream().findAny();
-        
-        if (supervisorOptional.isPresent())
-            return Optional.of(supervisorOptional.get().getRegion());
-        
-        else
-            return Optional.empty();
+        return this.getSupervisors().stream().map(Supervisor::getName).collect(Collectors.toList());
     }
 }

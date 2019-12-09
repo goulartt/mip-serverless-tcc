@@ -1,10 +1,26 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.base;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Component;
+
+import com.amazonaws.services.sqs.AmazonSQS;
+import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
+import com.amazonaws.services.sqs.model.SendMessageRequest;
+import com.amazonaws.services.sqs.model.SendMessageResult;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Farmer;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
@@ -12,25 +28,23 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
+@Component
 public class FieldService implements ICRUDService<Field> {
 
     private final FieldRepository fieldRepository;
     private final CityService cityService;
     private final FarmerService farmerService;
     private final SupervisorService supervisorService;
+    private final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
+
+    @Autowired
+    public FieldService(FieldRepository aFieldRepository, CityService aCityService, FarmerService aFarmerService, SupervisorService aSupervisorService) {
+        this.fieldRepository = aFieldRepository;
+        this.cityService = aCityService;
+        this.farmerService = aFarmerService;
+        this.supervisorService = aSupervisorService;
+    }
 
     @Override
     public List<Field> readAll() {
@@ -77,7 +91,7 @@ public class FieldService implements ICRUDService<Field> {
 
     public void create(Field aField) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
 
-        if (fieldRepository.findAll().stream().anyMatch(currentField -> currentField.equals(aField))) {
+        /*if (fieldRepository.findAll().stream().anyMatch(currentField -> currentField.equals(aField))) {
             throw new EntityAlreadyExistsException();
         }
 
@@ -99,7 +113,15 @@ public class FieldService implements ICRUDService<Field> {
 
         } catch (Exception e) {
             throw new AnyPersistenceException();
-        }
+        }*/
+    	ObjectMapper map = new ObjectMapper();
+    	System.out.println("Sending a message to MyQueue.\n");
+    	try {
+			SendMessageResult sendMessage = sqs.sendMessage(new SendMessageRequest("https://sqs.sa-east-1.amazonaws.com/655636961149/field-sqs", map.writeValueAsString(aField)));
+			System.out.println(sendMessage.getMD5OfMessageBody());
+    	} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
     }
 
     @Override
@@ -140,13 +162,7 @@ public class FieldService implements ICRUDService<Field> {
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
 
         var existentField = fieldRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
-        
-        var loggedUser = ((MIPUserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-        var createdByName = existentField.getCreatedBy() != null ? existentField.getCreatedBy().getUsername() : "none";
-        
-        if (!loggedUser.getUsername().equalsIgnoreCase(createdByName))
-            throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
-        
+
         try {
             fieldRepository.delete(existentField);
 
@@ -174,15 +190,6 @@ public class FieldService implements ICRUDService<Field> {
         } catch (EntityNotFoundException ex) {
             return this.farmerService.readAll().get(0);
         }
-    }
-
-    public Set<Supervisor> readSupervisorsByIds(List<Long> selectedSupervisorIds) throws EntityNotFoundException {
-        var result = new HashSet<Supervisor>();
-        
-        for (Long id: selectedSupervisorIds)
-            result.add(supervisorService.readById(id));
-        
-        return result;
     }
 
 }

@@ -26,9 +26,6 @@ public class MIPSamplePestDiseaseOccurrence implements Serializable {
     protected PestDisease pestDisease;
 
     public String getPestDiseaseUsualName() {
-        if (this.getPestDisease() != null)
-            return this.getPestDisease().getUsualName();
-        
-        return null;
+        return this.getPestDisease().getUsualName();
     }
 }

@@ -10,17 +10,21 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestNaturalPredatorServic
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
-@RequiredArgsConstructor
 public class PestNaturalPredatorController extends PestNaturalPredator implements ICRUDController<PestNaturalPredator> {
 
     private final PestNaturalPredatorService pestNaturalPredatorService;
     
+    @Autowired
+    public PestNaturalPredatorController(PestNaturalPredatorService aPestNaturalPredatorService) {
+        this.pestNaturalPredatorService = aPestNaturalPredatorService;
+    }
+
     @Override
     public List<PestNaturalPredator> readAll() {
         return pestNaturalPredatorService.readAll();

@@ -51,7 +51,7 @@
                 <p:wizard widgetVar="wizard" nextLabel="Próximo" backLabel="Anterior" >
 
                     <p:tab title="Data da Coleta">
-                        <p:panel header="Passo 1/3: Data da Coleta">
+                        <p:panel header="Passo 1/4: Data da Coleta">
 
                             <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-4 ui-g-4 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
 
@@ -67,7 +67,7 @@
                     </p:tab>
 
                     <p:tab title="Coletor de Esporos">
-                        <p:panel header="Passo 2/3: Dados no Coletor de Esporos">
+                        <p:panel header="Passo 2/4: Dados no Coletor de Esporos">
                             <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
 
                                 <p:dataTable paginatorPosition="bottom" value="#{midRustSampleController.readAllBladeResponsiblePersons()}" var="aPerson" selection="#{midRustSampleController.bladeResponsiblePerson}" rowKey="#{aPerson.id}" id="personTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true"  >
@@ -93,7 +93,7 @@
                                 <p:panelGrid columns="2" >
                                     <p:panelGrid columns="1" >
                                         <p:outputLabel for="@next" value="Resultado da Leitura da Lâmina para Uredosporos da Ferrugem Asiática" />
-                                        <p:selectOneListbox value="#{midRustSampleController.bladeReadingRustResultCollector}" filter="true" filterMatchMode="contains">
+                                        <p:selectOneListbox required="true" requiredMessage="Deve ser selecionado um valor na lista" value="#{midRustSampleController.bladeReadingRustResultCollector}" filter="true" filterMatchMode="contains">
                                             <f:selectItems value="#{midRustSampleController.readAllAsiaticRustTypesSporeCollector()}" var="aAsiaticRustSporeType" itemLabel="#{aAsiaticRustSporeType.description}" itemValue="#{aAsiaticRustSporeType}"/>
                                         </p:selectOneListbox>
                                         <p:message for="@previous" ></p:message>
@@ -113,7 +113,7 @@
                     </p:tab>
 
                     <p:tab title="Inspeção Foliar">
-                        <p:panel header="Passo 3/3: Dados da Inspeção Foliar">
+                        <p:panel header="Passo 3/4: Dados da Inspeção Foliar">
 
                             <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
                                 <p:outputLabel for="@next" value="Estádio das Plantas" />
@@ -129,6 +129,28 @@
                                     </p:selectOneListbox>
                                     <p:message for="@previous" ></p:message>
                                 </p:panelGrid>                                    
+
+                            </p:panelGrid>                            
+
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab id="area" title="Aplicação de Fungicidas"> 
+                        <p:panel header="Passo 4/4: Dados Sobre Aplicação de Fungicidas">
+
+                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                                <p:selectBooleanCheckbox value="#{midRustSampleController.asiaticRustApplication}" itemLabel="Aplicou para Ferrugem Asiática?"/>
+
+                                <p:selectBooleanCheckbox value="#{midRustSampleController.otherDiseasesApplication}" itemLabel="Aplicou para Outras Doenças?"/>
+
+                                <p:outputLabel for="@next" value="Data de Aplicação do Fungicida"></p:outputLabel>
+                                <p:datePicker inline="true" value="#{midRustSampleController.fungicideApplicationDate}" ></p:datePicker>
+                                <p:message for="@previous" ></p:message>
+
+
+                                <p:outputLabel for="@next" value="Observações"></p:outputLabel>
+                                <p:inputText value="#{midRustSampleController.notes}" ></p:inputText>
+                                <p:message for="@previous" ></p:message>
 
                             </p:panelGrid>                            
 

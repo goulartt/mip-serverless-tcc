@@ -9,16 +9,20 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.TargetReposi
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-@RequiredArgsConstructor
+@Component
 public class TargetService implements ICRUDService<Target> {
 
     private final TargetRepository targetRepository;
     
+    @Autowired
+    public TargetService(TargetRepository aTargetRepository) {
+        this.targetRepository = aTargetRepository;
+    }
+
     @Override
     public List<Target> readAll() {
         return List.copyOf(targetRepository.findAll());
@@ -55,7 +59,7 @@ public class TargetService implements ICRUDService<Target> {
 
         try {
             existentTarget.setDescription(aTarget.getDescription());
-            existentTarget.setUseClass(aTarget.getUseClass());
+            existentTarget.setCategory(aTarget.getCategory());
 
             targetRepository.saveAndFlush(existentTarget);
 

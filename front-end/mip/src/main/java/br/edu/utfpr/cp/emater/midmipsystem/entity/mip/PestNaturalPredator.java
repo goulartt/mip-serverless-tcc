@@ -41,8 +41,4 @@ public class PestNaturalPredator extends AuditingPersistenceEntity implements Se
 
         return instance;
     }
-
-    public String getDescription() {
-        return this.getUsualName();
-    }
 }

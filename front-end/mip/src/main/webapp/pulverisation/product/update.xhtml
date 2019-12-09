@@ -47,12 +47,10 @@
                     <p:inputText value="#{productController.name}" ></p:inputText>
                     <p:message for="@previous" ></p:message>
 
-                    <p:outputLabel for="@next" value="Classe de Uso" />
-                    <p:selectOneMenu required="true" requiredMessage="Deve ser selecionada uma classe de uso" value="#{productController.useClass}" filter="true" filterMatchMode="contains">
-                        <f:selectItem itemLabel="Escolha uma Classe de Uso" itemValue="" />
-                        <f:selectItems value="#{productController.readAllUseClasses()}" var="aUseClass" itemLabel="#{aUseClass.description}" itemValue="#{aUseClass}"/>
-                    </p:selectOneMenu>
+                    <p:outputLabel for="@next" value="Dose"></p:outputLabel>
+                    <p:inputText value="#{productController.dose}" ></p:inputText>
                     <p:message for="@previous" ></p:message>
+
 
                     <p:outputLabel for="@next" value="Unidade de Medida" />
                     <p:selectOneMenu required="true" requiredMessage="Deve ser selecionada uma unidade de medida" value="#{productController.unit}" filter="true" filterMatchMode="contains">
@@ -61,27 +59,11 @@
                     </p:selectOneMenu>
                     <p:message for="@previous" ></p:message>
 
-                    <p:outputLabel for="@next" value="Registro"></p:outputLabel>
-                    <p:inputText value="#{productController.registerNumber}" ></p:inputText>
-                    <p:message for="@previous" ></p:message>
-
-                    <p:outputLabel for="@next" value="Empresa Registrante"></p:outputLabel>
-                    <p:inputText value="#{productController.company}" ></p:inputText>
-                    <p:message for="@previous" ></p:message>
-
-                    <p:outputLabel for="@next" value="Classe Toxicológica" />
-                    <p:selectOneMenu value="#{productController.toxiClass}" filter="true" filterMatchMode="contains">
-                        <f:selectItem itemLabel="Escolha uma Classe Toxicológica" itemValue="" />
-                        <f:selectItems value="#{productController.readAllToxiClasses()}" var="aToxiClass" itemLabel="#{aToxiClass.description}" itemValue="#{aToxiClass}"/>
+                    <p:outputLabel for="@next" value="Alvo Principal ou Função" />
+                    <p:selectOneMenu required="true" requiredMessage="Um alvo/função deve ser selecionado" value="#{productController.targetId}" filter="true" filterMatchMode="contains">
+                        <f:selectItem noSelectionOption="true" itemLabel="Escolha um Alvo/Função" itemValue="" />
+                        <f:selectItems value="#{productController.readAllTargets()}" var="aTarget" itemLabel="#{aTarget.description}" itemValue="#{aTarget.id}"/>
                     </p:selectOneMenu>
-                    <p:message for="@previous" ></p:message>
-
-                    <p:outputLabel for="@next" value="Ingrediente Ativo (IA)"></p:outputLabel>
-                    <p:inputText value="#{productController.activeIngredient}" ></p:inputText>
-                    <p:message for="@previous" ></p:message>
-
-                    <p:outputLabel for="@next" value="Concentração IA"></p:outputLabel>
-                    <p:inputText value="#{productController.concentrationActiveIngredient}" ></p:inputText>
                     <p:message for="@previous" ></p:message>
 
                 </p:panelGrid>

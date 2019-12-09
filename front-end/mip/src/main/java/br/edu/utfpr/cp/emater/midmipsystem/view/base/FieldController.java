@@ -11,28 +11,27 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 // Note that there are issues to resolve regarding the match of supervisors and cities
 @Component
 @RequestScope
-@RequiredArgsConstructor
 public class FieldController extends Field implements ICRUDController<Field> {
 
-    private final FieldService fieldService;
+    private FieldService fieldService;
 
     @Getter
     @Setter
-    private List<Long> selectedSupervisorIds;
+    private List<Supervisor> selectedSupervisors;
 
     @Getter
     @Setter
@@ -41,6 +40,11 @@ public class FieldController extends Field implements ICRUDController<Field> {
     @Getter
     @Setter
     private Long selectedFarmerId;
+
+    @Autowired
+    public FieldController(FieldService aFieldService) {
+        this.fieldService = aFieldService;
+    }
 
     @Override
     public List<Field> readAll() {
@@ -68,7 +72,7 @@ public class FieldController extends Field implements ICRUDController<Field> {
                     .location(this.getLocation())
                     .city(this.fieldService.readCityById(this.getSelectedCityId()))
                     .farmer(this.fieldService.readFarmerById(this.getSelectedFarmerId()))
-                    .supervisors(fieldService.readSupervisorsByIds(this.getSelectedSupervisorIds()))
+                    .supervisors(new HashSet<Supervisor>(this.getSelectedSupervisors()))
                     .build();
 
             fieldService.create(newField);
@@ -104,7 +108,7 @@ public class FieldController extends Field implements ICRUDController<Field> {
             this.setLocation(existentField.getLocation());
             this.setSelectedCityId(existentField.getCityId());
             this.setSelectedFarmerId(existentField.getFarmerId());
-            this.setSelectedSupervisorIds(existentField.getSupervisors().stream().map(Supervisor::getId).collect(Collectors.toList()));
+            this.setSelectedSupervisors(new ArrayList<>(existentField.getSupervisors()));
 
             return "update.xhtml";
 
@@ -124,7 +128,7 @@ public class FieldController extends Field implements ICRUDController<Field> {
                     .location(this.getLocation())
                     .city(this.fieldService.readCityById(this.getSelectedCityId()))
                     .farmer(this.fieldService.readFarmerById(this.getSelectedFarmerId()))
-                    .supervisors(fieldService.readSupervisorsByIds(this.getSelectedSupervisorIds()))
+                    .supervisors(new HashSet<Supervisor>(this.getSelectedSupervisors()))
                     .build();
 
             fieldService.update(updatedField);
@@ -156,10 +160,6 @@ public class FieldController extends Field implements ICRUDController<Field> {
         try {
             fieldService.delete(anId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Unidade de referência excluída!"));
-            return "index.xhtml";
-
-        } catch (AccessDeniedException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "UR não pode ser excluída porque o usuário não está autorizado!"));
             return "index.xhtml";
 
         } catch (EntityNotFoundException ex) {

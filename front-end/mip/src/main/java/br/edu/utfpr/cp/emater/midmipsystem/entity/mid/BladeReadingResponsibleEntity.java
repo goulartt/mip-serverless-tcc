@@ -28,23 +28,14 @@ public class BladeReadingResponsibleEntity extends Person implements Serializabl
     }
     
     public String getCityName() {
-        if (this.getCity() != null)
-            return this.getCity().getName();
-        
-        return null;
+        return this.getCity().getName();
     }
     
     public Long getCityId() {
-        if (this.getCity() != null)
-            return this.getCity().getId();
-        
-        return null;
+        return this.getCity().getId();
     }
     
     public String getIdAsString() {
-        if (this.getId() != null)
-            return String.valueOf(this.getId());
-        
-        return null;
+        return String.valueOf(this.getId());
     }    
 }

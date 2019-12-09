@@ -9,15 +9,19 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.HarvestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-@RequiredArgsConstructor
+@Component
 public class HarvestService implements ICRUDService<Harvest> {
 
     private final HarvestRepository harvestRepository;
+
+    @Autowired
+    public HarvestService(HarvestRepository aHarvestRepository) {
+        this.harvestRepository = aHarvestRepository;
+    }
 
     public List<Harvest> readAll() {
         return List.copyOf(harvestRepository.findAll());

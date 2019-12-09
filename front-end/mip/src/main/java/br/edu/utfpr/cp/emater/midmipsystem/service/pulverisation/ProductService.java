@@ -10,16 +10,23 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.ProductRepos
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-@RequiredArgsConstructor
+@Component
 public class ProductService implements ICRUDService<Product> {
 
     private final ProductRepository productRepository;
     private final TargetService targetService;
+
+    @Autowired
+    public ProductService(ProductRepository aProductRepository,
+            TargetService aTargetService) {
+
+        this.productRepository = aProductRepository;
+        this.targetService = aTargetService;
+    }
 
     @Override
     public List<Product> readAll() {
@@ -57,13 +64,8 @@ public class ProductService implements ICRUDService<Product> {
 
         try {
             existentProduct.setName(aProduct.getName());
+            existentProduct.setDose(aProduct.getDose());
             existentProduct.setUnit(aProduct.getUnit());
-            existentProduct.setUseClass(aProduct.getUseClass());
-            existentProduct.setActiveIngredient(aProduct.getActiveIngredient());
-            existentProduct.setCompany(aProduct.getCompany());
-            existentProduct.setConcentrationActiveIngredient(aProduct.getConcentrationActiveIngredient());
-            existentProduct.setRegisterNumber(aProduct.getRegisterNumber());
-            existentProduct.setToxiClass(aProduct.getToxiClass());
 
             productRepository.saveAndFlush(existentProduct);
 

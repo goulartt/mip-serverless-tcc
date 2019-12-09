@@ -1,7 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
 import java.io.Serializable;
-import java.util.Optional;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
@@ -35,55 +34,26 @@ public class Supervisor extends Person implements Serializable {
     }
     
     public String getRegionName() {
-        if (this.getRegion() != null)
-            return this.getRegion().getName();
-        
-        return null;
+        return this.getRegion().getName();
     }
     
     public Long getRegionId() {
-        if (this.getRegion() != null)
-            return this.getRegion().getId();
-        
-        return null;
+        return this.getRegion().getId();
     }
     
     public String getMacroRegionName() {
-        if (this.getRegion() != null)
-            return this.getRegion().getMacroRegionName();
-        
-        return null;
+        return this.getRegion().getMacroRegionName();
     }
     
     public Long getMacroRegionId() {
-        if (this.getRegion() != null)
-            return this.getRegion().getMacroRegionId();
-        
-        return null;
+        return this.getRegion().getMacroRegionId();
     }
     
     public String getIdAsString() {
-        if (this.getId() != null)
-            return String.valueOf(this.getId());
-        
-        return null;
+        return String.valueOf(this.getId());
     }
     
     public String getCitiesInRegionNames() {
-        if (this.getRegion() != null)
-            return this.getRegion().getCities().toString();
-        
-        return null;
-    }
-    
-    public Optional<MacroRegion> getMacroRegion() {
-        
-        if (this.getRegion() == null)
-            return Optional.empty();
-        
-        if (this.getRegion().getMacroRegion() == null)
-            return Optional.empty();
-        
-        return Optional.of(this.getRegion().getMacroRegion());
+        return this.getRegion().getCities().toString();
     }
 }

@@ -21,7 +21,6 @@ import javax.faces.view.ViewScoped;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 @Component(value = "mipSampleController")
@@ -111,9 +110,9 @@ public class MIPSampleController extends MIPSample {
     }
 
     public String create() {
-
+        
         var surveyIdAsString = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("currentSurveyId");
-
+        
         Survey currentSurvey = null;
 
         try {
@@ -123,14 +122,14 @@ public class MIPSampleController extends MIPSample {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Anotação de campo não pode ser feita porque a UR não foi encontrada na base de dados!"));
             return "index.xhtml";
         }
-
+        
         var newSample = MIPSample.builder()
-                .defoliation(this.getDefoliation())
-                .growthPhase(this.getGrowthPhase())
-                .sampleDate(this.getSampleDate())
-                .survey(currentSurvey)
-                .build();
-
+                                    .defoliation(this.getDefoliation())
+                                    .growthPhase(this.getGrowthPhase())
+                                    .sampleDate(this.getSampleDate())
+                                    .survey(currentSurvey)
+                                    .build();
+        
         this.trimOccurrencesForSample(newSample);
 
         try {
@@ -146,7 +145,7 @@ public class MIPSampleController extends MIPSample {
         } catch (EntityNotFoundException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Anotação de campo não pode ser feita porque a UR não foi encontrada na base de dados!"));
             return "index.xhtml";
-
+            
         } catch (AnyPersistenceException | SupervisorNotAllowedInCity e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
             return "index.xhtml";
@@ -158,10 +157,6 @@ public class MIPSampleController extends MIPSample {
         try {
             mipSampleService.delete(aSampleId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Amostra excluída!"));
-            return "index.xhtml";
-
-        } catch (AccessDeniedException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Amostra não pode ser excluída porque o usuário não está autorizado!"));
             return "index.xhtml";
 
         } catch (EntityNotFoundException ex) {
@@ -182,11 +177,11 @@ public class MIPSampleController extends MIPSample {
 
         try {
             var currentSurvey = mipSampleService.readSurveyById(id);
-
+            
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyFieldName", currentSurvey.getFieldName());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyHarvestName", currentSurvey.getHarvestName());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyId", id);
-
+            
             return "/mip/mip-sample/create-with-survey.xhtml?faces-redirect=true";
 
         } catch (EntityNotFoundException ex) {
