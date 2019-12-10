@@ -1,5 +1,17 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.base;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
+import br.edu.utfpr.cp.emater.midmipsystem.dto.ResponseDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.dto.base.FieldDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Farmer;
@@ -16,26 +28,14 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 @RequiredArgsConstructor
 public class FieldService implements ICRUDService<Field> {
 
 	private static final String ENDPOINT_GATEWAY = "https://oyl9jbjobd.execute-api.sa-east-1.amazonaws.com/mip-gateway/field";
-	
+
 	private final FieldRepository fieldRepository;
 	private final CityService cityService;
 	private final FarmerService farmerService;
@@ -82,39 +82,24 @@ public class FieldService implements ICRUDService<Field> {
 		return idsCitiesSupervisors.contains(idChosenCity);
 	}
 
-	public void create(Field aField) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
+	public void create(FieldDTO newField) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
 			AnyPersistenceException, EntityNotFoundException {
 
-		if (fieldRepository.findAll().stream().anyMatch(currentField -> currentField.equals(aField))) {
-			throw new EntityAlreadyExistsException();
-		}
-
-		var theCity = cityService.readById(aField.getCityId());
-		var someSupervisors = this.retrieveSupervisors(aField.getSupervisors());
-
-		if (!isSupervisorIsAllowedInCity(someSupervisors, theCity.getId())) {
-			throw new SupervisorNotAllowedInCity();
-		}
-
-		var theFarmer = farmerService.readById(aField.getFarmerId());
-
 		try {
-	        var currentUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
 
-			aField.setCity(theCity);
-			aField.setFarmer(theFarmer);
-			aField.setSupervisors(someSupervisors);
-			aField.setCreatedBy(currentUser);
-			aField.setModifiedBy(currentUser);
+			HttpResponse<ResponseDTO> response = Unirest.post(ENDPOINT_GATEWAY).header("Content-Type", "application/json")
+					.body(FieldDTO.generateJSON(newField)).asObject(ResponseDTO.class);
 			
-			// fieldRepository.save(aField);
-			HttpResponse<JsonNode> response = Unirest.post(ENDPOINT_GATEWAY)
-				.header("Content-Type", "application/json")
-				.body(FieldDTO.jsonFromEntity(aField))
-				.asJson();
-			
-			if (response.getStatus() != 200)
+			switch (response.getBody().getStatusCode()) {
+			case (200):
+				break;
+			case (409):
+				throw new EntityAlreadyExistsException();
+			case (405):
+				throw new SupervisorNotAllowedInCity();
+			default:
 				throw new AnyPersistenceException();
+			}
 
 		} catch (Exception e) {
 			throw new AnyPersistenceException();
@@ -204,6 +189,13 @@ public class FieldService implements ICRUDService<Field> {
 			result.add(supervisorService.readById(id));
 
 		return result;
+	}
+
+	@Override
+	public void create(Field entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
+			AnyPersistenceException, EntityNotFoundException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

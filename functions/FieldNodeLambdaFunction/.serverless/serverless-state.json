@@ -205,7 +205,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/fieldnodelambdafunction/dev/1575912446688-2019-12-09T17:27:26.688Z/fieldnodelambdafunction.zip"
+                "S3Key": "serverless/fieldnodelambdafunction/dev/1576011020140-2019-12-10T20:50:20.140Z/fieldnodelambdafunction.zip"
               },
               "FunctionName": "fieldnodelambdafunction-dev-create-field",
               "Handler": "s_create_field.handler",
@@ -231,14 +231,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "CreateDashfieldLambdaVersion7WMPraUB4OwIdzGUh2mzdNuY1MhYYvl8ab6epbLiOA": {
+          "CreateDashfieldLambdaVersionizdNOyAyhxi7uZ9Z1YP2aiUIQxjYJqHDsFdSWzIw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreateDashfieldLambdaFunction"
               },
-              "CodeSha256": "K/6H4LjeDm10hb5+jWQD1VbM0OIqMMguTa1oRht3ot4="
+              "CodeSha256": "2dr3NH5FdaRTzQOu9h8Ul9IoJ1u/xKPfXWrOgjND6wk="
             }
           }
         },
@@ -259,7 +259,7 @@
           "CreateDashfieldLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreateDashfieldLambdaVersion7WMPraUB4OwIdzGUh2mzdNuY1MhYYvl8ab6epbLiOA"
+              "Ref": "CreateDashfieldLambdaVersionizdNOyAyhxi7uZ9Z1YP2aiUIQxjYJqHDsFdSWzIw"
             }
           }
         }
@@ -363,10 +363,10 @@
     "layers": {},
     "appUid": "hpH3ZmSjbKYR50XpnG",
     "tenantUid": "dGnHRDpC28y96MHDsR",
-    "artifact": "C:\\projetos\\mip-serverless-tcc\\functions\\FieldNodeLambdaFunction\\.serverless\\fieldnodelambdafunction.zip"
+    "artifact": "D:\\Projetos\\mip-serverless-tcc\\functions\\FieldNodeLambdaFunction\\.serverless\\fieldnodelambdafunction.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/fieldnodelambdafunction/dev/1575912446688-2019-12-09T17:27:26.688Z",
+    "artifactDirectoryName": "serverless/fieldnodelambdafunction/dev/1576011020140-2019-12-10T20:50:20.140Z",
     "artifact": "fieldnodelambdafunction.zip"
   }
 }

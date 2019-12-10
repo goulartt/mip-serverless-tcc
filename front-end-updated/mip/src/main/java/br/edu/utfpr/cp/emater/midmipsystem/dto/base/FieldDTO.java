@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUser;
+import kong.unirest.JsonNode;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -49,4 +51,9 @@ public class FieldDTO implements Serializable {
 		}
 		return null;
 	}
+
+	public static String generateJSON(FieldDTO newField) throws JsonProcessingException {
+		return new ObjectMapper().writeValueAsString(newField);
+	}
+
 }
