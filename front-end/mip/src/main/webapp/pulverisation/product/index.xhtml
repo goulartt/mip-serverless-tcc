@@ -41,25 +41,38 @@
 
                     <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" value="#{productController.readAll()}" var="aProduct" >
 
-                        <p:column headerText="Nome" filterBy="#{aProduct.name}" filterMatchMode="contains" >
+                        <p:column headerText="Marca Comercial" filterBy="#{aProduct.name}" filterMatchMode="contains" >
                             <h:outputText value="#{aProduct.name}" />
                         </p:column>
 
-                        <p:column headerText="Dose" filterBy="#{aProduct.dose}" filterMatchMode="contains" >
-                            <h:outputText value="#{aProduct.dose}" >
-                                <f:convertNumber locale="pt_BR" minFractionDigits="2" maxFractionDigits="2" ></f:convertNumber>
-                            </h:outputText>
+                        <p:column headerText="Classe de Uso" filterBy="#{aProduct.useClass}" filterMatchMode="contains" >
+                            <h:outputText value="#{aProduct.useClass.description}" />
                         </p:column>
-
+                        
                         <p:column headerText="Unidade de Medida" filterBy="#{aProduct.unitDescription}" filterMatchMode="contains" >
                             <h:outputText value="#{aProduct.unitDescription}" />
                         </p:column>
-
-                        <p:column headerText="Alvo Principal/Função" filterBy="#{aProduct.targetDescription}" filterMatchMode="contains" >
-                            <h:outputText value="#{aProduct.targetDescription}" />
+                        
+                        <p:column headerText="Registro" filterBy="#{aProduct.registerNumber}" filterMatchMode="contains" >
+                            <h:outputText value="#{aProduct.registerNumber}" />
                         </p:column>
 
+                        <p:column headerText="Empresa Registrante" filterBy="#{aProduct.company}" filterMatchMode="contains" >
+                            <h:outputText value="#{aProduct.company}" />
+                        </p:column>
 
+                        <p:column headerText="Classe Toxicológica" filterBy="#{aProduct.toxiClassDescription}" filterMatchMode="contains" >
+                            <h:outputText value="#{aProduct.toxiClassDescription}" />
+                        </p:column>
+
+                        <p:column headerText="Ingrediente Ativo (IA)" filterBy="#{aProduct.activeIngredient}" filterMatchMode="contains" >
+                            <h:outputText value="#{aProduct.activeIngredient}" />
+                        </p:column>
+                        
+                        <p:column headerText="Concentração IA" filterBy="#{aProduct.concentrationActiveIngredient}" filterMatchMode="contains" >
+                            <h:outputText value="#{aProduct.concentrationActiveIngredient}" />
+                        </p:column>
+                        
                         <p:column headerText="Ações" width="100">
                             <p:commandButton ajax="false" styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{productController.prepareUpdate(aProduct.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Alterar" position="top" />

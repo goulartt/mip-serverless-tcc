@@ -78,21 +78,23 @@ public class Region extends AuditingPersistenceEntity implements Serializable {
     }
 
     public String getMacroRegionName() {
-        return this.getMacroRegion().getName();
+        if (this.getMacroRegion() != null)
+            return this.getMacroRegion().getName();
+        
+        return null;
     }
 
     public Long getMacroRegionId() {
-        return this.getMacroRegion().getId();
+        if (this.getMacroRegion() != null)
+            return this.getMacroRegion().getId();
+        
+        return null;
     }
 
     public Set<String> getCityNames() {
-        return this.getCities().stream().map(City::getName).collect(Collectors.toSet());
-    }
-
-    @Override
-    public String toString() {
-        return String.format("[Region: name = %s, MacroRegion = %s, Cities = %s]", this.getName(), this.getMacroRegionName(), this.getCityNames().toString());
-    }
-    
-    
+        if (this.getCities() != null)
+            return this.getCities().stream().map(City::getName).collect(Collectors.toSet());
+        
+        return null;
+    }    
 }

@@ -4,17 +4,20 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOpe
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation.PulverisationOperationService;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 @Component(value = "pulverisationDetailController")
 @SessionScope
+@RequiredArgsConstructor
 public class PulverisationOperationDetailController {
 
     private final PulverisationOperationService pulverisationService;
@@ -22,11 +25,6 @@ public class PulverisationOperationDetailController {
     @Setter
     @Getter
     private Survey currentSurvey;
-
-    @Autowired
-    public PulverisationOperationDetailController(PulverisationOperationService aPulverisationService) {
-        this.pulverisationService = aPulverisationService;
-    }
 
     public List<PulverisationOperation> readAllPulverisationOperationBySurvey() {
         return pulverisationService.readAllPulverisationOperationBySurveyId(this.getCurrentSurvey().getId());
@@ -43,5 +41,21 @@ public class PulverisationOperationDetailController {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Operação de pulverização não pode ser feita porque a UR não foi encontrada na base de dados!"));
             return "index.xhtml";
         }
+    }
+    
+    public int calculateDaysAfterEmergence(Date sampleDate) {
+        
+        if (currentSurvey.getEmergenceDate() == null)
+            return 0;
+        
+        long diffInMillies = (sampleDate.getTime() - currentSurvey.getEmergenceDate().getTime());
+
+        if (diffInMillies > 0) {
+            var result = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+            return (int) (result + 1);
+            
+        } else
+            return 0;
     }
 }

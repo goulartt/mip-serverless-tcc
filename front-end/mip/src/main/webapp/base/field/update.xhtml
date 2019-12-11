@@ -65,8 +65,8 @@
                     <p:message for="@previous" ></p:message>
 
                     <p:outputLabel for="@next" value="Responsável Técnico" />
-                    <p:selectManyMenu showCheckbox="true" filter="true" filterMatchMode="contains" required="true" requiredMessage="Deve ser selecionado pelo menos um responsável técnico" value="#{fieldController.selectedSupervisors}">
-                        <f:selectItems value="#{fieldController.readAllSupervisors()}" var="aSupervisor" itemValue="#{aSupervisor}" itemLabel="#{aSupervisor.name} (#{aSupervisor.citiesInRegionNames})" />
+                    <p:selectManyMenu showCheckbox="true" filter="true" filterMatchMode="contains" required="true" requiredMessage="Deve ser selecionado pelo menos um responsável técnico" value="#{fieldController.selectedSupervisorIds}">
+                        <f:selectItems value="#{fieldController.readAllSupervisors()}" var="aSupervisor" itemValue="#{aSupervisor.id}" itemLabel="#{aSupervisor.name} (#{aSupervisor.citiesInRegionNames})" />
                     </p:selectManyMenu>
                     <p:message for="@previous" ></p:message>
 

@@ -12,21 +12,17 @@ import java.util.Arrays;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
+@RequiredArgsConstructor
 public class PestController extends Pest implements ICRUDController<Pest> {
 
     private final PestService pestService;
     
-    @Autowired
-    public PestController(PestService aPestService) {
-        this.pestService = aPestService;
-    }
-
     @Override
     public List<Pest> readAll() {
         return pestService.readAll();

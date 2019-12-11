@@ -4,7 +4,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.AsiaticRustTypesLeafInspec
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.AsiaticRustTypesSporeCollector;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.BladeReadingResponsiblePerson;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleFungicideApplicationOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleLeafInspectionOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleSporeCollectorOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
@@ -20,12 +19,14 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 @Component(value = "midRustSampleController")
 @ViewScoped
+@RequiredArgsConstructor
 public class MIDRustSampleController extends MIDRustSample {
 
     private final MIDRustSampleService midRustSampleService;
@@ -66,28 +67,6 @@ public class MIDRustSampleController extends MIDRustSample {
     @Getter
     private AsiaticRustTypesLeafInspection bladeReadingRustResultLeafInspection;
 
-    @Setter
-    @Getter
-    private boolean asiaticRustApplication;
-
-    @Setter
-    @Getter
-    private boolean otherDiseasesApplication;
-
-    @Setter
-    @Getter
-    private Date fungicideApplicationDate;
-
-    @Setter
-    @Getter
-    private String notes;
-
-    @Autowired
-    public MIDRustSampleController(MIDRustSampleService aMIDRustSampleService) {
-        this.midRustSampleService = aMIDRustSampleService;
-
-    }
-
     public List<Survey> readAllSurveysUniqueEntries() {
         return midRustSampleService.readAllSurveysUniqueEntries();
     }
@@ -127,16 +106,8 @@ public class MIDRustSampleController extends MIDRustSample {
                 .growthPhase(this.getGrowthPhase())
                 .build();
 
-        var fungicideOccurrence = MIDSampleFungicideApplicationOccurrence.builder()
-                .asiaticRustApplication(this.isAsiaticRustApplication())
-                .otherDiseasesApplication(this.isOtherDiseasesApplication())
-                .fungicideApplicationDate(this.getFungicideApplicationDate())
-                .notes(this.getNotes())
-                .build();
-
         newSample.setSporeCollectorOccurrence(sporeCollectorOccurrence);
         newSample.setLeafInspectionOccurrence(leafInspectionOccurrence);
-        newSample.setFungicideOccurrence(fungicideOccurrence);
 
         try {
             midRustSampleService.create(newSample);
@@ -163,6 +134,10 @@ public class MIDRustSampleController extends MIDRustSample {
         try {
             midRustSampleService.delete(aSampleId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Amostra excluída!"));
+            return "index.xhtml";
+
+        } catch (AccessDeniedException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Amostra não pode ser excluída porque o usuário não está autorizado!"));
             return "index.xhtml";
 
         } catch (EntityNotFoundException ex) {

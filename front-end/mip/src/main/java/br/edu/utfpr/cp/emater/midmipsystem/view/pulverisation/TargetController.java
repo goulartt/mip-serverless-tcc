@@ -1,7 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.pulverisation;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.TargetCategory;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.UseClass;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
@@ -11,35 +11,31 @@ import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
+@RequiredArgsConstructor
 public class TargetController extends Target implements ICRUDController<Target> {
 
     private final TargetService targetService;
-
-    @Autowired
-    public TargetController(TargetService aTargetService) {
-        this.targetService = aTargetService;
-    }
 
     @Override
     public List<Target> readAll() {
         return targetService.readAll();
     }
     
-    public TargetCategory[] readAllTargetCategories() {
-        return TargetCategory.values();
+    public UseClass[] readAllUseClasses() {
+        return UseClass.values();
     }
 
     @Override
     public String create() {
 
         try {
-            var newTarget = Target.builder().description(this.getDescription()).category(this.getCategory()).build();
+            var newTarget = Target.builder().description(this.getDescription()).useClass(this.getUseClass()).build();
             
             targetService.create(newTarget);
 
@@ -68,7 +64,7 @@ public class TargetController extends Target implements ICRUDController<Target> 
             
             this.setId(existentTarget.getId());
             this.setDescription(existentTarget.getDescription());
-            this.setCategory(existentTarget.getCategory());
+            this.setUseClass(existentTarget.getUseClass());
 
             return "update.xhtml";
 
@@ -82,7 +78,7 @@ public class TargetController extends Target implements ICRUDController<Target> 
     public String update() {
 
         try {
-            var updatedTarget = Target.builder().id(this.getId()).description(this.getDescription()).category(this.getCategory()).build();
+            var updatedTarget = Target.builder().id(this.getId()).description(this.getDescription()).useClass(this.getUseClass()).build();
 
             targetService.update(updatedTarget);
 

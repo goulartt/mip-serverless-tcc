@@ -1,0 +1,21 @@
+
+
+service: mip-field
+app: myapp
+org: goulartt
+
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: sa-east-1
+functions:
+  create-field:
+    handler: field.create
+    environment:
+        RDS_URL: mip.cnwecoykhrj7.us-east-1.rds.amazonaws.com
+        RDS_USER: admin
+        RDS_PASSWORD: joaogoulart666
+  
+      
+

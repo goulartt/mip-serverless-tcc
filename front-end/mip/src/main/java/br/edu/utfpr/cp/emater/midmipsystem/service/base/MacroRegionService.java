@@ -7,19 +7,15 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
+@RequiredArgsConstructor
 public class MacroRegionService {
 
     private final MacroRegionRepository macroRegionRepository;
-
-    @Autowired
-    public MacroRegionService(MacroRegionRepository macroRegionRepository) {
-        this.macroRegionRepository = macroRegionRepository;
-    }
 
     public List<MacroRegion> readAll() {
         return List.copyOf(macroRegionRepository.findAll());

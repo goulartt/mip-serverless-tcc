@@ -22,7 +22,7 @@ public class MacroRegion extends AuditingPersistenceEntity implements Serializab
     private Long id;
     
     @EqualsAndHashCode.Include
-    @Size (min = 5, max = 50, message = "O nome da macrorregião deve ter entre 5 e 50 caracteres")
+    @Size (min = 3, max = 50, message = "O nome da macrorregião deve ter entre 3 e 50 caracteres")
     private String name;
     
     public void setName (String name) {

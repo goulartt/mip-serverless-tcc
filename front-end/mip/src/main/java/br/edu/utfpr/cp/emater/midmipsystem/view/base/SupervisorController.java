@@ -12,26 +12,22 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
+@RequiredArgsConstructor
 public class SupervisorController extends Supervisor implements ICRUDController<Supervisor> {
 
-    private SupervisorService supervisorService;
+    private final SupervisorService supervisorService;
     
     @Getter
     @Setter
     private Long selectedRegionId;
     
-    @Autowired
-    public SupervisorController(SupervisorService aSupervisorService) {
-        this.supervisorService = aSupervisorService;
-    }
-
     @Override
     public List<Supervisor> readAll() {
         return supervisorService.readAll();

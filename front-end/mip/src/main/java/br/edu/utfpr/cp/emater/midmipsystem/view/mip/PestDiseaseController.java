@@ -10,21 +10,17 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestDiseaseService;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
+@RequiredArgsConstructor
 public class PestDiseaseController extends PestDisease implements ICRUDController<PestDisease> {
 
     private final PestDiseaseService pestDiseaseService;
     
-    @Autowired
-    public PestDiseaseController(PestDiseaseService aPestDiseaseService) {
-        this.pestDiseaseService = aPestDiseaseService;
-    }
-
     @Override
     public List<PestDisease> readAll() {
         return pestDiseaseService.readAll();

@@ -3,6 +3,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.ProductUseClassDifferFromTargetException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -47,78 +48,86 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
 
     private double caldaVolume;
 
-    private int daysAfterEmergence;
-
-    private double soyaPrice;
-
-    private double operationCostCurrency;
-    
-    private double totalOperationCostCurrency;
-    
-    private double operationCostQty;
-    
-    private double totalOperationCostQty;
-
     @ElementCollection
     private Set<PulverisationOperationOccurrence> operationOccurrences;
 
     @Builder
     public static PulverisationOperation create(Long id,
-                                                Survey survey,
-                                                Date sampleDate,
-                                                double soyaPrice,
-                                                double operationCostCurrency,
-                                                GrowthPhase growthPhase,
-                                                double caldaVolume) {
-        
+            Survey survey,
+            Date sampleDate,
+            GrowthPhase growthPhase,
+            double caldaVolume) {
+
         var instance = new PulverisationOperation();
         instance.setId(id);
         instance.setSurvey(survey);
         instance.setSampleDate(sampleDate);
-        instance.setSoyaPrice(soyaPrice);
-        instance.setOperationCostCurrency(operationCostCurrency);
         instance.setGrowthPhase(growthPhase);
         instance.setCaldaVolume(caldaVolume);
-        
+
         return instance;
     }
 
     public PulverisationOperation() {
         super();
-        
+
         this.setOperationOccurrences(new HashSet<>());
     }
-    
-    public boolean addOperationOccurrence (Product product, double productPrice, Target target) {
-        
-        var occurrence = PulverisationOperationOccurrence.builder().product(product).productPrice(productPrice).target(target).build();
-        occurrence.setProductCostQty(occurrence.getProductCostCurrency()/this.getSoyaPrice());
-        
-        var result = this.getOperationOccurrences().add(occurrence);
-        
-        this.setTotalOperationCostCurrency(updateTotalOperationCostCurrency());
-        
-        this.updateOperationCostQty();
-        
-        this.setTotalOperationCostQty(this.updateTotalOperationCostQty());
-        
-        return result;
-    }
-    
-    private double updateTotalOperationCostCurrency() {        
-        return 
-                (this.getOperationOccurrences().stream().mapToDouble(PulverisationOperationOccurrence::getProductCostCurrency).sum() 
-                + this.getOperationCostCurrency());
-    }
-    
-    private void updateOperationCostQty() {
-        this.setOperationCostQty(this.getOperationCostCurrency() / this.getSoyaPrice());
+
+    public boolean addOperationOccurrence(Product product, double productPrice, double productDose, Target target) throws ProductUseClassDifferFromTargetException {
+
+        if (product.getUseClass() != target.getUseClass()) {
+            throw new ProductUseClassDifferFromTargetException();
+
+        } else {
+            var occurrence = PulverisationOperationOccurrence.builder().product(product).productPrice(productPrice).dose(productDose).target(target).build();
+
+            var result = this.getOperationOccurrences().add(occurrence);
+
+            return result;
+        }
+
     }
 
-    private double updateTotalOperationCostQty() {
-        return 
-                (this.getOperationOccurrences().stream().mapToDouble(PulverisationOperationOccurrence::getProductCostQty).sum() 
-                + this.getOperationCostQty());
+    public double getSoyaPrice() {
+        if (this.getSurvey() != null) {
+            if (this.getSurvey().getPulverisationData() != null) {
+                return this.getSurvey().getPulverisationData().getSoyaPrice();
+            }
+        }
+
+        return 0;
     }
-    
+
+    public double getApplicationCostCurrency() {
+        if (this.getSurvey() != null) {
+            if (this.getSurvey().getPulverisationData() != null) {
+                return this.getSurvey().getPulverisationData().getApplicationCostCurrency();
+            }
+        }
+
+        return 0;
+    }
+
+    public double getApplicationCostQty() {
+        if (this.getSurvey() != null) {
+            if (this.getSurvey().getPulverisationData() != null) {
+                return this.getSurvey().getPulverisationData().getApplicationCostQty();
+            }
+        }
+
+        return 0;
+    }
+
+    public double getTotalOperationCostCurrency() {
+        if (this.getOperationOccurrences() != null) {
+            if (this.getOperationOccurrences().size() != 0) {
+                var totalCostWithProducts = this.getOperationOccurrences().stream().mapToDouble(occurrence -> occurrence.getProductCostCurrency()).sum();
+                return totalCostWithProducts + this.getApplicationCostCurrency();
+
+            }
+        }
+
+        return 0;
+    }
 }

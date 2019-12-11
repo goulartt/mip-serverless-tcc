@@ -8,6 +8,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import org.springframework.web.context.annotation.SessionScope;
 
 @Component(value = "midRustSampleDetailController")
 @SessionScope
+@RequiredArgsConstructor
 public class MIDRustSampleDetailController {
 
     private final MIDRustSampleService midRustSampleService;
@@ -22,11 +24,6 @@ public class MIDRustSampleDetailController {
     @Setter
     @Getter
     private Survey currentSurvey;
-
-    @Autowired
-    public MIDRustSampleDetailController(MIDRustSampleService aMIDRustSampleService) {
-        this.midRustSampleService = aMIDRustSampleService;
-    }
 
     public List<MIDRustSample> readAllMIDRustSampleByCurrentSurvey() {
         return midRustSampleService.readAllMIPSampleBySurveyId(this.getCurrentSurvey().getId());

@@ -4,18 +4,14 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.CityRepository;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
+@RequiredArgsConstructor
 public class CityService {
     
     private final CityRepository cityRepository;
-
-    @Autowired
-    public CityService(CityRepository aCityRepository) {
-        this.cityRepository = aCityRepository;
-    }
     
     public List<City> readAll() {
         return List.copyOf(cityRepository.findAll());

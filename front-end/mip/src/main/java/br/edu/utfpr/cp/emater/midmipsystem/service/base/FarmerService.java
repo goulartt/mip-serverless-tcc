@@ -1,26 +1,28 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.base;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Farmer;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Component;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
+@RequiredArgsConstructor
 public class FarmerService implements ICRUDService<Farmer> {
 
     private final FarmerRepository farmerRepository;
-
-    @Autowired
-    public FarmerService(FarmerRepository aFarmerRepository) {
-        this.farmerRepository = aFarmerRepository;
-    }
+    
+    private final FieldRepository fieldRepository;
 
     @Override
     public List<Farmer> readAll() {
@@ -67,6 +69,12 @@ public class FarmerService implements ICRUDService<Farmer> {
         
         var existentFarmer = farmerRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
         
+        var loggedUser = ((MIPUserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        var createdByName = existentFarmer.getCreatedBy() != null ? existentFarmer.getCreatedBy().getUsername() : "none";
+        
+        if (!loggedUser.getUsername().equalsIgnoreCase(createdByName))
+            throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+                
         try {
             farmerRepository.delete(existentFarmer);
             

@@ -3,5 +3,5 @@ mip/target/
 /**/.settings
 /**/.project
 /**/_config.yml
-/**/.settings/
-/**/.factorypath
+/**/.vscode
+mip/src/main/resources/data.sql

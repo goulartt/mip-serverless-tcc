@@ -1,6 +1,5 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.mip;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestDisease;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
@@ -10,19 +9,15 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestNaturalPredatorRep
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
+@RequiredArgsConstructor
 public class PestNaturalPredatorService implements ICRUDService<PestNaturalPredator> {
 
     private final PestNaturalPredatorRepository pestNaturalPredatorRepository;
-
-    @Autowired
-    public PestNaturalPredatorService(PestNaturalPredatorRepository aPestNaturalPredatorRepository) {
-        this.pestNaturalPredatorRepository = aPestNaturalPredatorRepository;
-    }
 
     @Override
     public List<PestNaturalPredator> readAll() {

@@ -10,20 +10,16 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
+@RequiredArgsConstructor
 public class MacroRegionController extends MacroRegion implements ICRUDController<MacroRegion> {
 
-    private MacroRegionService macroRegionService;
-
-    @Autowired
-    public MacroRegionController(MacroRegionService aMacroRegionService) {
-        macroRegionService = aMacroRegionService;
-    }
+    private final MacroRegionService macroRegionService;
 
     @Override
     public List<MacroRegion> readAll() {

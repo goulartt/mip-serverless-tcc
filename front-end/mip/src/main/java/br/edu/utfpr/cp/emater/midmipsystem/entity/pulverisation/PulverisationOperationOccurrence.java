@@ -19,55 +19,62 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PulverisationOperationOccurrence implements Serializable {
-    
+
     @ManyToOne
-    @NotNull (message = "Um produto deve ser informado")
+    @NotNull(message = "Um produto deve ser informado")
     private Product product;
-    
-    @Positive (message = "O preço do produto deve ser informado")
+
+    @Positive(message = "O preço do produto deve ser informado")
     private double productPrice;
-    
-    private double productCostCurrency;
-    
-    private double productCostQty;
-    
+
     @ManyToOne
     private Target target;
-    
-    public void setProductPrice(double productPrice) {
-        this.productPrice = productPrice;
-        
-        if (this.product == null)
-            throw new RuntimeException("Um produto deve ser informado");
-        
-        this.setProductCostCurrency(this.calculateProductCost());
-    }
-    
-    private double calculateProductCost() {
-        return this.getProductPrice() * this.getProduct().getDose();
-    }
-        
+
+    @Positive(message = "A dosagem do produto deve ser informada")
+    private double dose;
+
     @Builder
-    private static PulverisationOperationOccurrence create(Product product, double productPrice, Target target){
+    private static PulverisationOperationOccurrence create(Product product, double productPrice, Target target, double dose) {
         var instance = new PulverisationOperationOccurrence();
-        
+
         instance.setProduct(product);
-        instance.setProductPrice(productPrice);
         instance.setTarget(target);
-        
+        instance.setDose(dose);
+        instance.setProductPrice(productPrice);
+
         return instance;
     }
+
+    public double getProductCostCurrency() {
+        if (this.getProductPrice() != 0) 
+            if (this.getDose() != 0)
+                return this.getProductPrice() * this.getDose();
+        
+        return 0;
+    }
     
+    public double getProductCostQty() {
+        return 0;
+    }
+
     public String getTargetCategoryDescription() {
-        return this.getTarget().getCategory().getDescription();
+        if (this.getTarget() != null)
+            return this.getTarget().getUseClass().getDescription();
+        
+        return null;
     }
-    
+
     public String getTargetDescription() {
-        return this.getTarget().getDescription();
+        if (this.getTarget() != null)
+            return this.getTarget().getDescription();
+        
+        return null;
     }
-    
+
     public String getProductFormattedName() {
-        return String.format("%s - %.2f (%s)", this.getProduct().getName(), this.getProduct().getDose(), this.getProduct().getUnit().getDescription());
+        if (this.getProduct() != null)
+            return String.format("%s - %.2f (%s)", this.getProduct().getName(), this.getDose(), this.getProduct().getUnit().getDescription());
+        
+        return null;
     }
-    
 }

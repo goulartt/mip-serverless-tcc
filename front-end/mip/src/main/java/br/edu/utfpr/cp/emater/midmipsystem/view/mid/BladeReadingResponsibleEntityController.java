@@ -12,13 +12,15 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
+@RequiredArgsConstructor
 public class BladeReadingResponsibleEntityController extends BladeReadingResponsibleEntity implements ICRUDController<BladeReadingResponsibleEntity> {
 
     private final BladeReadingResponsibleEntityService bladeReadingEntityService;
@@ -26,12 +28,6 @@ public class BladeReadingResponsibleEntityController extends BladeReadingRespons
     @Getter
     @Setter
     private Long selectedCityId;
-
-    @Autowired
-    public BladeReadingResponsibleEntityController(BladeReadingResponsibleEntityService aBladeReadingEntityService) {
-
-        this.bladeReadingEntityService = aBladeReadingEntityService;
-    }
 
     @Override
     public List<BladeReadingResponsibleEntity> readAll() {
@@ -124,6 +120,10 @@ public class BladeReadingResponsibleEntityController extends BladeReadingRespons
             bladeReadingEntityService.delete(anId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Entidade excluída!"));
 
+        } catch (AccessDeniedException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Entidade não pode ser excluída porque o usuário não está autorizado!"));
+            return "index.xhtml";
+            
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Entidade não pode ser excluída porque não foi encontrada na base de dados!"));
 

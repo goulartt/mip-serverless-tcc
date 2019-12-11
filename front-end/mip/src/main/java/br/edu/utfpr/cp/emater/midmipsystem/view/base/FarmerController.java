@@ -10,20 +10,17 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.base.FarmerService;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
+@RequiredArgsConstructor
 public class FarmerController extends Farmer implements ICRUDController<Farmer> {
 
-    private FarmerService farmerService;
-
-    @Autowired
-    public FarmerController(FarmerService aFarmerService) {
-        this.farmerService = aFarmerService;
-    }
+    private final FarmerService farmerService;
 
     @Override
     public List<Farmer> readAll() {
@@ -90,20 +87,24 @@ public class FarmerController extends Farmer implements ICRUDController<Farmer> 
     }
 
     public String delete(Long anId) {
-        
+
         try {
             farmerService.delete(anId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Produtor excluído!"));
             return "index.xhtml";
 
+        } catch (AccessDeniedException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser excluído porque o usuário não está autorizado!"));
+            return "index.xhtml";
+
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser excluído porque não foi encontrado na base de dados!"));
             return "index.xhtml";
-            
+
         } catch (EntityInUseException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser excluído porque está sendo usado em uma unidade de referência!"));
             return "index.xhtml";
-            
+
         } catch (AnyPersistenceException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
             return "index.xhtml";

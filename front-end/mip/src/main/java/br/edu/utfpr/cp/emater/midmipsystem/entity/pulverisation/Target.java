@@ -28,23 +28,23 @@ public class Target extends AuditingPersistenceEntity implements Serializable {
     protected Long id;
 
     @EqualsAndHashCode.Include
-    @Size(min = 3, max = 50, message = "A descrição deve ter entre 3 e 50 caracteres")
+    @Size(min = 3, max = 80, message = "A descrição deve ter entre 3 e 80 caracteres")
     protected String description;
 
     @EqualsAndHashCode.Include
     @Enumerated(EnumType.STRING)
-    private TargetCategory category;
+    private UseClass useClass;
 
     public void description(String usualName) {
         this.description = WordUtils.capitalize(usualName.toLowerCase());
     }
 
     @Builder
-    public static Target create(Long id, String description, TargetCategory category) {
+    public static Target create(Long id, String description, UseClass useClass) {
         Target instance = new Target();
         instance.setId(id);
         instance.setDescription(description);
-        instance.setCategory(category);
+        instance.setUseClass(useClass);
 
         return instance;
     }

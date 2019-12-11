@@ -17,12 +17,12 @@ import org.apache.commons.text.WordUtils;
 public class CultivarData implements Serializable {
 
     @Size(min = 3, max = 50, message = "A identificação da cultivar deve ter entre 3 e 50 caracteres")
-    private String name;
+    private String cultivarName;
 
     private boolean rustResistant;
     private boolean bt;
 
-    public void setSeedName(String seedName) {
-        this.name = WordUtils.capitalize(name.toLowerCase());
+    public void setCultivarName(String cultivarName) {
+        this.cultivarName = WordUtils.capitalize(cultivarName.toLowerCase());
     }
 }

@@ -3,6 +3,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 public enum State {
 
     PR ("Paraná"),
+    SP ("São Paulo"),
     SC ("Santa Catarina"),
     RS ("Rio Grande do Sul");
     

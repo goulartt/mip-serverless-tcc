@@ -9,19 +9,16 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
+@RequiredArgsConstructor
 public class PestService implements ICRUDService<Pest> {
 
     private final PestRepository pestRepository;
-
-    @Autowired
-    public PestService(PestRepository aPestRepository) {
-        this.pestRepository = aPestRepository;
-    }
 
     @Override
     public List<Pest> readAll() {
@@ -82,6 +79,10 @@ public class PestService implements ICRUDService<Pest> {
         } catch (Exception e) {
             throw new AnyPersistenceException();
         }
+    }
+
+    public Optional<List<Pest>> readByScientificNameStartsWith(String aScientificName) {
+        return pestRepository.findByScientificNameStartsWith (aScientificName);
     }
 
 }

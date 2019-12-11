@@ -1,0 +1,16 @@
+{
+  "name": "FieldFunction",
+  "version": "1.0.0",
+  "description": "",
+  "main": "field.js",
+  "scripts": {
+    "deploy": "serverless deploy -v"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "knex": "^0.20.4",
+    "mysql": "^2.17.1"
+  }
+}

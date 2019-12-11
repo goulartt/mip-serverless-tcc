@@ -46,7 +46,7 @@
                     </p:column>
 
                     <p:column headerText="Dias Após Emergência">
-                        <h:outputText value="#{aSample.daysAfterEmergence}" />
+                        <h:outputText value="#{mipSampleDetailController.calculateDaysAfterEmergence(aSample.sampleDate)}" />
                     </p:column>
 
                     <p:column headerText="(%) de Desfolha">

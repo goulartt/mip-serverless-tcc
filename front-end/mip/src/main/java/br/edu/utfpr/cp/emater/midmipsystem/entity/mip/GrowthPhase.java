@@ -2,7 +2,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.entity.mip;
 
 public enum GrowthPhase {
 
-    
+    PE("Pré-emergência"),
     VE("VE"),
     VC("VC"),
     V1("V1"),
