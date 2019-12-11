@@ -62,6 +62,12 @@
         "LogGroupName": "/aws/lambda/mip-field-dev-create-field"
       }
     },
+    "DeleteDashfieldLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/mip-field-dev-delete-field"
+      }
+    },
     "IamRoleLambdaExecution": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -175,6 +181,12 @@
                         "CreateDashfieldLogGroup",
                         "Arn"
                       ]
+                    },
+                    {
+                      "Fn::GetAtt": [
+                        "DeleteDashfieldLogGroup",
+                        "Arn"
+                      ]
                     }
                   ]
                 }
@@ -191,7 +203,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/mip-field/dev/1576082544469-2019-12-11T16:42:24.469Z/mip-field.zip"
+          "S3Key": "serverless/mip-field/dev/1576085845945-2019-12-11T17:37:25.945Z/mip-field.zip"
         },
         "FunctionName": "mip-field-dev-create-field",
         "Handler": "s_create_field.handler",
@@ -217,14 +229,57 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "CreateDashfieldLambdaVersionIl05zb4uQgTJGy3pSAYF5bITL3OMxy4RIvMzBIxQJQ": {
+    "CreateDashfieldLambdaVersionwxQsgGMACAlyEW1WwvGpSgTBP5P1xZ45sw6kgYRbNo": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateDashfieldLambdaFunction"
         },
-        "CodeSha256": "Bc+z1YVHMMk+MCpnb7EJyn0hwEIaPgN4gfivPOK90io="
+        "CodeSha256": "dgz1BenoCVDng91cXBH9zKOVbqTZNS4/Zjcm0iv94YY="
+      }
+    },
+    "DeleteDashfieldLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/mip-field/dev/1576085845945-2019-12-11T17:37:25.945Z/mip-field.zip"
+        },
+        "FunctionName": "mip-field-dev-delete-field",
+        "Handler": "s_delete_field.handler",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x",
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "RDS_URL": "mip.cnwecoykhrj7.us-east-1.rds.amazonaws.com",
+            "RDS_USER": "admin",
+            "RDS_PASSWORD": "joaogoulart666"
+          }
+        }
+      },
+      "DependsOn": [
+        "DeleteDashfieldLogGroup",
+        "IamRoleLambdaExecution"
+      ]
+    },
+    "DeleteDashfieldLambdaVersionrjGrrchYU9j4qUowXpIk8LLRq6G9s6L1kValYNL4RE": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "DeleteDashfieldLambdaFunction"
+        },
+        "CodeSha256": "dgz1BenoCVDng91cXBH9zKOVbqTZNS4/Zjcm0iv94YY="
       }
     }
   },
@@ -245,7 +300,13 @@
     "CreateDashfieldLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateDashfieldLambdaVersionIl05zb4uQgTJGy3pSAYF5bITL3OMxy4RIvMzBIxQJQ"
+        "Ref": "CreateDashfieldLambdaVersionwxQsgGMACAlyEW1WwvGpSgTBP5P1xZ45sw6kgYRbNo"
+      }
+    },
+    "DeleteDashfieldLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "DeleteDashfieldLambdaVersionrjGrrchYU9j4qUowXpIk8LLRq6G9s6L1kValYNL4RE"
       }
     }
   }

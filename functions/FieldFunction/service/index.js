@@ -7,7 +7,7 @@ const sendRes = (status, body) => {
             "Content-Type": "text/json"
         },
         body: body
-    };
+    }
     return response
 }
 
@@ -49,11 +49,11 @@ const insertField = async (field, supervisors) => {
 
     const res = await db('field')
         .insert(field)
-        
-    const id = res[0]
-    
+
+    field.id = res[0]
+
     for (let i = 0; i < supervisors.length; i++) {
-        await db('field_supervisors').insert({ field_id: id, supervisors_id: supervisors[i] })
+        await db('field_supervisors').insert({ field_id: field.id, supervisors_id: supervisors[i] })
     }
 }
 
@@ -73,7 +73,7 @@ exports.create = async (event) => {
     }
 
     console.log(field)
-    
+
     try {
         const supervisors = data.supervisors
         const exists = await checkEntityExists(field)
@@ -93,4 +93,44 @@ exports.create = async (event) => {
     }
 
     return sendRes(200, field)
-};
+}
+
+const checkUser = async (field) => {
+    const createdId = await db
+        .from('field')
+        .select('created_by_id')
+        .where({ id: field.id })
+
+    if (createdId.length == 0)
+        throw new Error('Field não existente no banco de dados')
+
+    return createdId[0].created_by_id == field.userId
+}
+
+exports.delete = async (event) => {
+
+
+    try {
+        const isSameUser = await checkUser(event)
+
+        if (!isSameUser)
+            return sendRes(405, { message: 'O usuário não tem permissão para deletar um recurso que não foi criado pelo mesmo' })
+
+        await db('field_supervisors')
+            .where({ field_id: event.id })
+            .del()
+
+        await db('field')
+            .where({ id: event.id })
+            .del()
+
+        return sendRes(204, {})
+    } catch (e) {
+        console.log(e)
+        if (e.toString().indexOf('Field não existente') != -1)
+            return sendRes(404, e)
+
+        return sendRes(500, e)
+    }
+
+}
