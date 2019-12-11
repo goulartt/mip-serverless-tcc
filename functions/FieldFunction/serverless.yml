@@ -1,6 +1,6 @@
-
-
 service: mip-field
+plugins:
+  - serverless-dotenv-plugin
 app: myapp
 org: goulartt
 
@@ -13,9 +13,9 @@ functions:
   create-field:
     handler: field.create
     environment:
-        RDS_URL: mip.cnwecoykhrj7.us-east-1.rds.amazonaws.com
-        RDS_USER: admin
-        RDS_PASSWORD: joaogoulart666
+        RDS_URL: ${env:RDS_URL}
+        RDS_USER: ${env:RDS_USER}
+        RDS_PASSWORD: ${env:RDS_PASSWORD}
   
       
 

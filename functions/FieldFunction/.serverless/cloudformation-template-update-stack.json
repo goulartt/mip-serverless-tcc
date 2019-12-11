@@ -59,7 +59,7 @@
     "CreateDashfieldLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/fieldnodelambdafunction-dev-create-field"
+        "LogGroupName": "/aws/lambda/mip-field-dev-create-field"
       }
     },
     "IamRoleLambdaExecution": {
@@ -88,7 +88,7 @@
                 "-",
                 [
                   "dev",
-                  "fieldnodelambdafunction",
+                  "mip-field",
                   "lambda"
                 ]
               ]
@@ -103,7 +103,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/fieldnodelambdafunction-dev*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/mip-field-dev*:*"
                     }
                   ]
                 },
@@ -114,7 +114,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/fieldnodelambdafunction-dev*:*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/mip-field-dev*:*:*"
                     }
                   ]
                 }
@@ -127,7 +127,7 @@
           "Fn::Join": [
             "-",
             [
-              "fieldnodelambdafunction",
+              "mip-field",
               "dev",
               {
                 "Ref": "AWS::Region"
@@ -191,9 +191,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/fieldnodelambdafunction/dev/1576011020140-2019-12-10T20:50:20.140Z/fieldnodelambdafunction.zip"
+          "S3Key": "serverless/mip-field/dev/1576082544469-2019-12-11T16:42:24.469Z/mip-field.zip"
         },
-        "FunctionName": "fieldnodelambdafunction-dev-create-field",
+        "FunctionName": "mip-field-dev-create-field",
         "Handler": "s_create_field.handler",
         "MemorySize": 1024,
         "Role": {
@@ -217,14 +217,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "CreateDashfieldLambdaVersionizdNOyAyhxi7uZ9Z1YP2aiUIQxjYJqHDsFdSWzIw": {
+    "CreateDashfieldLambdaVersionIl05zb4uQgTJGy3pSAYF5bITL3OMxy4RIvMzBIxQJQ": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateDashfieldLambdaFunction"
         },
-        "CodeSha256": "2dr3NH5FdaRTzQOu9h8Ul9IoJ1u/xKPfXWrOgjND6wk="
+        "CodeSha256": "Bc+z1YVHMMk+MCpnb7EJyn0hwEIaPgN4gfivPOK90io="
       }
     }
   },
@@ -245,7 +245,7 @@
     "CreateDashfieldLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateDashfieldLambdaVersionizdNOyAyhxi7uZ9Z1YP2aiUIQxjYJqHDsFdSWzIw"
+        "Ref": "CreateDashfieldLambdaVersionIl05zb4uQgTJGy3pSAYF5bITL3OMxy4RIvMzBIxQJQ"
       }
     }
   }
