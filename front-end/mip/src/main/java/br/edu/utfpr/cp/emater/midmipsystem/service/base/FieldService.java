@@ -11,6 +11,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import br.edu.utfpr.cp.emater.midmipsystem.dto.ResponseDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.dto.base.FieldDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
@@ -85,12 +87,11 @@ public class FieldService implements ICRUDService<Field> {
 	public void create(FieldDTO newField) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
 			AnyPersistenceException, EntityNotFoundException {
 
+		
 		try {
-
-			HttpResponse<ResponseDTO> response = Unirest.post(ENDPOINT_GATEWAY).header("Content-Type", "application/json")
-					.body(FieldDTO.generateJSON(newField)).asObject(ResponseDTO.class);
-			
-			switch (response.getBody().getStatusCode()) {
+			var response = Unirest.post(ENDPOINT_GATEWAY).header("Content-Type", "application/json")
+					.body(FieldDTO.generateJSON(newField)).asJson();
+			switch (response.getBody().getObject().getInt("statusCode")) {
 			case (200):
 				break;
 			case (409):
@@ -100,10 +101,10 @@ public class FieldService implements ICRUDService<Field> {
 			default:
 				throw new AnyPersistenceException();
 			}
-
-		} catch (Exception e) {
+		} catch (JsonProcessingException e) {
 			throw new AnyPersistenceException();
 		}
+
 	}
 
 	@Override
@@ -144,24 +145,23 @@ public class FieldService implements ICRUDService<Field> {
 
 	public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
 
-		var existentField = fieldRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
-
 		var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
 				.getUser();
-		var createdByName = existentField.getCreatedBy() != null ? existentField.getCreatedBy().getUsername() : "none";
 
-		if (!loggedUser.getUsername().equalsIgnoreCase(createdByName))
+		var response = Unirest.delete(ENDPOINT_GATEWAY).queryString("id", anId)
+				.queryString("userId", loggedUser.getId()).asJson();
+
+		switch (response.getBody().getObject().getInt("statusCode")) {
+		case (204):
+			break;
+		case (405):
 			throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
-
-		try {
-			fieldRepository.delete(existentField);
-
-		} catch (DataIntegrityViolationException cve) {
-			throw new EntityInUseException();
-
-		} catch (Exception e) {
+		case (404):
+			throw new EntityNotFoundException();
+		default:
 			throw new AnyPersistenceException();
 		}
+
 	}
 
 	public City readCityById(Long selectedCityId) {
@@ -195,7 +195,7 @@ public class FieldService implements ICRUDService<Field> {
 	public void create(Field entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
 			AnyPersistenceException, EntityNotFoundException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
