@@ -1,0 +1,21 @@
+
+
+service: mip
+plugins:
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: sa-east-1
+  environment:
+    RDS_URL: ${env:RDS_URL}
+    RDS_USER: ${env:RDS_USER}
+    RDS_PASSWORD: ${env:RDS_PASSWORD}
+
+functions:
+  field:
+    handler: functions/field.handler
+    events:
+      - http: ANY /
+      - http: 'ANY {proxy+}'

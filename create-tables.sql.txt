@@ -1,0 +1,439 @@
+CREATE TABLE `authority` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `blade_reading_responsible_entity` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  `city_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKfij861eujpy6y3vj32n9791oi` (`created_by_id`),
+  KEY `FK6ck5tf3qsfophiwnuyeccctrk` (`modified_by_id`),
+  KEY `FKtrnqucmb4wilcuhfkq1t4r5pu` (`city_id`),
+  CONSTRAINT `FK6ck5tf3qsfophiwnuyeccctrk` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKfij861eujpy6y3vj32n9791oi` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKtrnqucmb4wilcuhfkq1t4r5pu` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `blade_reading_responsible_person` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  `entity_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKdufs782oxbou2p8fvxqj91wpe` (`created_by_id`),
+  KEY `FKl1939dtobkffrox1bsqdw9gk0` (`modified_by_id`),
+  KEY `FKnrp6evvtxksqgu2nbk32q8vit` (`entity_id`),
+  CONSTRAINT `FKdufs782oxbou2p8fvxqj91wpe` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKl1939dtobkffrox1bsqdw9gk0` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKnrp6evvtxksqgu2nbk32q8vit` FOREIGN KEY (`entity_id`) REFERENCES `blade_reading_responsible_entity` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `city` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKfgmjcux76q4hhlog5xiswkrhf` (`created_by_id`),
+  KEY `FKa2b6nhu4hclyaph8e6re2fru3` (`modified_by_id`),
+  CONSTRAINT `FKa2b6nhu4hclyaph8e6re2fru3` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKfgmjcux76q4hhlog5xiswkrhf` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `cultivar` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKlbdl370odgku0d4tg3f770xxt` (`created_by_id`),
+  KEY `FKgtrv8wu04ckl6fvyylkarvv3` (`modified_by_id`),
+  CONSTRAINT `FKgtrv8wu04ckl6fvyylkarvv3` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKlbdl370odgku0d4tg3f770xxt` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `farmer` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKen2di9nn7thpb66ytflmni9bg` (`created_by_id`),
+  KEY `FKqdksbtdc0fc6auh6t3ceylthp` (`modified_by_id`),
+  CONSTRAINT `FKen2di9nn7thpb66ytflmni9bg` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKqdksbtdc0fc6auh6t3ceylthp` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `field` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  `city_id` bigint(20) DEFAULT NULL,
+  `farmer_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK85paer2eimstba3unlqwllrwx` (`created_by_id`),
+  KEY `FK77tnh0egt3vlegjoxgqmq2bph` (`modified_by_id`),
+  KEY `FKp1p5fpbyuwqjn87cxl02dqewe` (`city_id`),
+  KEY `FKm3k0c1bt8gjn19yekgmajx58m` (`farmer_id`),
+  CONSTRAINT `FK77tnh0egt3vlegjoxgqmq2bph` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FK85paer2eimstba3unlqwllrwx` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKm3k0c1bt8gjn19yekgmajx58m` FOREIGN KEY (`farmer_id`) REFERENCES `farmer` (`id`),
+  CONSTRAINT `FKp1p5fpbyuwqjn87cxl02dqewe` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `field_supervisors` (
+  `field_id` bigint(20) NOT NULL,
+  `supervisors_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`field_id`,`supervisors_id`),
+  KEY `FKmpa9dl8ekqqxatawkyiy6yvw6` (`supervisors_id`),
+  CONSTRAINT `FKcv3syfl97yhqen5hrcv2dy5nu` FOREIGN KEY (`field_id`) REFERENCES `field` (`id`),
+  CONSTRAINT `FKmpa9dl8ekqqxatawkyiy6yvw6` FOREIGN KEY (`supervisors_id`) REFERENCES `supervisor` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `harvest` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `begin` date DEFAULT NULL,
+  `end` date DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKelrlsy94wd8s89cuxiv6m4qj5` (`created_by_id`),
+  KEY `FK1b24a9p8te7gg68qjf6v2c7s9` (`modified_by_id`),
+  CONSTRAINT `FK1b24a9p8te7gg68qjf6v2c7s9` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKelrlsy94wd8s89cuxiv6m4qj5` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `macro_region` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKkpso6hh003fq2uawypuhvlck8` (`created_by_id`),
+  KEY `FKpntw8mb2nmmgf1u94swodcii7` (`modified_by_id`),
+  CONSTRAINT `FKkpso6hh003fq2uawypuhvlck8` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKpntw8mb2nmmgf1u94swodcii7` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `midrust_sample` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `blade_reading_rust_result_leaf_inspection` varchar(255) DEFAULT NULL,
+  `growth_phase` varchar(255) DEFAULT NULL,
+  `sample_date` date NOT NULL,
+  `blade_installed_pre_cold` bit(1) NOT NULL,
+  `blade_reading_date` date DEFAULT NULL,
+  `blade_reading_rust_result_collector` varchar(255) DEFAULT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  `blade_reading_responsible_person_id` bigint(20) DEFAULT NULL,
+  `survey_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKqfs0iyqu7l0f63jbdv2x1wt30` (`created_by_id`),
+  KEY `FKkb9h9titbixwu8dom4mfxvmiq` (`modified_by_id`),
+  KEY `FKifoe2u3rejnt1row41xd2mceo` (`blade_reading_responsible_person_id`),
+  KEY `FK78y2x744qxtk686vah1kugncn` (`survey_id`),
+  CONSTRAINT `FK78y2x744qxtk686vah1kugncn` FOREIGN KEY (`survey_id`) REFERENCES `survey` (`id`),
+  CONSTRAINT `FKifoe2u3rejnt1row41xd2mceo` FOREIGN KEY (`blade_reading_responsible_person_id`) REFERENCES `blade_reading_responsible_person` (`id`),
+  CONSTRAINT `FKkb9h9titbixwu8dom4mfxvmiq` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKqfs0iyqu7l0f63jbdv2x1wt30` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `mipsample` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `defoliation` int(11) NOT NULL,
+  `growth_phase` varchar(255) DEFAULT NULL,
+  `sample_date` date DEFAULT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  `survey_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKku9xs6fvc8ndlwa0kdlgpre2c` (`created_by_id`),
+  KEY `FK745vg98tn6nfqwl9iro0x8bmf` (`modified_by_id`),
+  KEY `FK9ceguyy0mk45tm5barvstlt25` (`survey_id`),
+  CONSTRAINT `FK745vg98tn6nfqwl9iro0x8bmf` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FK9ceguyy0mk45tm5barvstlt25` FOREIGN KEY (`survey_id`) REFERENCES `survey` (`id`),
+  CONSTRAINT `FKku9xs6fvc8ndlwa0kdlgpre2c` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `mipsample_mip_sample_natural_predator_occurrence` (
+  `mipsample_id` bigint(20) NOT NULL,
+  `pest_natural_predator_id` bigint(20) DEFAULT NULL,
+  `value` double NOT NULL,
+  KEY `FKo0pduwhe2gksp3046abe7l7uk` (`pest_natural_predator_id`),
+  KEY `FKo7mnxun2m0xdnls6j9qv5r33j` (`mipsample_id`),
+  CONSTRAINT `FKo0pduwhe2gksp3046abe7l7uk` FOREIGN KEY (`pest_natural_predator_id`) REFERENCES `pest_natural_predator` (`id`),
+  CONSTRAINT `FKo7mnxun2m0xdnls6j9qv5r33j` FOREIGN KEY (`mipsample_id`) REFERENCES `mipsample` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `mipsample_mip_sample_pest_disease_occurrence` (
+  `mipsample_id` bigint(20) NOT NULL,
+  `pest_disease_id` bigint(20) DEFAULT NULL,
+  `value` double NOT NULL,
+  KEY `FKq3fmk1f7hn4t4x677d1xg163t` (`pest_disease_id`),
+  KEY `FK4w1we0b5fc0tojw9epio9c39b` (`mipsample_id`),
+  CONSTRAINT `FK4w1we0b5fc0tojw9epio9c39b` FOREIGN KEY (`mipsample_id`) REFERENCES `mipsample` (`id`),
+  CONSTRAINT `FKq3fmk1f7hn4t4x677d1xg163t` FOREIGN KEY (`pest_disease_id`) REFERENCES `pest_disease` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `mipsample_mip_sample_pest_occurrence` (
+  `mipsample_id` bigint(20) NOT NULL,
+  `pest_id` bigint(20) DEFAULT NULL,
+  `value` double NOT NULL,
+  KEY `FK1u4ql0kjc1753lauihbyvw35y` (`pest_id`),
+  KEY `FK6w1mc7iugaix4m2y6rlh3mnmq` (`mipsample_id`),
+  CONSTRAINT `FK1u4ql0kjc1753lauihbyvw35y` FOREIGN KEY (`pest_id`) REFERENCES `pest` (`id`),
+  CONSTRAINT `FK6w1mc7iugaix4m2y6rlh3mnmq` FOREIGN KEY (`mipsample_id`) REFERENCES `mipsample` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `mipuser` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `account_non_expired` bit(1) NOT NULL,
+  `account_non_locked` bit(1) NOT NULL,
+  `credentials_non_expired` bit(1) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `enabled` bit(1) NOT NULL,
+  `full_name` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `username` varchar(30) DEFAULT NULL,
+  `city_id` bigint(20) DEFAULT NULL,
+  `region_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKe1vn0uawvg6oobofkwylmb4qm` (`city_id`),
+  KEY `FKk5dxwcvk3cn4bt7rv69hns08t` (`region_id`),
+  CONSTRAINT `FKe1vn0uawvg6oobofkwylmb4qm` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`),
+  CONSTRAINT `FKk5dxwcvk3cn4bt7rv69hns08t` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `mipuser_authorities` (
+  `users_id` bigint(20) NOT NULL,
+  `authorities_id` bigint(20) NOT NULL,
+  KEY `FK3wxyepxb3hkfra3ch18tg5f73` (`authorities_id`),
+  KEY `FKfk2g9ebj6ffu7daxptibaynaw` (`users_id`),
+  CONSTRAINT `FK3wxyepxb3hkfra3ch18tg5f73` FOREIGN KEY (`authorities_id`) REFERENCES `authority` (`id`),
+  CONSTRAINT `FKfk2g9ebj6ffu7daxptibaynaw` FOREIGN KEY (`users_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `pest` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `pest_size` varchar(255) DEFAULT NULL,
+  `scientific_name` varchar(255) DEFAULT NULL,
+  `usual_name` varchar(50) DEFAULT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKb4j2hdom4rs1s615th9n4qi3t` (`created_by_id`),
+  KEY `FKh1ylcnvlg58kmehycv61xtuwn` (`modified_by_id`),
+  CONSTRAINT `FKb4j2hdom4rs1s615th9n4qi3t` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKh1ylcnvlg58kmehycv61xtuwn` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `pest_disease` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `usual_name` varchar(50) DEFAULT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK704vrv145dup535ehvwqv6gl9` (`created_by_id`),
+  KEY `FKeilya01kblouoftafgwvs3eln` (`modified_by_id`),
+  CONSTRAINT `FK704vrv145dup535ehvwqv6gl9` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKeilya01kblouoftafgwvs3eln` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `pest_natural_predator` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `usual_name` varchar(50) DEFAULT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK5jgag4dwkgc9gbdfls1kiwci7` (`created_by_id`),
+  KEY `FKbbbtyn6mgb56botkha4n6oc2c` (`modified_by_id`),
+  CONSTRAINT `FK5jgag4dwkgc9gbdfls1kiwci7` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKbbbtyn6mgb56botkha4n6oc2c` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `product` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `active_ingredient` varchar(255) DEFAULT NULL,
+  `company` varchar(255) DEFAULT NULL,
+  `concentration_active_ingredient` varchar(255) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `register_number` bigint(20) DEFAULT NULL,
+  `toxi_class` varchar(255) DEFAULT NULL,
+  `unit` varchar(255) DEFAULT NULL,
+  `use_class` varchar(255) DEFAULT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKfcsbkpj8je9k1cmgfci4037hd` (`created_by_id`),
+  KEY `FKo5nqowqxs11iwrh794mft0io1` (`modified_by_id`),
+  CONSTRAINT `FKfcsbkpj8je9k1cmgfci4037hd` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKo5nqowqxs11iwrh794mft0io1` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `pulverisation_operation` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `calda_volume` double NOT NULL,
+  `growth_phase` varchar(255) DEFAULT NULL,
+  `sample_date` date NOT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  `survey_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKjw7tl6qhlcml5ndp0tyg309xf` (`created_by_id`),
+  KEY `FKlo94kihrmd9fxngn10b50j5ai` (`modified_by_id`),
+  KEY `FK2iwxyj6qh5434i326yp29hfg3` (`survey_id`),
+  CONSTRAINT `FK2iwxyj6qh5434i326yp29hfg3` FOREIGN KEY (`survey_id`) REFERENCES `survey` (`id`),
+  CONSTRAINT `FKjw7tl6qhlcml5ndp0tyg309xf` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKlo94kihrmd9fxngn10b50j5ai` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `pulverisation_operation_operation_occurrences` (
+  `pulverisation_operation_id` bigint(20) NOT NULL,
+  `dose` double NOT NULL,
+  `product_id` bigint(20) DEFAULT NULL,
+  `product_price` double NOT NULL,
+  `target_id` bigint(20) DEFAULT NULL,
+  KEY `FK82bmrik20bs54ewx5oav4dbgf` (`product_id`),
+  KEY `FKenydjmpx3ka4rslt2wrdk5e00` (`target_id`),
+  KEY `FKe25q3qqeb6nynojd84fv9prke` (`pulverisation_operation_id`),
+  CONSTRAINT `FK82bmrik20bs54ewx5oav4dbgf` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
+  CONSTRAINT `FKe25q3qqeb6nynojd84fv9prke` FOREIGN KEY (`pulverisation_operation_id`) REFERENCES `pulverisation_operation` (`id`),
+  CONSTRAINT `FKenydjmpx3ka4rslt2wrdk5e00` FOREIGN KEY (`target_id`) REFERENCES `target` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `region` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  `macro_region_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKn8w8wrr7bcbpcegkxgb0fmo0g` (`created_by_id`),
+  KEY `FKqra6cu1mdmy1q3m9ju56ccbdi` (`modified_by_id`),
+  KEY `FKcvljnnuwg6f7u4ucheft4eiqf` (`macro_region_id`),
+  CONSTRAINT `FKcvljnnuwg6f7u4ucheft4eiqf` FOREIGN KEY (`macro_region_id`) REFERENCES `macro_region` (`id`),
+  CONSTRAINT `FKn8w8wrr7bcbpcegkxgb0fmo0g` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKqra6cu1mdmy1q3m9ju56ccbdi` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `region_cities` (
+  `region_id` bigint(20) NOT NULL,
+  `cities_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`region_id`,`cities_id`),
+  UNIQUE KEY `UK_dnqh5js1g3ukenqp45308ga9l` (`cities_id`),
+  CONSTRAINT `FK1ki7v8ccg3heq1rrtllwl9ybh` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`),
+  CONSTRAINT `FKgweli2vfxg5m3bhww0a3aw44` FOREIGN KEY (`cities_id`) REFERENCES `city` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `supervisor` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  `region_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKq1rkeyilm43qfewhm2ljw4wj0` (`created_by_id`),
+  KEY `FK9fk6njjr9iyqparfcr8bd1f5t` (`modified_by_id`),
+  KEY `FKlj0b0wp7fhg1qwvtr793cr1si` (`region_id`),
+  CONSTRAINT `FK9fk6njjr9iyqparfcr8bd1f5t` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKlj0b0wp7fhg1qwvtr793cr1si` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`),
+  CONSTRAINT `FKq1rkeyilm43qfewhm2ljw4wj0` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `survey` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `emergence_date` date DEFAULT NULL,
+  `harvest_date` date DEFAULT NULL,
+  `sowed_date` date DEFAULT NULL,
+  `bt` bit(1) NOT NULL,
+  `cultivar_name` varchar(255) DEFAULT NULL,
+  `rust_resistant` bit(1) NOT NULL,
+  `latitude` varchar(255) DEFAULT NULL,
+  `longitude` varchar(255) DEFAULT NULL,
+  `collector_installation_date` date DEFAULT NULL,
+  `spore_collector_present` bit(1) NOT NULL,
+  `productivity_farmer` double NOT NULL,
+  `productivity_field` double NOT NULL,
+  `separated_weight` bit(1) NOT NULL,
+  `application_cost_currency` double NOT NULL,
+  `soya_price` double NOT NULL,
+  `plant_per_meter` double NOT NULL,
+  `total_area` double NOT NULL,
+  `total_planted_area` double NOT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  `field_id` bigint(20) NOT NULL,
+  `harvest_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKmorxggeg9549mw76y62e5hxvv` (`created_by_id`),
+  KEY `FKptfha8tc1oaikcnx9lse7msqp` (`modified_by_id`),
+  KEY `FK263t3leg9rrooxm5j4ovhlod8` (`field_id`),
+  KEY `FKl5hkpthsyrqsynol2ejsesqqh` (`harvest_id`),
+  CONSTRAINT `FK263t3leg9rrooxm5j4ovhlod8` FOREIGN KEY (`field_id`) REFERENCES `field` (`id`),
+  CONSTRAINT `FKl5hkpthsyrqsynol2ejsesqqh` FOREIGN KEY (`harvest_id`) REFERENCES `harvest` (`id`),
+  CONSTRAINT `FKmorxggeg9549mw76y62e5hxvv` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKptfha8tc1oaikcnx9lse7msqp` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `target` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` bigint(20) DEFAULT NULL,
+  `last_modified` bigint(20) DEFAULT NULL,
+  `description` varchar(80) DEFAULT NULL,
+  `use_class` varchar(255) DEFAULT NULL,
+  `created_by_id` bigint(20) DEFAULT NULL,
+  `modified_by_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKfo76y671w8c8mud50u1jaudng` (`created_by_id`),
+  KEY `FKasbjx3sfxcrrasyul8xmu3ulh` (`modified_by_id`),
+  CONSTRAINT `FKasbjx3sfxcrrasyul8xmu3ulh` FOREIGN KEY (`modified_by_id`) REFERENCES `mipuser` (`id`),
+  CONSTRAINT `FKfo76y671w8c8mud50u1jaudng` FOREIGN KEY (`created_by_id`) REFERENCES `mipuser` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
