@@ -1,11 +1,8 @@
-const serverless = require('serverless-http')
-const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
-const cors = require('cors')
+'use strict'
 
-app.use(cors())
-app.use(bodyParser.json())
+const serverless = require('serverless-http')
+const app = require('../app')
+
 
 require('../controller/fieldController')(app)
 

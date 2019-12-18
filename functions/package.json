@@ -10,12 +10,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "serverless-dotenv-plugin": "^2.1.1"
+    "serverless-dotenv-plugin": "^2.1.1",
+    "serverless-offline": "^5.12.1"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "helmet": "^3.21.2",
     "knex": "^0.20.4",
     "mysql": "^2.17.1",
     "serverless-http": "^2.3.0"
