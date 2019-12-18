@@ -1,9 +1,12 @@
-
-
 service: mip
 plugins:
   - serverless-dotenv-plugin
+  - serverless-plugin-common-excludes
+  - serverless-plugin-package-size
+  - serverless-plugin-optimize
   - serverless-offline  
+
+
 
 provider:
   name: aws
@@ -14,6 +17,7 @@ provider:
     exclude:
       - .git/**
       - .vscode/**
+    individually: true
   environment:
     RDS_URL: ${env:RDS_URL}
     RDS_USER: ${env:RDS_USER}
@@ -25,3 +29,4 @@ functions:
     events:
       - http: ANY /
       - http: 'ANY {proxy+}'
+   

@@ -11,7 +11,10 @@
   "license": "ISC",
   "devDependencies": {
     "serverless-dotenv-plugin": "^2.1.1",
-    "serverless-offline": "^5.12.1"
+    "serverless-offline": "^5.12.1",
+    "serverless-plugin-common-excludes": "^3.0.0",
+    "serverless-plugin-optimize": "^4.1.1-rc.1",
+    "serverless-plugin-package-size": "^1.0.1"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
