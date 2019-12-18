@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
         await fieldService.insertField(field, supervisors)
 
     } catch (e) {
-        return res.status(500).send({ error: e })
+        return res.status(500).send({ error: e.toString() })
     }
     return res.status(201).send(field)
 
@@ -64,25 +64,28 @@ router.get('/:id', async (req, res) => {
     return res.status(204).send({ message: `Field de id ${id} não encontrado` })
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/', async (req, res) => {
 
-    const id = req.params.id
+    const {fieldId, userId} = req.query
+
+    if (!userId || !fieldId)
+        return res.status(404).send({ error: 'É necessário informar o fieldId e userId na query string' })
 
     try {
-        const isSameUser = await fieldService.checkUser(id)
+        const isSameUser = await fieldService.checkUser(userId)
 
         if (!isSameUser)
             return res.status(405).send({ message: 'O usuário não tem permissão para deletar um recurso que não foi criado pelo mesmo' })
 
-        await fieldService.delete(id)
+        await fieldService.delete(fieldId)
 
-        return res.status(204).send({ message: `Field id ${id} deletado` })
+        return res.status(204).send({ message: `Field id ${fieldId} deletado` })
     } catch (e) {
         console.log(e)
         if (e.toString().indexOf('Field não existente') != -1)
-            return res.status(404).send({ error: e })
+            return res.status(404).send({ error: e.toString() })
 
-        return res.status(500).send({ error: e })
+        return res.status(500).send({ error: e.toString() })
     }
 })
 

@@ -60,7 +60,9 @@ module.exports.checkUser = async (id) => {
         .select('created_by_id')
         .where({ id: id })
 
-    if (createdId.length == 0)
+    console.log(createdId)
+    
+    if (!createdId)
         throw new Error('Field não existente no banco de dados')
 
     return createdId[0].created_by_id == field.userId
@@ -77,10 +79,12 @@ module.exports.delete = async (id) => {
 }
 
 module.exports.find = async (id) => {
+
     let res = await db
         .from('field')
         .select()
         .where({ id: id })
+
     if (res.length > 0)
         return Object.values(JSON.parse(JSON.stringify(res)))[0]
 
