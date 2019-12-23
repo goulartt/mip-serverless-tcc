@@ -72,7 +72,7 @@ router.delete('/', async (req, res) => {
         return res.status(404).send({ error: 'É necessário informar o fieldId e userId na query string' })
 
     try {
-        const isSameUser = await fieldService.checkUser(userId)
+        const isSameUser = await fieldService.checkUser(userId, fieldId)
 
         if (!isSameUser)
             return res.status(405).send({ message: 'O usuário não tem permissão para deletar um recurso que não foi criado pelo mesmo' })

@@ -54,18 +54,16 @@ module.exports.insertField = async (field, supervisors) => {
     }
 }
 
-module.exports.checkUser = async (id) => {
+module.exports.checkUser = async (userId, fieldId) => {
     const createdId = await db
         .from('field')
         .select('created_by_id')
-        .where({ id: id })
-
-    console.log(createdId)
+        .where({ id: fieldId })
     
     if (!createdId)
         throw new Error('Field não existente no banco de dados')
 
-    return createdId[0].created_by_id == field.userId
+    return createdId[0].created_by_id == userId
 }
 
 module.exports.delete = async (id) => {
