@@ -15,6 +15,14 @@ module.exports.checkEntityExists = async (field) => {
         .where({ name: field.name, city_id: field.city_id, farmer_id: field.farmer_id, location: field.location })
 }
 
+module.exports.checkEntityExistsById = async (id) => {
+    return await db
+        .from('field')
+        .select('id')
+        .where({ id })
+}
+
+
 
 module.exports.allowedInCity = async (supervisors, citySelected) => {
 
@@ -49,9 +57,6 @@ module.exports.insertField = async (field, supervisors) => {
 
     field.id = res[0]
 
-    for (let i = 0; i < supervisors.length; i++) {
-        await db('field_supervisors').insert({ field_id: field.id, supervisors_id: supervisors[i] })
-    }
 }
 
 module.exports.checkUser = async (userId, fieldId) => {
@@ -59,7 +64,7 @@ module.exports.checkUser = async (userId, fieldId) => {
         .from('field')
         .select('created_by_id')
         .where({ id: fieldId })
-    
+
     if (!createdId)
         throw new Error('Field não existente no banco de dados')
 
@@ -67,14 +72,29 @@ module.exports.checkUser = async (userId, fieldId) => {
 }
 
 module.exports.delete = async (id) => {
-    await db('field_supervisors')
-        .where({ field_id: id })
-        .del()
+
+    deleteSupervisors(id)
 
     await db('field')
         .where({ id: id })
         .del()
 }
+
+
+module.exports.deleteSupervisors = async (id) => {
+    await db('field_supervisors')
+        .where({ field_id: id })
+        .del()
+
+}
+
+module.exports.insertSupervisors = async (field, supervisors) => {
+    for (let i = 0; i < supervisors.length; i++) {
+        await db('field_supervisors').insert({ field_id: field.id, supervisors_id: supervisors[i] })
+    }
+
+}
+
 
 module.exports.find = async (id) => {
 
@@ -88,3 +108,16 @@ module.exports.find = async (id) => {
 
     return null
 }
+
+module.exports.update = async (field, supervisors) => {
+
+    deleteSupervisors(id)
+    insertSupervisors(field, supervisors)
+
+    let res = knex('field')
+        .where({ id: field.id })
+        .update({ field })
+
+    return res
+}
+

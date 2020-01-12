@@ -66,7 +66,7 @@ router.get('/:id', async (req, res) => {
 
 router.delete('/', async (req, res) => {
 
-    const {fieldId, userId} = req.query
+    const { fieldId, userId } = req.query
 
     if (!userId || !fieldId)
         return res.status(404).send({ error: 'É necessário informar o fieldId e userId na query string' })
@@ -89,6 +89,45 @@ router.delete('/', async (req, res) => {
     }
 })
 
+router.put('/', async (req, res) => {
+
+    let data = req.body
+    let time = new Date().getTime()
+
+    const field = {
+        id: data.id,
+        created_at: time,
+        last_modified: time,
+        location: data.location,
+        name: data.name,
+        city_id: data.cityId,
+        farmer_id: data.farmerId,
+        modified_by_id: data.modifiedBy,
+        created_by_id: data.createdBy,
+    }
+
+    try {
+        const exists = await fieldService.checkEntityExistsById(field.id)
+
+        if (exists.length == 0)
+            return res.status(422).send({ message: 'Essa entidade não existe no banco de dados' })
+
+        const supervisors = data.supervisors
+
+        const supervisorsAllowed = await fieldService.allowedInCity(supervisors, field.city_id)
+
+        if (!supervisorsAllowed)
+            return res.status(405).send({ message: 'O supervisor não tem permissão para essa cidade' })
+
+        return await fieldService.update(field, supervisors)
+    } catch (e) {
+        console.log(e)
+        if (e.toString().indexOf('Field não existente') != -1)
+            return res.status(404).send({ error: e.toString() })
+
+        return res.status(500).send({ error: e.toString() })
+    }
+})
 
 
 module.exports = app => app.use('/field', router);
