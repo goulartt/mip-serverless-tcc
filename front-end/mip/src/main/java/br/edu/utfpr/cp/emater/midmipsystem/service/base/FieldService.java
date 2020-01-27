@@ -6,14 +6,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import br.edu.utfpr.cp.emater.midmipsystem.dto.ResponseDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.dto.base.FieldDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Farmer;
@@ -27,16 +26,17 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
-import kong.unirest.HttpResponse;
-import kong.unirest.JsonNode;
+import kong.unirest.GenericType;
 import kong.unirest.Unirest;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class FieldService implements ICRUDService<Field> {
-
-	private static final String ENDPOINT_GATEWAY = "https://oyl9jbjobd.execute-api.sa-east-1.amazonaws.com/mip-gateway/field";
+		
+	
+	@Value("${api.gateway.url}")
+	private String ENDPOINT_GATEWAY;
 
 	private final FieldRepository fieldRepository;
 	private final CityService cityService;
@@ -45,7 +45,10 @@ public class FieldService implements ICRUDService<Field> {
 
 	@Override
 	public List<Field> readAll() {
-		return List.copyOf(fieldRepository.findAll());
+		var response = Unirest.get(ENDPOINT_GATEWAY+"/field")
+				.asObject((new GenericType<List<Field>>(){})).getBody();
+	
+		return response;
 	}
 
 	public List<City> readAllCities() {
@@ -62,7 +65,16 @@ public class FieldService implements ICRUDService<Field> {
 
 	@Override
 	public Field readById(Long anId) throws EntityNotFoundException {
-		return fieldRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+		try {
+			var response = Unirest.get(ENDPOINT_GATEWAY+"/field/"+anId)
+					.asObject(Field.class).getBody();
+		
+			return response;
+			
+		} catch (Exception e) {
+			throw new EntityNotFoundException();
+		}
+	
 	}
 
 	private Set<Supervisor> retrieveSupervisors(Set<Supervisor> someSupervisors) throws EntityNotFoundException {
@@ -89,7 +101,7 @@ public class FieldService implements ICRUDService<Field> {
 
 		
 		try {
-			var response = Unirest.post(ENDPOINT_GATEWAY).header("Content-Type", "application/json")
+			var response = Unirest.post(ENDPOINT_GATEWAY+"/field/").header("Content-Type", "application/json")
 					.body(FieldDTO.generateJSON(newField)).asJson();
 			switch (response.getBody().getObject().getInt("statusCode")) {
 			case (200):
@@ -148,10 +160,10 @@ public class FieldService implements ICRUDService<Field> {
 		var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
 				.getUser();
 
-		var response = Unirest.delete(ENDPOINT_GATEWAY).queryString("id", anId)
+		var response = Unirest.delete(ENDPOINT_GATEWAY+"/field").queryString("fieldId", anId)
 				.queryString("userId", loggedUser.getId()).asJson();
-
-		switch (response.getBody().getObject().getInt("statusCode")) {
+		
+		switch (response.getStatus()) {
 		case (204):
 			break;
 		case (405):

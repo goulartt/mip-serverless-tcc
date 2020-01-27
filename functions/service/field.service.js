@@ -1,7 +1,7 @@
 const db = require('../database')
 
 module.exports.findAll = async () => {
-    fields = await db
+    let fields = await db
         .select('field.*', 'city.name as city_name', 'city.state as city_state', 'farmer.name as farmer_name')
         .from('field')
         .leftJoin('city', { 'city.id': 'field.city_id' })
@@ -22,7 +22,7 @@ module.exports.findAll = async () => {
         field = {
             id: field.id,
             name: field.name,
-            position: field.position,
+            location: field.location,
             created_at: field.created_at,
             last_modified: field.last_modified,
             created_by_id: field.created_by_id,
@@ -134,15 +134,51 @@ module.exports.insertSupervisors = async (field, supervisors) => {
 
 module.exports.find = async (id) => {
 
-    let res = await db
+    let fields = await db
+        .select('field.*', 'city.name as city_name', 'city.state as city_state', 'farmer.name as farmer_name')
         .from('field')
-        .select()
-        .where({ id: id })
+        .leftJoin('city', { 'city.id': 'field.city_id' })
+        .leftJoin('farmer', { 'farmer.id': 'field.farmer_id' })
+        .where({ 'field.id': id })
+        .limit(1)
 
-    if (res.length > 0)
-        return Object.values(JSON.parse(JSON.stringify(res)))[0]
+    fields = JSON.parse(JSON.stringify(fields))
 
-    return null
+    if (fields.length == 0) return null
+
+    fields = await Promise.all(fields.map(async (field) => {
+
+        let supervisors = await db
+            .select('id', 'name')
+            .from('supervisor')
+            .join('field_supervisors', { 'field_supervisors.supervisors_id': 'supervisor.id' })
+            .where('field_supervisors.field_id', '=', field.id)
+
+        supervisors = Object.values(JSON.parse(JSON.stringify(supervisors)))
+
+        field = {
+            id: field.id,
+            name: field.name,
+            location: field.location,
+            created_at: field.created_at,
+            last_modified: field.last_modified,
+            created_by_id: field.created_by_id,
+            modified_by_id: field.modified_by_id,
+            city: {
+                id: field.city_id,
+                name: field.city_name,
+                state: field.city_state
+            },
+            farmer: {
+                id: field.farmer_id,
+                name: field.farmer_name
+            },
+            supervisors
+        }
+        return field
+    }))
+
+    return fields[0]
 }
 
 module.exports.update = async (field, supervisors) => {
