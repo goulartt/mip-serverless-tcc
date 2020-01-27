@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.edu.utfpr.cp.emater.midmipsystem.dto.base.FieldDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
@@ -33,8 +34,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class FieldService implements ICRUDService<Field> {
-		
-	
+
 	@Value("${api.gateway.url}")
 	private String ENDPOINT_GATEWAY;
 
@@ -45,9 +45,9 @@ public class FieldService implements ICRUDService<Field> {
 
 	@Override
 	public List<Field> readAll() {
-		var response = Unirest.get(ENDPOINT_GATEWAY+"/field")
-				.asObject((new GenericType<List<Field>>(){})).getBody();
-	
+		var response = Unirest.get(ENDPOINT_GATEWAY + "/field").asObject((new GenericType<List<Field>>() {
+		})).getBody();
+
 		return response;
 	}
 
@@ -66,15 +66,14 @@ public class FieldService implements ICRUDService<Field> {
 	@Override
 	public Field readById(Long anId) throws EntityNotFoundException {
 		try {
-			var response = Unirest.get(ENDPOINT_GATEWAY+"/field/"+anId)
-					.asObject(Field.class).getBody();
-		
+			var response = Unirest.get(ENDPOINT_GATEWAY + "/field/" + anId).asObject(Field.class).getBody();
+
 			return response;
-			
+
 		} catch (Exception e) {
 			throw new EntityNotFoundException();
 		}
-	
+
 	}
 
 	private Set<Supervisor> retrieveSupervisors(Set<Supervisor> someSupervisors) throws EntityNotFoundException {
@@ -99,9 +98,8 @@ public class FieldService implements ICRUDService<Field> {
 	public void create(FieldDTO newField) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
 			AnyPersistenceException, EntityNotFoundException {
 
-		
 		try {
-			var response = Unirest.post(ENDPOINT_GATEWAY+"/field/").header("Content-Type", "application/json")
+			var response = Unirest.post(ENDPOINT_GATEWAY + "/field/").header("Content-Type", "application/json")
 					.body(FieldDTO.generateJSON(newField)).asJson();
 			switch (response.getBody().getObject().getInt("statusCode")) {
 			case (200):
@@ -123,32 +121,23 @@ public class FieldService implements ICRUDService<Field> {
 	public void update(Field aField) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
 			EntityNotFoundException, AnyPersistenceException {
 
-		var existentField = fieldRepository.findById(aField.getId()).orElseThrow(EntityNotFoundException::new);
-
-		var allFieldsWithoutExistentField = new ArrayList<Field>(fieldRepository.findAll());
-		allFieldsWithoutExistentField.remove(existentField);
-
-		if (allFieldsWithoutExistentField.stream().anyMatch(currentField -> currentField.equals(aField))) {
-			throw new EntityAlreadyExistsException();
-		}
-
-		if (!isSupervisorIsAllowedInCity(aField.getSupervisors(), aField.getCityId()))
-			throw new SupervisorNotAllowedInCity();
-
 		try {
-			existentField.setName(aField.getName());
-			existentField.setLocation(aField.getLocation());
 
-			var theCity = cityService.readById(aField.getCityId());
-			var someSupervisors = this.retrieveSupervisors(aField.getSupervisors());
+			var response = Unirest.put(ENDPOINT_GATEWAY + "/field")
+					.header("Content-Type", "application/json")
+					.body(new ObjectMapper().writeValueAsString(aField))
+					.asJson();
 
-			var theFarmer = farmerService.readById(aField.getFarmerId());
-
-			existentField.setCity(theCity);
-			existentField.setFarmer(theFarmer);
-			existentField.setSupervisors(someSupervisors);
-
-			fieldRepository.saveAndFlush(existentField);
+			switch (response.getStatus()) {
+			case (204):
+				break;
+			case (405):
+				throw new AccessDeniedException("Usuário não autorizado para atualizar essa unidade!");
+			case (404):
+				throw new EntityNotFoundException();
+			default:
+				throw new AnyPersistenceException();
+			}
 
 		} catch (Exception e) {
 			throw new AnyPersistenceException();
@@ -160,9 +149,9 @@ public class FieldService implements ICRUDService<Field> {
 		var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
 				.getUser();
 
-		var response = Unirest.delete(ENDPOINT_GATEWAY+"/field").queryString("fieldId", anId)
+		var response = Unirest.delete(ENDPOINT_GATEWAY + "/field").queryString("fieldId", anId)
 				.queryString("userId", loggedUser.getId()).asJson();
-		
+
 		switch (response.getStatus()) {
 		case (204):
 			break;

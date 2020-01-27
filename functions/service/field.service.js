@@ -54,8 +54,7 @@ module.exports.checkEntityExists = async (field) => {
 module.exports.checkEntityExistsById = async (id) => {
     return await db
         .from('field')
-        .select('id')
-        .where({ id })
+        .where('id', id)
 }
 
 
@@ -65,7 +64,7 @@ module.exports.allowedInCity = async (supervisors, citySelected) => {
     let regionsId = await db
         .from('supervisor')
         .select('region_id')
-        .whereIn('id', supervisors)
+        .whereIn('id', supervisors.map(s => s.id))
 
     regionsId = Object.values(JSON.parse(JSON.stringify(regionsId)))
     regionsId = regionsId.map(({ region_id }) => region_id)
@@ -92,7 +91,8 @@ module.exports.insertField = async (field, supervisors) => {
         .insert(field)
 
     field.id = res[0]
-
+    
+    return field
 }
 
 module.exports.checkUser = async (userId, fieldId) => {
@@ -109,7 +109,7 @@ module.exports.checkUser = async (userId, fieldId) => {
 
 module.exports.delete = async (id) => {
 
-    deleteSupervisors(id)
+    this.deleteSupervisors(id)
 
     await db('field')
         .where({ id: id })
@@ -183,12 +183,23 @@ module.exports.find = async (id) => {
 
 module.exports.update = async (field, supervisors) => {
 
-    deleteSupervisors(id)
-    insertSupervisors(field, supervisors)
+    await this.deleteSupervisors(field.id)
+    await this.insertSupervisors(field, supervisors.map(s => s.id))
 
-    let res = knex('field')
+    let data = {
+        name: field.name,
+        location: field.location,
+        created_at: field.created_at,
+        last_modified: field.last_modified,
+        created_by_id: field.created_by_id,
+        modified_by_id: field.modified_by_id,
+        city_id: field.city_id,
+        farmer_id: field.farmer_id
+    }
+
+    let res = await db('field')
         .where({ id: field.id })
-        .update({ field })
+        .update({ data })
 
     return res
 }

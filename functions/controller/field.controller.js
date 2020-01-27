@@ -20,8 +20,6 @@ router.post('/', async (req, res) => {
         created_by_id: data.createdBy,
     }
 
-    console.log(field)
-
     try {
         const supervisors = data.supervisors
         const exists = await fieldService.checkEntityExists(field)
