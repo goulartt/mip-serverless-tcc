@@ -117,7 +117,7 @@ router.put('/', async (req, res) => {
         if (!supervisorsAllowed)
             return res.status(405).send({ message: 'O supervisor não tem permissão para essa cidade' })
 
-        return await fieldService.update(field, supervisors)
+        await fieldService.update(field, supervisors)
     } catch (e) {
         console.log(e)
         if (e.toString().indexOf('Field não existente') != -1)
@@ -125,6 +125,8 @@ router.put('/', async (req, res) => {
 
         return res.status(500).send({ error: e.toString() })
     }
+
+    return res.status(204).send(field)
 })
 
 

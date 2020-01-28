@@ -101,8 +101,8 @@ public class FieldService implements ICRUDService<Field> {
 		try {
 			var response = Unirest.post(ENDPOINT_GATEWAY + "/field/").header("Content-Type", "application/json")
 					.body(FieldDTO.generateJSON(newField)).asJson();
-			switch (response.getBody().getObject().getInt("statusCode")) {
-			case (200):
+			switch (response.getStatus()) {
+			case (201):
 				break;
 			case (409):
 				throw new EntityAlreadyExistsException();

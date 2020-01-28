@@ -61,10 +61,13 @@ module.exports.checkEntityExistsById = async (id) => {
 
 module.exports.allowedInCity = async (supervisors, citySelected) => {
 
+    if (supervisors[0].id)
+        supervisors = supervisors.map(s => s.id)
+
     let regionsId = await db
         .from('supervisor')
         .select('region_id')
-        .whereIn('id', supervisors.map(s => s.id))
+        .whereIn('id', supervisors)
 
     regionsId = Object.values(JSON.parse(JSON.stringify(regionsId)))
     regionsId = regionsId.map(({ region_id }) => region_id)
@@ -91,7 +94,7 @@ module.exports.insertField = async (field, supervisors) => {
         .insert(field)
 
     field.id = res[0]
-    
+
     return field
 }
 
@@ -197,10 +200,10 @@ module.exports.update = async (field, supervisors) => {
         farmer_id: field.farmer_id
     }
 
-    let res = await db('field')
+    await db('field')
         .where({ id: field.id })
-        .update({ data })
+        .update(data)
 
-    return res
+    return data
 }
 
