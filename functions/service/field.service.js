@@ -128,6 +128,10 @@ module.exports.deleteSupervisors = async (id) => {
 }
 
 module.exports.insertSupervisors = async (field, supervisors) => {
+
+    if (supervisors[0].id)
+        supervisors = supervisors.map(s => s.id)
+
     for (let i = 0; i < supervisors.length; i++) {
         await db('field_supervisors').insert({ field_id: field.id, supervisors_id: supervisors[i] })
     }
@@ -187,7 +191,7 @@ module.exports.find = async (id) => {
 module.exports.update = async (field, supervisors) => {
 
     await this.deleteSupervisors(field.id)
-    await this.insertSupervisors(field, supervisors.map(s => s.id))
+    await this.insertSupervisors(field, supervisors)
 
     let data = {
         name: field.name,

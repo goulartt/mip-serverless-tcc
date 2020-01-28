@@ -43,11 +43,12 @@ public class FieldService implements ICRUDService<Field> {
 	private final FarmerService farmerService;
 	private final SupervisorService supervisorService;
 
-	@Override
+	
 	public List<Field> readAll() {
+		
 		var response = Unirest.get(ENDPOINT_GATEWAY + "/field").asObject((new GenericType<List<Field>>() {
 		})).getBody();
-
+		
 		return response;
 	}
 
@@ -117,15 +118,15 @@ public class FieldService implements ICRUDService<Field> {
 
 	}
 
-	@Override
-	public void update(Field aField) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
+	
+	public void update(FieldDTO newField) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
 			EntityNotFoundException, AnyPersistenceException {
 
 		try {
 
 			var response = Unirest.put(ENDPOINT_GATEWAY + "/field")
 					.header("Content-Type", "application/json")
-					.body(new ObjectMapper().writeValueAsString(aField))
+					.body(new ObjectMapper().writeValueAsString(newField))
 					.asJson();
 
 			switch (response.getStatus()) {
@@ -196,7 +197,14 @@ public class FieldService implements ICRUDService<Field> {
 	public void create(Field entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
 			AnyPersistenceException, EntityNotFoundException {
 		// TODO Auto-generated method stub
-
 	}
+
+	@Override
+	public void update(Field entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
+			EntityNotFoundException, AnyPersistenceException {
+		// TODO Auto-generated method stub
+	}
+
+
 
 }

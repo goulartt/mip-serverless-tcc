@@ -135,12 +135,23 @@ public class FieldController extends Field implements ICRUDController<Field> {
 	public String update() {
 
 		try {
-			var updatedField = Field.builder().id(this.getId()).name(this.getName()).location(this.getLocation())
-					.city(this.fieldService.readCityById(this.getSelectedCityId()))
-					.farmer(this.fieldService.readFarmerById(this.getSelectedFarmerId()))
-					.supervisors(fieldService.readSupervisorsByIds(this.getSelectedSupervisorIds())).build();
-
-			fieldService.update(updatedField);
+			
+			
+			var currentUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+					.getUser();
+			
+			var newField = FieldDTO.builder()
+					.id(this.getId())
+		        	.name(this.getName())
+		        	 .location(this.getLocation())
+		             .cityId(this.getSelectedCityId())
+		             .farmerId(this.getSelectedFarmerId())
+		             .supervisors(new HashSet<Long>(this.getSelectedSupervisorIds()))
+		             .createdBy(currentUser.getId())
+		             .modifiedBy(currentUser.getId())
+		             .build();
+		           
+			fieldService.update(newField);
 
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Unidade de referência alterada"));
