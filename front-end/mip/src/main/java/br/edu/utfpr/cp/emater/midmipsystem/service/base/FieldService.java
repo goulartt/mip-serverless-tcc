@@ -100,7 +100,8 @@ public class FieldService implements ICRUDService<Field> {
 			AnyPersistenceException, EntityNotFoundException {
 
 		try {
-			var response = Unirest.post(ENDPOINT_GATEWAY + "/field/").header("Content-Type", "application/json")
+			var response = Unirest.post(ENDPOINT_GATEWAY + "/field/")
+					.header("Content-Type", "application/json")
 					.body(FieldDTO.generateJSON(newField)).asJson();
 			switch (response.getStatus()) {
 			case (201):
