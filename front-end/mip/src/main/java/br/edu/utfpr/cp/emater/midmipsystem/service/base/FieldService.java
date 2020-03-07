@@ -38,17 +38,22 @@ public class FieldService implements ICRUDService<Field> {
 	@Value("${api.gateway.url}")
 	private String ENDPOINT_GATEWAY;
 
+	@Value("${mip.field.find}")
+	private String FIELD_GET;
+	
+	@Value("${mip.field.create}")
+	private String FIELD_CREATE;
+
 	private final FieldRepository fieldRepository;
 	private final CityService cityService;
 	private final FarmerService farmerService;
 	private final SupervisorService supervisorService;
 
-	
 	public List<Field> readAll() {
-		
-		var response = Unirest.get(ENDPOINT_GATEWAY + "/field").asObject((new GenericType<List<Field>>() {
+
+		var response = Unirest.get(FIELD_GET).asObject((new GenericType<List<Field>>() {
 		})).getBody();
-		
+
 		return response;
 	}
 
@@ -99,9 +104,8 @@ public class FieldService implements ICRUDService<Field> {
 	public void create(FieldDTO newField) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
 			AnyPersistenceException, EntityNotFoundException {
 
-		try {
-			var response = Unirest.post(ENDPOINT_GATEWAY + "/field/")
-					.header("Content-Type", "application/json")
+		/*try {
+			var response = Unirest.post(ENDPOINT_GATEWAY + "/field/").header("Content-Type", "application/json")
 					.body(FieldDTO.generateJSON(newField)).asJson();
 			switch (response.getStatus()) {
 			case (201):
@@ -115,20 +119,32 @@ public class FieldService implements ICRUDService<Field> {
 			}
 		} catch (JsonProcessingException e) {
 			throw new AnyPersistenceException();
+		}*/
+		try {
+			var response = Unirest.post(FIELD_CREATE).header("Content-Type", "application/json")
+					.body(new ObjectMapper().writeValueAsString(newField)).asJson();
+			switch (response.getStatus()) {
+			case (201):
+				break;
+			case (409):
+				throw new EntityAlreadyExistsException();
+			case (405):
+				throw new SupervisorNotAllowedInCity();
+			default:
+				throw new AnyPersistenceException();
+			}
+		} catch (JsonProcessingException e) {
+			throw new AnyPersistenceException();
 		}
-
 	}
 
-	
 	public void update(FieldDTO newField) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
 			EntityNotFoundException, AnyPersistenceException {
 
 		try {
 
-			var response = Unirest.put(ENDPOINT_GATEWAY + "/field")
-					.header("Content-Type", "application/json")
-					.body(new ObjectMapper().writeValueAsString(newField))
-					.asJson();
+			var response = Unirest.put(ENDPOINT_GATEWAY + "/field").header("Content-Type", "application/json")
+					.body(new ObjectMapper().writeValueAsString(newField)).asJson();
 
 			switch (response.getStatus()) {
 			case (204):
@@ -195,9 +211,48 @@ public class FieldService implements ICRUDService<Field> {
 	}
 
 	@Override
-	public void create(Field entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
+	public void create(Field aField) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
 			AnyPersistenceException, EntityNotFoundException {
-		// TODO Auto-generated method stub
+
+		/*if (fieldRepository.findAll().stream().anyMatch(currentField -> currentField.equals(aField))) {
+			throw new EntityAlreadyExistsException();
+		}
+
+		var theCity = cityService.readById(aField.getCityId());
+		var someSupervisors = this.retrieveSupervisors(aField.getSupervisors());
+
+		if (!isSupervisorIsAllowedInCity(someSupervisors, theCity.getId())) {
+			throw new SupervisorNotAllowedInCity();
+		}
+
+		var theFarmer = farmerService.readById(aField.getFarmerId());
+
+		try {
+			aField.setCity(theCity);
+			aField.setFarmer(theFarmer);
+			aField.setSupervisors(someSupervisors);
+
+			fieldRepository.save(aField);
+
+		} catch (Exception e) {
+			throw new AnyPersistenceException();
+		}*/
+		try {
+			var response = Unirest.post(FIELD_CREATE).header("Content-Type", "application/json")
+					.body(new ObjectMapper().writeValueAsString(aField)).asJson();
+			switch (response.getStatus()) {
+			case (201):
+				break;
+			case (409):
+				throw new EntityAlreadyExistsException();
+			case (405):
+				throw new SupervisorNotAllowedInCity();
+			default:
+				throw new AnyPersistenceException();
+			}
+		} catch (JsonProcessingException e) {
+			throw new AnyPersistenceException();
+		}
 	}
 
 	@Override
@@ -205,7 +260,5 @@ public class FieldService implements ICRUDService<Field> {
 			EntityNotFoundException, AnyPersistenceException {
 		// TODO Auto-generated method stub
 	}
-
-
 
 }
