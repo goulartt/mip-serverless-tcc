@@ -1,5 +1,11 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Product;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
@@ -8,11 +14,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.ProductRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

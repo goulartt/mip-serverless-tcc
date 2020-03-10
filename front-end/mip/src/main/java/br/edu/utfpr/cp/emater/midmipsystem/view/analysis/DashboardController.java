@@ -1,5 +1,15 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.analysis;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
+
+import org.primefaces.model.chart.LineChartModel;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
@@ -10,16 +20,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleBedBugPestA
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleCaterpillarPestAnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleDefoliationAnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSamplePredatorAnalysisService;
-import java.io.Serializable;
-import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.primefaces.model.chart.LineChartModel;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 @Component("dashboardController")
 @ViewScoped

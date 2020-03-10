@@ -2,12 +2,14 @@ package br.edu.utfpr.cp.emater.midmipsystem.entity.mid;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

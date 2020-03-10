@@ -1,11 +1,13 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.base;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.CityRepository;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

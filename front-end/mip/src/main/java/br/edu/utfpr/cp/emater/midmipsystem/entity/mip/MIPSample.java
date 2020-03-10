@@ -1,28 +1,27 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.mip;
 
-import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.DAEAndOccurrenceDTO;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.DAEAndOccurrenceDTO;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

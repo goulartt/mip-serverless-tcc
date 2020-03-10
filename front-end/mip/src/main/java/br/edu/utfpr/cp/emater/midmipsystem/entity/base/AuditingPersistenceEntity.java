@@ -1,21 +1,23 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUser;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
 import java.io.Serializable;
-import java.util.Date;
+
 import javax.persistence.EntityListeners;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PreRemove;
-import lombok.Data;
-import lombok.extern.java.Log;
+
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUser;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
+import lombok.Data;
+import lombok.extern.java.Log;
 
 @Data 
 @MappedSuperclass

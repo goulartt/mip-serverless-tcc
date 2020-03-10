@@ -1,15 +1,17 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.base;
 
-import br.edu.utfpr.cp.emater.midmipsystem.repository.base.MacroRegionRepository;
+import java.util.List;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
-import java.util.List;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.base.MacroRegionRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

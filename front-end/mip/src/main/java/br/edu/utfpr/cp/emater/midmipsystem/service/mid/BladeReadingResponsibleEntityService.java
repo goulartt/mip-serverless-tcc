@@ -1,5 +1,13 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.mid;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.BladeReadingResponsibleEntity;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
@@ -10,13 +18,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.BladeReadingResponsibleEntityRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.CityService;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

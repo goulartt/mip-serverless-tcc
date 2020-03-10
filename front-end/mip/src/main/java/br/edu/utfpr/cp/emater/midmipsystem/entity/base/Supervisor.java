@@ -2,12 +2,13 @@ package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
 import java.io.Serializable;
 import java.util.Optional;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import lombok.Builder;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

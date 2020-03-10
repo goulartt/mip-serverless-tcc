@@ -1,11 +1,13 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.security;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.security.Authority;
-import br.edu.utfpr.cp.emater.midmipsystem.repository.security.AuthorityRepository;
 import java.util.List;
 import java.util.Optional;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
+
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.Authority;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.security.AuthorityRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

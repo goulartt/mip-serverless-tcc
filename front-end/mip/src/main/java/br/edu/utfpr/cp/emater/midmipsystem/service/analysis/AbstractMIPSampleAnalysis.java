@@ -1,5 +1,10 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.primefaces.model.chart.LineChartModel;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
@@ -8,12 +13,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUser;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
-import java.util.List;
-import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.primefaces.model.chart.LineChartModel;
 
 @RequiredArgsConstructor
 public abstract class AbstractMIPSampleAnalysis {

@@ -1,9 +1,11 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
-import java.util.List;
-import org.springframework.stereotype.Service;
 
 @Service
 public class MIPSampleBedBugPestAnalysisService extends AbstractMIPSamplePestAnalysis {

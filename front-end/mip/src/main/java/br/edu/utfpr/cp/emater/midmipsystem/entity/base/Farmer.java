@@ -1,9 +1,10 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import lombok.Builder;
 
+import javax.persistence.Entity;
+
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

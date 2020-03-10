@@ -1,5 +1,14 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.base;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.constraints.Email;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
@@ -8,13 +17,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.SupervisorRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import javax.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

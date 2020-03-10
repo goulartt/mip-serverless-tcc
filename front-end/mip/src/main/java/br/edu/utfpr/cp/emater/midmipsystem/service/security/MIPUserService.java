@@ -1,28 +1,26 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.security;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.Authority;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUser;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.security.MIPUserRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.CityService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.RegionService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
-import br.edu.utfpr.cp.emater.midmipsystem.repository.security.MIPUserRepository;
-import java.util.ArrayList;
-import java.util.Optional;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 @RequiredArgsConstructor

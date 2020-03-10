@@ -1,18 +1,19 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
-import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
+
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LegendPlacement;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 import org.springframework.stereotype.Service;
+
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
+import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 
 @Service
 public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalysis {

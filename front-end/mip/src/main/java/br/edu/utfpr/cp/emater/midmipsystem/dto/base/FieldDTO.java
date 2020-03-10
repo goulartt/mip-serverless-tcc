@@ -9,8 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUser;
-import kong.unirest.JsonNode;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

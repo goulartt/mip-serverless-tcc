@@ -1,5 +1,15 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.security;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.Authority;
@@ -8,18 +18,11 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
-import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.service.security.MIPUserService;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.SessionScope;
 
 @Component(value = "mipUserController")
 @SessionScope

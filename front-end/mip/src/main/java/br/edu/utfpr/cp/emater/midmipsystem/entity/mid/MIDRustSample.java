@@ -1,12 +1,10 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.mid;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

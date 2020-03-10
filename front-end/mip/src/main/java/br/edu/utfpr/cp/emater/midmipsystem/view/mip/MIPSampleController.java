@@ -1,5 +1,17 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.mip;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSampleNaturalPredatorOccurrence;
@@ -12,17 +24,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
 
 @Component(value = "mipSampleController")
 @ViewScoped

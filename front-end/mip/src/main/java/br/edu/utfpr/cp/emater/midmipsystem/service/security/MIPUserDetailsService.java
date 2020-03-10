@@ -1,12 +1,13 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.security;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.security.MIPUserRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

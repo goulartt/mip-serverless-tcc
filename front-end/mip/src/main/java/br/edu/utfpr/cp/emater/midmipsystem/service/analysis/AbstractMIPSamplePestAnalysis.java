@@ -1,18 +1,20 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
-import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LegendPlacement;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
+
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
+import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 
 public abstract class AbstractMIPSamplePestAnalysis extends AbstractMIPSampleAnalysis {
 

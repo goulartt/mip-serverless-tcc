@@ -1,20 +1,22 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.mip.detail;
 
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.SessionScope;
 
 @Component(value = "mipSampleDetailController")
 @SessionScope

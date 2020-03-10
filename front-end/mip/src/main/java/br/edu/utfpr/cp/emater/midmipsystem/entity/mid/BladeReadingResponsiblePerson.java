@@ -1,11 +1,12 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.mid;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.*;
 import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import lombok.Builder;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Person;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

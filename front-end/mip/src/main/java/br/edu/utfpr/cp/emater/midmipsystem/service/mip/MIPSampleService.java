@@ -1,10 +1,19 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.mip;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
-import br.edu.utfpr.cp.emater.midmipsystem.service.survey.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestDisease;
@@ -23,17 +32,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.RegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.SupervisorService;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

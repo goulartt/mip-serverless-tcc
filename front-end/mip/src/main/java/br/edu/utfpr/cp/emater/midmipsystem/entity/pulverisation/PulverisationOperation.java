@@ -1,13 +1,10 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
-import br.edu.utfpr.cp.emater.midmipsystem.exception.ProductUseClassDifferFromTargetException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,6 +16,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.ProductUseClassDifferFromTargetException;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

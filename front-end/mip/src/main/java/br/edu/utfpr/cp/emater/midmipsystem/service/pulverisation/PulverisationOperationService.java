@@ -1,5 +1,13 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Product;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
@@ -12,15 +20,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.PulverisationOperationRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

@@ -1,9 +1,17 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.survey;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.CropData;
-import br.edu.utfpr.cp.emater.midmipsystem.service.base.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.LocationData;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
@@ -13,14 +21,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

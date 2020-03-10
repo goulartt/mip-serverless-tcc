@@ -1,7 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.mip;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
 import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 
 import org.apache.commons.text.WordUtils;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

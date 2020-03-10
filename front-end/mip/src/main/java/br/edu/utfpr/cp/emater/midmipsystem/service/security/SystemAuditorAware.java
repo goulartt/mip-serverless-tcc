@@ -1,11 +1,13 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.security;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUser;
 import java.util.Optional;
+
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUser;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
 
 public class SystemAuditorAware implements AuditorAware<MIPUser> {
     

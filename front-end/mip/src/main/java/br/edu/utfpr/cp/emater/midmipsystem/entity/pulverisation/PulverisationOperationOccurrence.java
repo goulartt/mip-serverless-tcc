@@ -1,10 +1,12 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation;
 
 import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

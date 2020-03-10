@@ -1,11 +1,12 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service;
 
+import java.util.List;
+
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
-import java.util.List;
 
 public interface ICRUDService<T> {
 

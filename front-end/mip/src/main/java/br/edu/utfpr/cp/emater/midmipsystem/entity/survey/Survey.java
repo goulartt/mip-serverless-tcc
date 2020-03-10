@@ -1,16 +1,10 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.survey;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.State;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
+
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,8 +13,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-import lombok.Builder;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.State;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

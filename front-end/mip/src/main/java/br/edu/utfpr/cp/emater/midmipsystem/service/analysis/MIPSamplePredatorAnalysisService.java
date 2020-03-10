@@ -1,19 +1,21 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
-import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LegendPlacement;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 import org.springframework.stereotype.Service;
+
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
+import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 
 @Service
 public class MIPSamplePredatorAnalysisService extends AbstractMIPSampleAnalysis {

@@ -1,5 +1,14 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.mid;
 
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.BladeReadingResponsibleEntity;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
@@ -8,15 +17,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mid.BladeReadingResponsibleEntityService;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
-import java.util.List;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope

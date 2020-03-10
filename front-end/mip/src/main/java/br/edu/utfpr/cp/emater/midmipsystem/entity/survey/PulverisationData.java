@@ -1,8 +1,10 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.survey;
 
 import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Positive;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,5 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.base;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,9 +40,15 @@ public class FieldService implements ICRUDService<Field> {
 	@Value("${mip.field.find}")
 	private String FIELD_GET;
 	
+	@Value("${mip.field.find-id}")
+	private String FIELD_GET_ID;
+	
 	@Value("${mip.field.create}")
 	private String FIELD_CREATE;
-
+	
+	@Value("${mip.field.delete}")
+	private String FIELD_DELETE;
+	
 	private final FieldRepository fieldRepository;
 	private final CityService cityService;
 	private final FarmerService farmerService;
@@ -72,7 +77,9 @@ public class FieldService implements ICRUDService<Field> {
 	@Override
 	public Field readById(Long anId) throws EntityNotFoundException {
 		try {
-			var response = Unirest.get(ENDPOINT_GATEWAY + "/field/" + anId).asObject(Field.class).getBody();
+			var response = Unirest.get(FIELD_GET_ID)
+					.queryString("id", anId)
+					.asObject(Field.class).getBody();
 
 			return response;
 
@@ -104,22 +111,6 @@ public class FieldService implements ICRUDService<Field> {
 	public void create(FieldDTO newField) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
 			AnyPersistenceException, EntityNotFoundException {
 
-		/*try {
-			var response = Unirest.post(ENDPOINT_GATEWAY + "/field/").header("Content-Type", "application/json")
-					.body(FieldDTO.generateJSON(newField)).asJson();
-			switch (response.getStatus()) {
-			case (201):
-				break;
-			case (409):
-				throw new EntityAlreadyExistsException();
-			case (405):
-				throw new SupervisorNotAllowedInCity();
-			default:
-				throw new AnyPersistenceException();
-			}
-		} catch (JsonProcessingException e) {
-			throw new AnyPersistenceException();
-		}*/
 		try {
 			var response = Unirest.post(FIELD_CREATE).header("Content-Type", "application/json")
 					.body(new ObjectMapper().writeValueAsString(newField)).asJson();
@@ -143,7 +134,7 @@ public class FieldService implements ICRUDService<Field> {
 
 		try {
 
-			var response = Unirest.put(ENDPOINT_GATEWAY + "/field").header("Content-Type", "application/json")
+			var response = Unirest.put(FIELD_CREATE).header("Content-Type", "application/json")
 					.body(new ObjectMapper().writeValueAsString(newField)).asJson();
 
 			switch (response.getStatus()) {
@@ -167,8 +158,11 @@ public class FieldService implements ICRUDService<Field> {
 		var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
 				.getUser();
 
-		var response = Unirest.delete(ENDPOINT_GATEWAY + "/field").queryString("fieldId", anId)
-				.queryString("userId", loggedUser.getId()).asJson();
+		var response = Unirest
+				.delete(FIELD_DELETE)
+				.queryString("fieldId", anId)
+				.queryString("userId", loggedUser.getId())
+				.asJson();
 
 		switch (response.getStatus()) {
 		case (204):

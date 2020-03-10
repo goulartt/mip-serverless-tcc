@@ -1,18 +1,20 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.mid.detail;
 
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mid.MIDRustSampleService;
-import java.util.List;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.SessionScope;
 
 @Component(value = "midRustSampleDetailController")
 @SessionScope

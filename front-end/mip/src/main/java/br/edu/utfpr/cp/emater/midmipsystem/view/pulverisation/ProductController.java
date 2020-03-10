@@ -1,5 +1,13 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.pulverisation;
 
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
+
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Product;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.ProductUnit;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
@@ -11,14 +19,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation.ProductService;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
-import java.util.List;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope

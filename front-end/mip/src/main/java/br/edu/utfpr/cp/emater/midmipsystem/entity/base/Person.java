@@ -1,15 +1,16 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
 import java.io.Serializable;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Size;
-import lombok.EqualsAndHashCode;
 
 import org.apache.commons.text.WordUtils;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 

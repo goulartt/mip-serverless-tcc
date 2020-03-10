@@ -1,13 +1,16 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.survey;
 
 import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Size;
+
+import org.apache.commons.text.WordUtils;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.text.WordUtils;
 
 @Embeddable
 @Data
