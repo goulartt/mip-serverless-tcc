@@ -34,29 +34,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FieldService implements ICRUDService<Field> {
 
-	@Value("${api.gateway.url}")
+	@Value("${mip.gateway.url}")
 	private String ENDPOINT_GATEWAY;
-
-	@Value("${mip.field.find}")
-	private String FIELD_GET;
 	
-	@Value("${mip.field.find-id}")
-	private String FIELD_GET_ID;
-	
-	@Value("${mip.field.create}")
-	private String FIELD_CREATE;
-	
-	@Value("${mip.field.delete}")
-	private String FIELD_DELETE;
-	
-	private final FieldRepository fieldRepository;
 	private final CityService cityService;
 	private final FarmerService farmerService;
 	private final SupervisorService supervisorService;
 
 	public List<Field> readAll() {
 
-		var response = Unirest.get(FIELD_GET).asObject((new GenericType<List<Field>>() {
+		var response = Unirest.get(ENDPOINT_GATEWAY+"/field/all").asObject((new GenericType<List<Field>>() {
 		})).getBody();
 
 		return response;
@@ -77,7 +64,7 @@ public class FieldService implements ICRUDService<Field> {
 	@Override
 	public Field readById(Long anId) throws EntityNotFoundException {
 		try {
-			var response = Unirest.get(FIELD_GET_ID)
+			var response = Unirest.get(ENDPOINT_GATEWAY+"/field")
 					.queryString("id", anId)
 					.asJson();
 			
@@ -115,7 +102,7 @@ public class FieldService implements ICRUDService<Field> {
 			AnyPersistenceException, EntityNotFoundException {
 
 		try {
-			var response = Unirest.post(FIELD_CREATE).header("Content-Type", "application/json")
+			var response = Unirest.post(ENDPOINT_GATEWAY+"/field").header("Content-Type", "application/json")
 					.body(new ObjectMapper().writeValueAsString(newField)).asJson();
 			switch (response.getStatus()) {
 			case (201):
@@ -137,7 +124,7 @@ public class FieldService implements ICRUDService<Field> {
 
 		try {
 
-			var response = Unirest.put(FIELD_CREATE).header("Content-Type", "application/json")
+			var response = Unirest.put(ENDPOINT_GATEWAY+"/field").header("Content-Type", "application/json")
 					.body(new ObjectMapper().writeValueAsString(newField)).asJson();
 
 			switch (response.getStatus()) {
@@ -162,7 +149,7 @@ public class FieldService implements ICRUDService<Field> {
 				.getUser();
 
 		var response = Unirest
-				.delete(FIELD_DELETE)
+				.delete(ENDPOINT_GATEWAY+"/field")
 				.queryString("fieldId", anId)
 				.queryString("userId", loggedUser.getId())
 				.asJson();
@@ -211,45 +198,6 @@ public class FieldService implements ICRUDService<Field> {
 	public void create(Field aField) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
 			AnyPersistenceException, EntityNotFoundException {
 
-		/*if (fieldRepository.findAll().stream().anyMatch(currentField -> currentField.equals(aField))) {
-			throw new EntityAlreadyExistsException();
-		}
-
-		var theCity = cityService.readById(aField.getCityId());
-		var someSupervisors = this.retrieveSupervisors(aField.getSupervisors());
-
-		if (!isSupervisorIsAllowedInCity(someSupervisors, theCity.getId())) {
-			throw new SupervisorNotAllowedInCity();
-		}
-
-		var theFarmer = farmerService.readById(aField.getFarmerId());
-
-		try {
-			aField.setCity(theCity);
-			aField.setFarmer(theFarmer);
-			aField.setSupervisors(someSupervisors);
-
-			fieldRepository.save(aField);
-
-		} catch (Exception e) {
-			throw new AnyPersistenceException();
-		}*/
-		try {
-			var response = Unirest.post(FIELD_CREATE).header("Content-Type", "application/json")
-					.body(new ObjectMapper().writeValueAsString(aField)).asJson();
-			switch (response.getStatus()) {
-			case (201):
-				break;
-			case (409):
-				throw new EntityAlreadyExistsException();
-			case (405):
-				throw new SupervisorNotAllowedInCity();
-			default:
-				throw new AnyPersistenceException();
-			}
-		} catch (JsonProcessingException e) {
-			throw new AnyPersistenceException();
-		}
 	}
 
 	@Override

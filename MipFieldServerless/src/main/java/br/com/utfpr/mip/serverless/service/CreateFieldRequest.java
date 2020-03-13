@@ -30,7 +30,7 @@ public class CreateFieldRequest implements RequestHandler<APIGatewayProxyRequest
 	public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
 		var sessionFactory = HibernateUtil.getSessionFactory();
 		var responseEvent = new APIGatewayProxyResponseEvent();
-		
+
 		try (Session session = sessionFactory.openSession()) {
 			session.beginTransaction();
 			FieldDTO readValue = new ObjectMapper().readValue(input.getBody(), FieldDTO.class);
@@ -38,19 +38,16 @@ public class CreateFieldRequest implements RequestHandler<APIGatewayProxyRequest
 
 			responseEvent.setBody(field.toString());
 
-			if (!checkEntityExists(session, field)) {
-				
-				if (supervisorAllowedInCity(session, field)) {
-					session.saveOrUpdate(field);
-					responseEvent.setStatusCode(201);
-				} else {
-					responseEvent.setStatusCode(405);
-				}
-				
+			if (field.getId() != null) {
+				saveOrUpdateField(responseEvent, session, field);
 			} else {
-				responseEvent.setStatusCode(409);
+				if (!checkEntityExists(session, field)) {
+					saveOrUpdateField(responseEvent, session, field);
+				} else {
+					responseEvent.setStatusCode(409);
+				}
 			}
-			
+
 			responseEvent.setHeaders(Collections.singletonMap("timeStamp", String.valueOf(System.currentTimeMillis())));
 
 			session.getTransaction().commit();
@@ -63,28 +60,33 @@ public class CreateFieldRequest implements RequestHandler<APIGatewayProxyRequest
 		return responseEvent;
 	}
 
+	private void saveOrUpdateField(APIGatewayProxyResponseEvent responseEvent, Session session, Field field) {
+		if (supervisorAllowedInCity(session, field)) {
+			session.saveOrUpdate(field);
+			responseEvent.setStatusCode(201);
+		} else {
+			responseEvent.setStatusCode(405);
+		}
+	}
+
 	private boolean supervisorAllowedInCity(Session session, Field field) {
-		
+
 		Set<Long> ids = field.getSupervisors().stream().map(s -> {
 			return s.getId();
 		}).collect(Collectors.toSet());
 		Long citySelected = field.getCityId();
-		
+
 		List<Long> regionsIds = session.createNativeQuery("select region_id from supervisor where id in (:ids)")
-			.setParameter("ids", ids)
-			.addScalar("region_id", LongType.INSTANCE)
-			.getResultList();
-		
+				.setParameter("ids", ids).addScalar("region_id", LongType.INSTANCE).getResultList();
+
 		List<Long> cities = session.createNativeQuery("select cities_id from region_cities where region_id in (:ids)")
-				.setParameter("ids", regionsIds)
-				.addScalar("cities_id", LongType.INSTANCE)
-				.list();
-				
-		
+				.setParameter("ids", regionsIds).addScalar("cities_id", LongType.INSTANCE).list();
+
 		for (Long city : cities) {
-			if (city.equals(citySelected)) return true;
+			if (city.equals(citySelected))
+				return true;
 		}
-		
+
 		return false;
 	}
 
@@ -92,9 +94,8 @@ public class CreateFieldRequest implements RequestHandler<APIGatewayProxyRequest
 		Query query = session.createQuery("select 1 from Field f where f.name = :name and f.location = :location");
 		query.setParameter("name", field.getName());
 		query.setParameter("location", field.getLocation());
-		
+
 		return (query.uniqueResult() != null);
 	}
-
 
 }
