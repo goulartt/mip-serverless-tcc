@@ -13,7 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import br.com.utfpr.mip.serverless.dto.base.FieldDTO.FieldDTOBuilder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -61,6 +62,7 @@ public class City  implements Serializable {
         return instance;
     }
     
+    @JsonIgnore
     public String getIdAsString() {
         return String.valueOf(this.getId());
     }

@@ -72,6 +72,7 @@ public class MIPUser implements Serializable {
     @JsonIgnore
     private List<Authority> authorities;
     
+    @JsonIgnore
     public String getRegionName() {
         if (this.getRegion() != null)
             return this.getRegion().getName();
@@ -80,6 +81,7 @@ public class MIPUser implements Serializable {
             return null;
     }
     
+    @JsonIgnore
     public String getCityName() {
         if (this.getCity() != null)
             return this.getCity().getName();
@@ -88,6 +90,7 @@ public class MIPUser implements Serializable {
             return null;
     }
     
+    @JsonIgnore
     public Long getRegionId() {
         if (this.getRegion() != null)
             return this.getRegion().getId();
@@ -95,7 +98,8 @@ public class MIPUser implements Serializable {
         else
             return null;
     }
-
+    
+    @JsonIgnore
     public Long getCityId() {
         
         if (this.getCity() != null)

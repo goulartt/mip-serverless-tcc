@@ -79,9 +79,12 @@ public class FieldService implements ICRUDService<Field> {
 		try {
 			var response = Unirest.get(FIELD_GET_ID)
 					.queryString("id", anId)
-					.asObject(Field.class).getBody();
+					.asJson();
+			
+			if (response.getStatus() != 200)
+				throw new EntityNotFoundException();
 
-			return response;
+			return new ObjectMapper().readValue(response.getBody().getObject().toString(), Field.class);
 
 		} catch (Exception e) {
 			throw new EntityNotFoundException();
@@ -138,7 +141,7 @@ public class FieldService implements ICRUDService<Field> {
 					.body(new ObjectMapper().writeValueAsString(newField)).asJson();
 
 			switch (response.getStatus()) {
-			case (204):
+			case (201):
 				break;
 			case (405):
 				throw new AccessDeniedException("Usuário não autorizado para atualizar essa unidade!");

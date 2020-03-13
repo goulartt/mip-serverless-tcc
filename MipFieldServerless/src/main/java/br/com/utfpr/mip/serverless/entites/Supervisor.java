@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,49 +36,50 @@ public class Supervisor extends Person implements Serializable {
 
 		return instance;
 	}
-
+	
+	@JsonIgnore
 	public String getRegionName() {
 		if (this.getRegion() != null)
 			return this.getRegion().getName();
 
 		return null;
 	}
-
+	@JsonIgnore
 	public Long getRegionId() {
 		if (this.getRegion() != null)
 			return this.getRegion().getId();
 
 		return null;
 	}
-
+	@JsonIgnore
 	public String getMacroRegionName() {
 		if (this.getRegion() != null)
 			return this.getRegion().getMacroRegionName();
 
 		return null;
 	}
-
+	@JsonIgnore
 	public Long getMacroRegionId() {
 		if (this.getRegion() != null)
 			return this.getRegion().getMacroRegionId();
 
 		return null;
 	}
-
+	@JsonIgnore
 	public String getIdAsString() {
 		if (this.getId() != null)
 			return String.valueOf(this.getId());
 
 		return null;
 	}
-
+	@JsonIgnore
 	public String getCitiesInRegionNames() {
 		if (this.getRegion() != null)
 			return this.getRegion().getCities().toString();
 
 		return null;
 	}
-
+	@JsonIgnore
 	public Optional<MacroRegion> getMacroRegion() {
 
 		if (this.getRegion() == null)

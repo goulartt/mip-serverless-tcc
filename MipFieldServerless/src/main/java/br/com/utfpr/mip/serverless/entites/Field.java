@@ -19,6 +19,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -29,6 +32,7 @@ import lombok.Setter;
 @Setter
 @Table(name = "field")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Field implements Serializable {
 
     @Id
@@ -106,49 +110,50 @@ public class Field implements Serializable {
         this.setSupervisors(new HashSet<Supervisor>());
     }
 
-
+    
+    @JsonIgnore
     public String getCityName() {
         if (this.getCity() != null)
             return this.getCity().getName();
         
         return null;
     }
-    
+    @JsonIgnore
     public Long getCityId(){
         if (this.getCity() != null)
             return this.getCity().getId();
         
         return 0L;
     }
-    
+    @JsonIgnore
     public String getStateName() {
         if (this.getCity() != null)
             return this.getCity().getState().getName();
         
         return null;
     }
-    
+    @JsonIgnore
     public String getFarmerName() {
         if (this.getFarmer()!= null)
             return this.getFarmer().getName();
         
         return null;
     }
-    
+    @JsonIgnore
     public Long getFarmerId() {
         if (this.getFarmer()!= null)
             return this.getFarmer().getId();
         
         return 0L;
     }
-    
+    @JsonIgnore
     public List<String> getSupervisorNames() {
         if (this.getSupervisors() != null)
             return this.getSupervisors().stream().map(Supervisor::getName).collect(Collectors.toList());
         
         return null;
     }
-    
+    @JsonIgnore
     public Optional<MacroRegion> getMacroRegion() {
         
         var supervisorOptional = this.getSupervisors().stream().findAny();
@@ -159,7 +164,7 @@ public class Field implements Serializable {
         else
             return Optional.empty();
     }
-
+    @JsonIgnore
     public Optional<Region> getRegion() {
         
         var supervisorOptional = this.getSupervisors().stream().findAny();

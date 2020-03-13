@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -84,7 +86,8 @@ public class Region implements Serializable {
 
 		return false;
 	}
-
+	
+	
 	private boolean isThereACityContainer() {
 		return !(this.getCities() == null);
 	}
@@ -92,7 +95,8 @@ public class Region implements Serializable {
 	private void createCityContainer() {
 		this.setCities(new HashSet<City>());
 	}
-
+	
+	@JsonIgnore
 	public String getMacroRegionName() {
 		if (this.getMacroRegion() != null)
 			return this.getMacroRegion().getName();
@@ -100,13 +104,15 @@ public class Region implements Serializable {
 		return null;
 	}
 
+	@JsonIgnore
 	public Long getMacroRegionId() {
 		if (this.getMacroRegion() != null)
 			return this.getMacroRegion().getId();
 
 		return null;
 	}
-
+	
+	@JsonIgnore
 	public Set<String> getCityNames() {
 		if (this.getCities() != null)
 			return this.getCities().stream().map(City::getName).collect(Collectors.toSet());

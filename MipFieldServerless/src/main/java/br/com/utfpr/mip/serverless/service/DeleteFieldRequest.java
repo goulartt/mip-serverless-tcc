@@ -73,10 +73,12 @@ public class DeleteFieldRequest implements RequestHandler<APIGatewayProxyRequest
 	}
 
 	private boolean checkSameUser(Session session, String fieldId, String userId) {
-		Query query = session.createNativeQuery("select created_by_id from field where id = :id");
-		query.setParameter("id", Integer.parseInt(fieldId));
+		List<Long> createdBy = session.createNativeQuery("select created_by_id from field where id = :id")
+				.setParameter("id", Long.valueOf(fieldId))
+				.addScalar("created_by_id", LongType.INSTANCE)
+				.list();
 
-		return (query.uniqueResult().equals(userId));
+		return (Long.valueOf(userId).equals(createdBy.get(0)));
 	}
 
 
