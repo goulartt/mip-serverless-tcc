@@ -111,7 +111,6 @@ router.put('/', async (req, res) => {
             return res.status(422).send({ message: 'Essa entidade não existe no banco de dados' })
 
         const supervisors = data.supervisors
-        console.log(supervisors)
 
         const supervisorsAllowed = await fieldService.allowedInCity(supervisors, field.city_id)
 
