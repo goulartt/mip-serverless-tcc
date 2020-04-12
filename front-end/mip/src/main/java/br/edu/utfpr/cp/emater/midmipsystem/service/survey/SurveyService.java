@@ -12,7 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -64,7 +63,19 @@ public class SurveyService {
     }
 
     public Survey readById(Long anId) throws EntityNotFoundException {
-        return surveyRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+    	try {
+			var response = Unirest.get(ENDPOINT_GATEWAY+"/survey")
+					.queryString("id", anId)
+					.asJson();
+			
+			if (response.getStatus() != 200)
+				throw new EntityNotFoundException();
+
+			return new ObjectMapper().readValue(response.getBody().getObject().toString(), Survey.class);
+
+		} catch (Exception e) {
+			throw new EntityNotFoundException();
+		}
     }
 
     public Field readFieldbyId(Long anId) throws EntityNotFoundException {
@@ -100,25 +111,27 @@ public class SurveyService {
     }
 
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+    	
+    	var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+				.getUser();
 
-        var existentSurvey = surveyRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+		var response = Unirest
+				.delete(ENDPOINT_GATEWAY+"/survey")
+				.queryString("surveyId", anId)
+				.queryString("userId", loggedUser.getId())
+				.asJson();
 
-        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-        var createdByName = existentSurvey.getCreatedBy() != null ? existentSurvey.getCreatedBy().getUsername() : "none";
+		switch (response.getStatus()) {
+		case (204):
+			break;
+		case (405):
+			throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+		case (404):
+			throw new EntityNotFoundException();
+		default:
+			throw new AnyPersistenceException();
+		}
 
-        if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
-            throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
-        }
-        
-        try {
-            surveyRepository.delete(existentSurvey);
-
-        } catch (DataIntegrityViolationException cve) {
-            throw new EntityInUseException();
-
-        } catch (Exception e) {
-            throw new AnyPersistenceException();
-        }
     }
 
     public List<Harvest> readAllHarvests() {
