@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.utfpr.mip.serverless.entites.City;
-import br.com.utfpr.mip.serverless.entites.Farmer;
-import br.com.utfpr.mip.serverless.entites.Field;
-import br.com.utfpr.mip.serverless.entites.MIPUser;
-import br.com.utfpr.mip.serverless.entites.Supervisor;
+import br.com.utfpr.mip.serverless.entites.base.City;
+import br.com.utfpr.mip.serverless.entites.base.Farmer;
+import br.com.utfpr.mip.serverless.entites.base.Field;
+import br.com.utfpr.mip.serverless.entites.base.MIPUser;
+import br.com.utfpr.mip.serverless.entites.base.Supervisor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

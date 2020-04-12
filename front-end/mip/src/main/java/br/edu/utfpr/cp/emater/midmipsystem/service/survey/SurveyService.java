@@ -1,13 +1,20 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.survey;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
@@ -22,6 +29,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
+import kong.unirest.Unirest;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -32,9 +40,23 @@ public class SurveyService {
     private final HarvestService harvestService;
     private final FieldService fieldService;
     private final CultivarService cultivarService;
+	
+    @Value("${mip.gateway.url}")
+	private String ENDPOINT_GATEWAY;
     
     public List<Survey> readAll() {
-        return List.copyOf(surveyRepository.findAll());
+    	var response = Unirest.get(ENDPOINT_GATEWAY+"/survey/all").asJson();
+    	try {
+			List<Survey> values = List.of(new ObjectMapper().readValue(response.getBody().toString(), Survey[].class));
+			return values;
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
     }
 
     public Harvest readHarvestById(Long id) throws EntityNotFoundException {

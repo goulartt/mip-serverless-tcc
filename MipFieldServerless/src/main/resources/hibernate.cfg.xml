@@ -7,15 +7,5 @@
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="show_sql">true</property>
-
-        <mapping class="br.com.utfpr.mip.serverless.entites.Field"></mapping>
-        <mapping class="br.com.utfpr.mip.serverless.entites.City"></mapping>
-        <mapping class="br.com.utfpr.mip.serverless.entites.Region"></mapping>
-        <mapping class="br.com.utfpr.mip.serverless.entites.MacroRegion"></mapping>
-        <mapping class="br.com.utfpr.mip.serverless.entites.MIPUser"></mapping>
-        <mapping class="br.com.utfpr.mip.serverless.entites.Supervisor"></mapping>
-        <mapping class="br.com.utfpr.mip.serverless.entites.Farmer"></mapping>
-        <mapping class="br.com.utfpr.mip.serverless.entites.Authority"></mapping>
-
     </session-factory>
 </hibernate-configuration>
