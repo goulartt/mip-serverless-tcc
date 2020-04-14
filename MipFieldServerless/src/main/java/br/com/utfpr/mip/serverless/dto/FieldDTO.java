@@ -1,4 +1,4 @@
-package br.com.utfpr.mip.serverless.dto.base;
+package br.com.utfpr.mip.serverless.dto;
 
 import java.io.Serializable;
 import java.util.Date;

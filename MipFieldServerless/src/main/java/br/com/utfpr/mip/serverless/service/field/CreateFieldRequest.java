@@ -16,7 +16,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.utfpr.mip.serverless.core.HibernateUtil;
-import br.com.utfpr.mip.serverless.dto.base.FieldDTO;
+import br.com.utfpr.mip.serverless.dto.FieldDTO;
 import br.com.utfpr.mip.serverless.entites.base.Field;
 
 public class CreateFieldRequest implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {

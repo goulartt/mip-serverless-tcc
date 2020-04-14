@@ -19,7 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.utfpr.mip.serverless.core.HibernateUtil;
-import br.com.utfpr.mip.serverless.dto.base.FieldDTO;
+import br.com.utfpr.mip.serverless.dto.FieldDTO;
 import br.com.utfpr.mip.serverless.entites.base.Field;
 import br.com.utfpr.mip.serverless.entites.base.MacroRegion;
 import br.com.utfpr.mip.serverless.entites.base.Supervisor;
