@@ -12,9 +12,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.edu.utfpr.cp.emater.midmipsystem.dto.base.SurveyDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.CropData;
@@ -92,22 +94,25 @@ public class SurveyService {
 
     public void create(Survey aSurvey) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
 
-        if (surveyRepository.findAll().stream().anyMatch(currentSurvey -> currentSurvey.equals(aSurvey))) {
-            throw new EntityAlreadyExistsException();
-        }
+      
 
-        var theField = fieldService.readById(aSurvey.getFieldId());
-        var theHarvest = harvestService.readById(aSurvey.getHarvestId());
-
-        aSurvey.setField(theField);
-        aSurvey.setHarvest(theHarvest);
-
-        try {
-            surveyRepository.save(aSurvey);
-
-        } catch (Exception e) {
-            throw new AnyPersistenceException();
-        }
+    	try {
+			var response = Unirest.post(ENDPOINT_GATEWAY+"/survey")
+					.header("Content-Type", "application/json")
+					.body(new ObjectMapper().writeValueAsString(SurveyDTO.generateFromEntity(aSurvey))).asJson();
+			switch (response.getStatus()) {
+			case (201):
+				break;
+			case (409):
+				throw new EntityAlreadyExistsException();
+			case (405):
+				throw new SupervisorNotAllowedInCity();
+			default:
+				throw new AnyPersistenceException();
+			}
+		} catch (JsonProcessingException e) {
+			throw new AnyPersistenceException();
+		}
     }
 
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {

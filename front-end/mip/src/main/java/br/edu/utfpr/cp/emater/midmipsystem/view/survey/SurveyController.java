@@ -9,9 +9,11 @@ import javax.faces.view.ViewScoped;
 import javax.validation.constraints.Size;
 
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
@@ -119,6 +121,10 @@ public class SurveyController extends Survey {
     public String create() {
 
         try {
+        	
+        	var currentUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+					.getUser();
+
             var newSurvey = Survey.builder()
                     .bt(this.isBt())
                     .emergenceDate(this.getEmergenceDate())
@@ -139,7 +145,10 @@ public class SurveyController extends Survey {
                     .totalArea(this.getTotalArea())
                     .totalPlantedArea(this.totalPlantedArea)
                     .build();
-
+            
+            newSurvey.setCreatedBy(currentUser);
+            newSurvey.setModifiedBy(currentUser);
+            
             surveyService.create(newSurvey);
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("UR [%s] adicionada na pesquisa da [%s]", newSurvey.getFieldName(), newSurvey.getHarvestName())));

@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Positive;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +33,7 @@ public class PulverisationData implements Serializable {
         return instance;
     }
     
+    @JsonIgnore
     public double getApplicationCostQty() {
          if (soyaPrice != 0) 
               if (applicationCostCurrency != 0) 
