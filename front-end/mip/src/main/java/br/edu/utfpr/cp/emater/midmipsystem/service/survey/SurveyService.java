@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -160,7 +159,7 @@ public class SurveyService {
 
     public void update(Survey updatedSurvey) throws EntityNotFoundException, AnyPersistenceException {
 
-        var currentSurvey = surveyRepository.findById(updatedSurvey.getId()).orElseThrow(EntityNotFoundException::new);
+        var currentSurvey = this.readById(updatedSurvey.getId());
 
         if (currentSurvey.getCropData() != null) {
             if (updatedSurvey.getEmergenceDate() != null) {
@@ -222,8 +221,19 @@ public class SurveyService {
         currentSurvey.getSizeData().setTotalPlantedArea(updatedSurvey.getTotalPlantedArea());
 
         try {
-            surveyRepository.saveAndFlush(currentSurvey);
-
+        	var response = Unirest.put(ENDPOINT_GATEWAY+"/survey")
+					.header("Content-Type", "application/json")
+					.body(new ObjectMapper().writeValueAsString(SurveyDTO.generateFromEntity(currentSurvey))).asJson();
+			switch (response.getStatus()) {
+			case (201):
+				break;
+			case (409):
+				throw new EntityAlreadyExistsException();
+			case (405):
+				throw new SupervisorNotAllowedInCity();
+			default:
+				throw new AnyPersistenceException();
+			}
         } catch (Exception e) {
             throw new AnyPersistenceException();
         }

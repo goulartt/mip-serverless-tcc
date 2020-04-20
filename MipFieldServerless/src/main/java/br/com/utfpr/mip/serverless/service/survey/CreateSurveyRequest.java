@@ -31,7 +31,7 @@ public class CreateSurveyRequest implements RequestHandler<APIGatewayProxyReques
 			SurveyDTO readValue = new ObjectMapper().readValue(input.getBody(), SurveyDTO.class);
 			Survey survey = SurveyDTO.generateEntityFromDTO(readValue);
 
-			responseEvent.setBody(survey.toString());
+			responseEvent.setBody(new ObjectMapper().writeValueAsString(survey));
 
 			if (!checkEntityExists(session, survey)) {
 				saveOrUpdateField(responseEvent, session, survey);
