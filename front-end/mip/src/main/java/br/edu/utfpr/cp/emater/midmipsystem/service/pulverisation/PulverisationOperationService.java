@@ -18,8 +18,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
+import br.edu.utfpr.cp.emater.midmipsystem.lambda.SurveyLambda;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.PulverisationOperationRepository;
-import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -29,7 +29,7 @@ public class PulverisationOperationService {
     private final PulverisationOperationRepository pulverisationOperationRepository;
     private final TargetService targetService;
     private final ProductService productService;
-    private final SurveyService surveyService;
+    private final SurveyLambda surveyLambda;
 
     public List<Survey> readAllSurveysUniqueEntries() {
         return List.copyOf(pulverisationOperationRepository.findAll().stream().map(PulverisationOperation::getSurvey).distinct().collect(Collectors.toList()));
@@ -79,7 +79,7 @@ public class PulverisationOperationService {
     }
 
     public Survey readSurveyById(Long id) throws EntityNotFoundException {
-        return surveyService.readById(id);
+        return surveyLambda.readById(id);
     }
 
     public List<PulverisationOperation> readAllPulverisationOperationBySurveyId(Long aSurveyId) {

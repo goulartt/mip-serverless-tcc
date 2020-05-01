@@ -13,6 +13,7 @@ import org.springframework.web.context.annotation.RequestScope;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
+import br.edu.utfpr.cp.emater.midmipsystem.lambda.SurveyLambda;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,8 @@ import lombok.Setter;
 public class SurveyUpdateController {
 
     private final SurveyService surveyService;
+    private final SurveyLambda surveyLambda;
+
 
 //    ---
     private Long surveyId;
@@ -66,7 +69,7 @@ public class SurveyUpdateController {
     public String prepareUpdate(Long surveyId) {
 
         try {
-            var currentSurvey = surveyService.readById(surveyId);
+            var currentSurvey = surveyLambda.readById(surveyId);
 
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyFieldName", currentSurvey.getFieldName());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyHarvestName", currentSurvey.getHarvestName());
@@ -132,7 +135,7 @@ public class SurveyUpdateController {
                                 .build();
 
         try {
-            surveyService.update(updatedSurvey);
+        	surveyLambda.update(updatedSurvey);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Dados da UR alterados na pesquisa!"));
             return "index.xhtml";
 

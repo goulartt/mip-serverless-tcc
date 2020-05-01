@@ -26,9 +26,10 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
+import br.edu.utfpr.cp.emater.midmipsystem.lambda.FieldLambda;
+import br.edu.utfpr.cp.emater.midmipsystem.lambda.SurveyLambda;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.MIPSampleRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.CityService;
-import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.RegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.SupervisorService;
@@ -41,6 +42,7 @@ public class MIPSampleService {
 
     private final MIPSampleRepository mipSampleRepository;
     private final SurveyService surveyService;
+    private final SurveyLambda surveyLambda;
     private final PestService pestService;
     private final PestDiseaseService pestDiseaseService;
     private final PestNaturalPredatorService pestNaturalPredatorService;
@@ -48,7 +50,7 @@ public class MIPSampleService {
     private final MacroRegionService macroRegionService;
     private final SupervisorService supervisorService;
     private final CityService cityService;
-    private final FieldService fieldService;
+    private final FieldLambda fieldLambda;
 
     public List<MIPSample> readAll() {
         return List.copyOf(mipSampleRepository.findAll());
@@ -64,7 +66,7 @@ public class MIPSampleService {
             throw new EntityAlreadyExistsException();
         }
 
-        var theSurvey = surveyService.readById(aSample.getSurvey().getId());
+        var theSurvey = surveyLambda.readById(aSample.getSurvey().getId());
 
         aSample.setSurvey(theSurvey);
 
@@ -106,7 +108,7 @@ public class MIPSampleService {
     }
 
     public Survey readSurveyById(Long id) throws EntityNotFoundException {
-        return surveyService.readById(id);
+        return surveyLambda.readById(id);
     }
 
     public List<Pest> readAllPests() {
@@ -163,7 +165,7 @@ public class MIPSampleService {
     }
 
     public List<Field> readAllFieldsByCityId(Long aCityId) {
-        return surveyService.readAllFields().stream().distinct().filter(field -> field.getCityId().equals(aCityId)).collect(Collectors.toList());
+        return surveyLambda.readAllFields().stream().distinct().filter(field -> field.getCityId().equals(aCityId)).collect(Collectors.toList());
     }
 
     public List<MacroRegion> readAllMacroRegionsWithSurvey() {
@@ -268,7 +270,7 @@ public class MIPSampleService {
             return Optional.empty();
         
         try {
-            return Optional.of(fieldService.readById(aFieldId));
+            return Optional.of(fieldLambda.readById(aFieldId));
             
         } catch (EntityNotFoundException ex) {
             return Optional.empty();

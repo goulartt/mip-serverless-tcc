@@ -16,8 +16,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
+import br.edu.utfpr.cp.emater.midmipsystem.lambda.SurveyLambda;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.MIDRustSampleRepository;
-import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -26,12 +26,12 @@ public class MIDRustSampleService {
 
     private final MIDRustSampleRepository midRustSampleRepository;
 
-    private final SurveyService surveyService;
+    private final SurveyLambda surveyLambda;
 
     private final BladeReadingResponsiblePersonService bladeResponsiblePersonService;
 
     public Survey readSurveyById(Long id) throws EntityNotFoundException {
-        return surveyService.readById(id);
+        return surveyLambda.readById(id);
     }
 
     public List<Survey> readAllSurveysUniqueEntries() {
@@ -44,7 +44,7 @@ public class MIDRustSampleService {
             throw new EntityAlreadyExistsException();
         }
 
-        var theSurvey = surveyService.readById(aSample.getSurvey().getId());
+        var theSurvey = surveyLambda.readById(aSample.getSurvey().getId());
 
         aSample.setSurvey(theSurvey);
 

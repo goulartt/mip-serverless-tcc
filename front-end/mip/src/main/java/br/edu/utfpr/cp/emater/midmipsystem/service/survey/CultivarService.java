@@ -12,8 +12,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
+import br.edu.utfpr.cp.emater.midmipsystem.lambda.SurveyLambda;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.CultivarRepository;
-import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import lombok.RequiredArgsConstructor;
 
@@ -22,10 +22,10 @@ import lombok.RequiredArgsConstructor;
 public class CultivarService implements ICRUDService<Cultivar> {
 
     private final CultivarRepository cultivarRepository;
+    private final SurveyLambda surveyLambda;
 //    Notice this strategy does not comply with the architectural style used 
 //    throughout this app. We should be using the surveyService instead. 
 //    However, there is a cyclical dependency here that needs to be fixed.
-    private final SurveyRepository surveyRepository;
     
     public List<String> readByExcerptName(String excerpt) {
         return List.copyOf(cultivarRepository.findByNameContainingIgnoreCase(excerpt).stream().map(Cultivar::getName).collect(Collectors.toList()));
@@ -78,8 +78,8 @@ public class CultivarService implements ICRUDService<Cultivar> {
         var existentCultivar = cultivarRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
         
         try {
-            if (surveyRepository
-                    .findAll()
+            if (surveyLambda
+                    .readAll()
                     .stream()
                     .map(currentSurvey -> currentSurvey.getCultivarData().getCultivarName())
                     .anyMatch(name -> name.equalsIgnoreCase(existentCultivar.getName()))

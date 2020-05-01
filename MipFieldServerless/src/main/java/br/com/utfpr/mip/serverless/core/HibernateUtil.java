@@ -33,7 +33,8 @@ public class HibernateUtil {
 		configuration.setImplicitNamingStrategy(ImprovedNamingStrategyHibernate5.INSTANCE);
 		configuration.configure("hibernate.cfg.xml");
 		
-		EntityScanner.scanPackages("br.com.utfpr.mip.serverless.entites.base", "br.com.utfpr.mip.serverless.entites.survey")
+		EntityScanner
+				.scanPackages("br.com.utfpr.mip.serverless.entites.base", "br.com.utfpr.mip.serverless.entites.survey")
 	    		.addTo(configuration);
 
 		try {

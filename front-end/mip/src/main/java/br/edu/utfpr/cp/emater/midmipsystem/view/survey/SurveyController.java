@@ -21,6 +21,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
+import br.edu.utfpr.cp.emater.midmipsystem.lambda.SurveyLambda;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ import lombok.Setter;
 public class SurveyController extends Survey {
 
     private final SurveyService surveyService;
+    private final SurveyLambda surveyLambda;
 
     @Getter
     @Setter
@@ -107,7 +109,7 @@ public class SurveyController extends Survey {
     private String statusInstallationDatePanel = "hidden-sm hidden-md hidden-lg hidden-xs";
 
     public List<Survey> readAll() {
-        return surveyService.readAll();
+        return surveyLambda.readAll();
     }
 
     public List<Harvest> readAllHarvests() {
@@ -115,7 +117,7 @@ public class SurveyController extends Survey {
     }
 
     public List<Field> readAllFieldsOutOfCurrentSurvey() {
-        return surveyService.readAllFields();
+        return surveyLambda.readAllFields();
     }
 
     public String create() {
@@ -149,7 +151,7 @@ public class SurveyController extends Survey {
             newSurvey.setCreatedBy(currentUser);
             newSurvey.setModifiedBy(currentUser);
             
-            surveyService.create(newSurvey);
+            surveyLambda.create(newSurvey);
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("UR [%s] adicionada na pesquisa da [%s]", newSurvey.getFieldName(), newSurvey.getHarvestName())));
 
@@ -173,7 +175,7 @@ public class SurveyController extends Survey {
     public String delete(Long anId) {
 
         try {
-            surveyService.delete(anId);
+        	surveyLambda.delete(anId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "UR removida da pesquisa!"));
             return "index.xhtml";
 
@@ -197,7 +199,7 @@ public class SurveyController extends Survey {
 
     public String prepareUpdate(Long surveyId) {
         try {
-            var currentSurvey = surveyService.readById(surveyId);
+            var currentSurvey = surveyLambda.readById(surveyId);
 
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyFieldName", currentSurvey.getFieldName());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyHarvestName", currentSurvey.getHarvestName());

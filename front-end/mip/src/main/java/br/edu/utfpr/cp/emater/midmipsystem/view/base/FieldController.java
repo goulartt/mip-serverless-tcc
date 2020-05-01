@@ -23,6 +23,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
+import br.edu.utfpr.cp.emater.midmipsystem.lambda.FieldLambda;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import lombok.Getter;
@@ -35,8 +36,9 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class FieldController extends Field implements ICRUDController<Field> {
 
+	private final FieldLambda fieldLambda;
 	private final FieldService fieldService;
-
+	
 	@Getter
 	@Setter
 	private List<Long> selectedSupervisorIds;
@@ -51,7 +53,7 @@ public class FieldController extends Field implements ICRUDController<Field> {
 
 	@Override
 	public List<Field> readAll() {
-		return fieldService.readAll();
+		return fieldLambda.readAll();
 	}
 
 	public List<City> readAllCities() {
@@ -86,7 +88,7 @@ public class FieldController extends Field implements ICRUDController<Field> {
              .build();
            
 
-            fieldService.create(newField);
+            fieldLambda.create(newField);
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Unidade de referência criada com sucesso!"));
             return "index.xhtml";
@@ -113,7 +115,7 @@ public class FieldController extends Field implements ICRUDController<Field> {
 	public String prepareUpdate(Long anId) {
 
 		try {
-			Field existentField = fieldService.readById(anId);
+			Field existentField = fieldLambda.readById(anId);
 			this.setId(existentField.getId());
 			this.setName(existentField.getName());
 			this.setLocation(existentField.getLocation());
@@ -151,7 +153,7 @@ public class FieldController extends Field implements ICRUDController<Field> {
 		             .modifiedBy(currentUser.getId())
 		             .build();
 		           
-			fieldService.update(newField);
+			fieldLambda.update(newField);
 
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Unidade de referência alterada"));
@@ -183,7 +185,7 @@ public class FieldController extends Field implements ICRUDController<Field> {
 	public String delete(Long anId) {
 
 		try {
-			fieldService.delete(anId);
+			fieldLambda.delete(anId);
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Unidade de referência excluída!"));
 			return "index.xhtml";

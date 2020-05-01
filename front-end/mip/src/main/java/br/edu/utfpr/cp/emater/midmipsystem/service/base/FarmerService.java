@@ -14,7 +14,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
-import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +23,6 @@ public class FarmerService implements ICRUDService<Farmer> {
 
     private final FarmerRepository farmerRepository;
     
-    private final FieldRepository fieldRepository;
 
     @Override
     public List<Farmer> readAll() {
