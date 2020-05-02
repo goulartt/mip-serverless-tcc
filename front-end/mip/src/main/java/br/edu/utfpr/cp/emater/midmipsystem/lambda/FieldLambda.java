@@ -18,14 +18,13 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
-import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import kong.unirest.GenericType;
 import kong.unirest.Unirest;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class FieldLambda implements ICRUDService<Field> {
+public class FieldLambda {
 
 	@Value("${mip.gateway.url}")
 	private String ENDPOINT_GATEWAY;
@@ -38,7 +37,6 @@ public class FieldLambda implements ICRUDService<Field> {
 		return response;
 	}
 
-	@Override
 	public Field readById(Long anId) throws EntityNotFoundException {
 		try {
 			var response = Unirest.get(ENDPOINT_GATEWAY+"/field")
@@ -124,18 +122,4 @@ public class FieldLambda implements ICRUDService<Field> {
 		}
 
 	}
-
-
-	@Override
-	public void create(Field aField) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
-			AnyPersistenceException, EntityNotFoundException {
-
-	}
-
-	@Override
-	public void update(Field entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException,
-			EntityNotFoundException, AnyPersistenceException {
-		// TODO Auto-generated method stub
-	}
-
 }

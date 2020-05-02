@@ -1,0 +1,7 @@
+mip/target/
+/**/.DS_Store
+/**/.settings
+/**/.project
+/**/_config.yml
+/**/.vscode
+mip/src/main/resources/data.sql

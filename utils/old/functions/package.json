@@ -1,0 +1,32 @@
+{
+  "name": "MIP-Functions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-import-helpers": "^1.0.2",
+    "serverless-dotenv-plugin": "^2.1.1",
+    "serverless-offline": "^5.12.1",
+    "serverless-plugin-common-excludes": "^3.0.0",
+    "serverless-plugin-optimize": "^4.1.1-rc.1",
+    "serverless-plugin-package-size": "^1.0.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^3.21.2",
+    "knex": "^0.20.4",
+    "mysql": "^2.17.1",
+    "serverless-http": "^2.3.0"
+  }
+}

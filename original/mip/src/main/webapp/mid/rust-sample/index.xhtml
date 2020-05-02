@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+
+    <ui:define name="metadata">
+        <ui:param name="title" value="Monitoramento da Ferrugem"/> 
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="description">
+        <!--Monitoramento da ferrugem-->
+    </ui:define>
+    <ui:define name="body">
+        <h:form>
+            <div class="box box-primary">
+                <div class="box-header with-border">
+
+                    <p:separator/>
+
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" value="#{midRustSampleController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
+
+                        <p:column headerText="Safra" filterBy="#{aSurvey.harvestName}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.harvestName}" />
+                        </p:column>
+
+                        <p:column headerText="Produtor" filterBy="#{aSurvey.farmerString}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.farmerString}" />
+                        </p:column>
+
+                        <p:column headerText="Identificação" filterBy="#{aSurvey.fieldName}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.fieldName}" />
+                        </p:column>
+
+                        <p:column headerText="Cultivar" filterBy="#{aSurvey.cultivarName}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.cultivarName}" />
+                        </p:column>
+
+                        <p:column headerText="Responsável Técnico" filterBy="#{aSurvey.fieldSupervisorNames}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.fieldSupervisorNames}" />
+                        </p:column>
+
+                        <p:column headerText="Município" filterBy="#{aSurvey.fieldCityName}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.fieldCityName}" />
+                        </p:column>
+
+                        <p:column headerText="Ações" width="100">
+                            <p:commandButton ajax="false" action="#{midRustSampleDetailController.selectTargetSurvey(aSurvey.id)}" icon="fa fa-fw fa-eye" ></p:commandButton>
+                            <p:tooltip for="@previous" value="Visualizar amostras coletadas para esta UR" position="top" />
+
+                            <p:commandButton ajax="false" styleClass="btn-success" icon="fa fa-fw fa-leaf" action="#{midRustSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
+                            <p:tooltip for="@previous" value="Adicionar monitoramento da ferrugem para esta UR" position="top" />                        
+                        </p:column> 
+
+                        <f:facet name="footer">
+                            #{fn:length(midRustSampleController.readAllSurveysUniqueEntries())} URs possuem monitoramento de ferrugem para alguma safra.
+                        </f:facet>
+                    </p:dataTable>  
+
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
