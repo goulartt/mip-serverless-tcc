@@ -33,7 +33,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.base.CityService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.RegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.SupervisorService;
-import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -41,7 +40,6 @@ import lombok.RequiredArgsConstructor;
 public class MIPSampleService {
 
     private final MIPSampleRepository mipSampleRepository;
-    private final SurveyService surveyService;
     private final SurveyLambda surveyLambda;
     private final PestService pestService;
     private final PestDiseaseService pestDiseaseService;

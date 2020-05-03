@@ -24,7 +24,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.lambda.FieldLambda;
-import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.CityService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.FarmerService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.SupervisorService;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +39,9 @@ import lombok.Setter;
 public class FieldController extends Field implements ICRUDController<Field> {
 
 	private final FieldLambda fieldLambda;
-	private final FieldService fieldService;
+	private final CityService cityService;
+	private final FarmerService farmerService;
+	private final SupervisorService supervisorService;
 	
 	@Getter
 	@Setter
@@ -57,15 +61,15 @@ public class FieldController extends Field implements ICRUDController<Field> {
 	}
 
 	public List<City> readAllCities() {
-		return fieldService.readAllCities();
+		return cityService.readAll();
 	}
 
 	public List<Farmer> readAllFarmers() {
-		return fieldService.readAllFarmers();
+		return farmerService.readAll();
 	}
 
 	public List<Supervisor> readAllSupervisors() {
-		return fieldService.readAllSupervisors();
+		return supervisorService.readAll();
 	}
 
 	@Override

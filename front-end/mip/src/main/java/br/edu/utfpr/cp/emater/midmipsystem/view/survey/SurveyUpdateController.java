@@ -14,7 +14,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.lambda.SurveyLambda;
-import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.survey.CultivarService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -26,8 +26,8 @@ import lombok.Setter;
 @Setter
 public class SurveyUpdateController {
 
-    private final SurveyService surveyService;
     private final SurveyLambda surveyLambda;
+	private final CultivarService cultivarService;
 
 
 //    ---
@@ -151,6 +151,6 @@ public class SurveyUpdateController {
     }
     
     public List<String> searchCultivar(String excerpt) {
-        return surveyService.searchCultivar(excerpt);
+		return cultivarService.readByExcerptName(excerpt);
     }
 }
