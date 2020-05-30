@@ -1,0 +1,110 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: utfpr-tcc.aux
+Reallocating 'name_of_file' (item size: 1) to 39 items.
+A level-1 auxiliary file: estrutura/pre-textuais/dedicatoria.aux
+Reallocating 'name_of_file' (item size: 1) to 42 items.
+A level-1 auxiliary file: estrutura/pre-textuais/agradecimentos.aux
+Reallocating 'name_of_file' (item size: 1) to 36 items.
+A level-1 auxiliary file: estrutura/pre-textuais/epigrafe.aux
+Reallocating 'name_of_file' (item size: 1) to 34 items.
+A level-1 auxiliary file: estrutura/pre-textuais/resumo.aux
+Reallocating 'name_of_file' (item size: 1) to 36 items.
+A level-1 auxiliary file: estrutura/pre-textuais/abstract.aux
+Reallocating 'name_of_file' (item size: 1) to 67 items.
+A level-1 auxiliary file: estrutura/pre-textuais/listas/listas-ilustracoes/lista-figuras.aux
+Reallocating 'name_of_file' (item size: 1) to 67 items.
+A level-1 auxiliary file: estrutura/pre-textuais/listas/listas-ilustracoes/lista-quadros.aux
+Reallocating 'name_of_file' (item size: 1) to 48 items.
+A level-1 auxiliary file: estrutura/pre-textuais/listas/lista-tabelas.aux
+Reallocating 'name_of_file' (item size: 1) to 47 items.
+A level-1 auxiliary file: estrutura/pre-textuais/listas/lista-siglas.aux
+Reallocating 'name_of_file' (item size: 1) to 49 items.
+A level-1 auxiliary file: estrutura/pre-textuais/listas/lista-simbolos.aux
+Reallocating 'name_of_file' (item size: 1) to 67 items.
+A level-1 auxiliary file: estrutura/pre-textuais/listas/listas-diversas/lista-algoritmos.aux
+Reallocating 'name_of_file' (item size: 1) to 35 items.
+A level-1 auxiliary file: estrutura/pre-textuais/sumario.aux
+Reallocating 'name_of_file' (item size: 1) to 34 items.
+A level-1 auxiliary file: estrutura/textuais/introducao.aux
+Reallocating 'name_of_file' (item size: 1) to 61 items.
+A level-1 auxiliary file: estrutura/textuais/desenvolvimento/revisao-de-literatura.aux
+Reallocating 'name_of_file' (item size: 1) to 51 items.
+A level-1 auxiliary file: estrutura/textuais/desenvolvimento/metodologia.aux
+Reallocating 'name_of_file' (item size: 1) to 50 items.
+A level-1 auxiliary file: estrutura/textuais/desenvolvimento/resultados.aux
+Reallocating 'name_of_file' (item size: 1) to 51 items.
+A level-1 auxiliary file: estrutura/textuais/desenvolvimento/orientacoes.aux
+Reallocating 'name_of_file' (item size: 1) to 33 items.
+A level-1 auxiliary file: estrutura/textuais/conclusao.aux
+Reallocating 'name_of_file' (item size: 1) to 39 items.
+A level-1 auxiliary file: estrutura/pos-textuais/referencias.aux
+Reallocating 'name_of_file' (item size: 1) to 16 items.
+Reallocating 'name_of_file' (item size: 1) to 19 items.
+Reallocating 'name_of_file' (item size: 1) to 12 items.
+The style file: abntex2-alf.bst
+Reallocating 'name_of_file' (item size: 1) to 37 items.
+A level-1 auxiliary file: estrutura/pos-textuais/apendices.aux
+Reallocating 'name_of_file' (item size: 1) to 34 items.
+A level-1 auxiliary file: estrutura/pos-textuais/anexos.aux
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'wiz_functions' (item size: 4) to 6000 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'wiz_functions' (item size: 4) to 9000 items.
+Database file #1: abntex2-options.bib
+Database file #2: ./base-referencias.bib
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'glb_str_end' (item size: 4) to 20 items.
+Reallocating 'glb_str_ptr' (item size: 4) to 20 items.
+Reallocating 'global_strs' (item size: 1) to 4000000 items.
++---------------------------------------------------------+
+| Estilo bibliográfico abntex2-alf.bst versão v-1.9.7           |
+| Em caso de dúvidas ou problemas com este estilo procure |
+| http://www.abntex.net.br/                               |
++---------------------------------------------------------+
+You've used 17 entries,
+            6714 wiz_defined-function locations,
+            1299 strings with 12173 characters,
+and the built_in function-call counts, 13634 in all, are:
+= -- 1426
+> -- 320
+< -- 181
++ -- 349
+- -- 99
+* -- 865
+:= -- 1749
+add.period$ -- 51
+call.type$ -- 18
+change.case$ -- 133
+chr.to.int$ -- 35
+cite$ -- 11
+duplicate$ -- 924
+empty$ -- 911
+format.name$ -- 464
+if$ -- 3103
+int.to.chr$ -- 6
+int.to.str$ -- 3
+missing$ -- 256
+newline$ -- 58
+num.names$ -- 50
+pop$ -- 285
+preamble$ -- 1
+purify$ -- 62
+quote$ -- 0
+skip$ -- 1232
+stack$ -- 1
+substring$ -- 445
+swap$ -- 345
+text.length$ -- 5
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 68
+width$ -- 0
+write$ -- 178
